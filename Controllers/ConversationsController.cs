@@ -1,0 +1,142 @@
+﻿using AutoMapper;
+using dotnetdevs.Models;
+using dotnetdevs.Services;
+using dotnetdevs.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace dotnetdevs.Controllers
+{
+	public class ConversationsController : Controller
+	{
+		private readonly ILogger<HomeController> _logger;
+		private readonly CompanyService _companyService;
+		private readonly DeveloperService _developerService;
+		private readonly ConversationService _conversationService;
+		private readonly MessageService _messageService;
+		private readonly UserService _userService;
+		private readonly IMapper _mapper;
+
+		public ConversationsController(ILogger<HomeController> logger, CompanyService companyService, UserService userService, DeveloperService developerService, ConversationService conversationService, MessageService messageService, IMapper mapper)
+		{
+			_logger = logger;
+			_companyService = companyService;
+			_userService = userService;
+			_developerService = developerService;
+			_conversationService = conversationService;
+			_messageService = messageService;
+			_mapper = mapper;
+		}
+
+		[HttpGet]
+		[Authorize]
+		[Route("conversations/show/{id}")]
+		public async Task<IActionResult> Show(int id)
+		{
+			var user = await _userService.GetAuthenticatedUser(this.User);
+			var conversation = await _conversationService.Get(id);
+			if (user.Id != conversation.Company.UserID && user.Id != conversation.Developer.UserID)
+			{
+				return StatusCode(401);
+			}
+			if (conversation == null)
+			{
+				return NotFound();
+			}
+
+			ConversationShow model = new ConversationShow();
+			model.Messages = await _messageService.GetConversationMessages(conversation.ID);
+			//DeveloperShow model = new DeveloperShow();
+			//model.Developer = developer;
+			//model.User = await _userService.GetAuthenticatedUser(this.User);
+			return View(model);
+		}
+
+		[HttpGet]
+		[Authorize]
+		[Route("developers/{id}/conversations/create")]
+		public async Task<IActionResult> Create(int id)
+		{
+			var user = await _userService.GetAuthenticatedUser(this.User);
+			var company = await _companyService.GetByUserId(user.Id);
+			if (company == null)
+			{
+				return RedirectToAction("Create", "Companies");
+			}
+			if (!company.IsSubscribed)
+			{
+				return RedirectToAction("Pricing", "Home");
+			}
+			var developer = await _developerService.Get(id);
+			if (developer == null)
+			{
+				return NotFound();
+			}
+
+			var existingConversation = await _conversationService.Get(developer.ID, company.ID);
+			if (existingConversation != null)
+			{
+				return RedirectToAction("Show", "Conversations", new { id = existingConversation.ID });
+			}
+
+			var model = new ConversationCreate()
+			{
+				DeveloperId = developer.ID,
+				Developer = developer,
+				Text = ""
+			};
+			return View(model);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		[Authorize]
+		public async Task<IActionResult> Store(ConversationCreate conversation)
+		{
+			var user = await _userService.GetAuthenticatedUser(this.User);
+			var company = await _companyService.GetByUserId(user.Id);
+			if (company == null)
+			{
+				return RedirectToAction("Create", "Companies");
+			}
+			if (!company.IsSubscribed)
+			{
+				return RedirectToAction("Pricing", "Home");
+			}
+			var developer = await _developerService.Get(conversation.DeveloperId);
+			if (developer == null)
+			{
+				return NotFound();
+			}
+
+			if (ModelState.IsValid)
+			{
+				Conversation newConversation = new Conversation();
+				newConversation.DeveloperID = developer.ID;
+				newConversation.CompanyID = company.ID;
+				newConversation.CreatedDate = DateTime.Now;
+
+				newConversation = await _conversationService.Store(newConversation);
+
+				// save message
+				Message newMessage = new Message();
+				newMessage.ConversationID = newConversation.ID;
+				newMessage.Sender = "COMPANY";
+				newMessage.HasBeenRead = false;
+				newMessage.Text = conversation.Text;
+				newMessage.CreatedDate = DateTime.Now;
+
+				newMessage = await _messageService.Store(newMessage);
+				return RedirectToAction("Show", "Conversations", new { id = newConversation.ID });
+			}
+
+			conversation.Developer = developer;
+			return View("Create", conversation);
+		}
+
+		public IActionResult Index()
+		{
+			return View();
+		}
+	}
+}

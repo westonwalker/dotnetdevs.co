@@ -1,0 +1,44 @@
+﻿@model DeveloperIndex
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject UserService UserService
+@{
+	ViewData["Title"] = "Hire .NET developers";
+	Model.User = await UserService.GetAuthenticatedUser(this.User);
+}
+<div class="">
+	<div class="relative flex flex-wrap justify-center items-center py-12 md:py-20 max-w-6xl mx-auto lg:px-8">
+		<div class="flex-1">
+			<div class="text-left">
+				<div class="flex flex-col lg:flex-row lg:justify-between items-start py-6 mb-8 px-6 lg:px-0">
+					<div>
+						<h1 class="mb-4 text-black text-3xl leading-tight font-bold">
+							Hire .NET developers
+						</h1>
+						<p class="text-gray-700 line-clamp-3 break-words leading-loose lg:leading-loose">
+							Find .NET developers looking for their next gig. From juniors to seniors and everyone in between.
+						</p>
+					</div>
+					<div class="mt-4 lg:mt-0">
+						@if (Model.User != null && Model.User.Developer != null)
+						{
+							<a href="/developers/edit/@Model.User.Developer.ID" class="text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-1 px-4 mx-auto w-auto max-w-sm md:w-auto">
+								Update my profile
+							</a>
+						}
+						else
+						{
+							<a href="/developers/create" class="text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-1 px-4 mx-auto w-auto max-w-sm md:w-auto">
+								Add my profile
+							</a>
+						}
+					</div>
+				</div>
+				<div class="flex flex-col space-y-8">
+					@(await Html.RenderComponentAsync<DevTeaser>(RenderMode.Static, new { Developers = Model.Developers }))
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

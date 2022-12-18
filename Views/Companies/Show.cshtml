@@ -1,0 +1,62 @@
+﻿@model CompanyShow
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject UserService UserService
+@{
+	ViewData["Title"] = $"Companies hiring .NET devs - {Model.Company.CompanyName}";
+	Model.User = await UserService.GetAuthenticatedUser(this.User);
+}
+
+<div class="">
+	<div class="relative flex flex-wrap justify-center items-center py-12 md:py-20 max-w-6xl mx-auto lg:px-8">
+		<div class="flex-1">
+			@if (!Model.Company.IsSubscribed)
+			{
+				<partial name="~/Views/Shared/Partials/_SubscribeAlert.cshtml" />
+			}
+			<div class="bg-white border-y sm:border border-gray-600 shadow-2xl">
+				<div class="relative">
+					<div class="px-6 py-6 sm:p-6 flex sm:space-x-8 flex-col sm:flex-row">
+						<div class="shrink-0">
+							<img alt="@Model.Company.CompanyName avatar" class="h-20 w-20 sm:h-32 sm:w-32 object-cover bg-transparent border border-gray-100" src="@Model.Company.Avatar">
+						</div>
+						<div class="self-start flex-1 min-w-0 space-y-3 mt-4 sm:mt-0">
+							<div class="flex flex-col xl:flex-row gap-x-6 xl:space-y-0">
+								<div class="w-full space-y-6">
+									<div class="flex items-start justify-between space-x-2">
+										<div>
+											<a href="https://@Model.Company.website" target="_blank">
+												<h1 class="text-xl sm:text-2xl font-medium text-black hover:underline">
+													@Model.Company.CompanyName →
+												</h1>
+											</a>
+											<h2 class="text-gray-500 mt-1 font-medium">
+												@Model.Company.PersonalName, @Model.Company.JobTitle
+											</h2>
+										</div>
+										<div class="inline-flex ml-auto flex-row-reverse shrink-0 items-center">
+											<div class="flex items-center">
+												@if (Model.User != null && Model.Company.UserID == Model.User.Id)
+												{
+													<a href="/companies/edit/@Model.Company.ID" class="text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-1 px-4 mx-auto w-auto max-w-sm md:w-auto">
+														Edit
+													</a>
+												}
+											</div>
+										</div>
+									</div>
+									<div class="block w-full mt-8">
+										<p class="leading-loose lg:leading-loose text-sm sm:text-base text-gray-900">
+											@Html.Raw(Model.Company.Bio)
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

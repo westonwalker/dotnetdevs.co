@@ -1,0 +1,33 @@
+﻿@model Home
+@{
+	ViewData["Title"] = "The reverse job board for .NET developers";
+}
+<div class="relative z-10 flex flex-wrap justify-center items-center pt-12 md:pt-20 pb-8 md:pb-12 max-w-6xl mx-auto px-8">
+	<div class="flex-1">
+		<div class="lg:max-w-5xl mx-auto">
+			<h1 class="mb-5 text-center text-black text-4xl leading-tight md:text-5xl md:leading-tight lg:text-7xl lg:leading-tight font-bold">
+				The reverse job board for <br class="hidden sm:block" /><span class="text-indigo-600">.NET developers</span>
+			</h1>
+			<p class="mb-10 text-lg lg:text-2xl leading-loose lg:leading-loose text-center text-gray-700">
+				DotnetDevs empowers .NET developers to help them find their next job. No more scouring job boards and Linkedin recruiter spam. Sit back as companies reach out to you.
+			</p>
+			<a asp-controller="Home" asp-action="ChooseProfile" class="bg-indigo-600 hover:bg-indigo-700 text-white mb-9 relative flex items-center justify-center w-fit max-w-xs md:max-w-xs px-8 md:px-12 py-3 md:py-4 mx-auto uppercase text-base lg:text-xl leading-loose lg:leading-loose font-semibold tracking-[1px]">
+				Get started
+			</a>
+		</div>
+	</div>
+</div>
+<div class="">
+	<div class="relative flex flex-wrap justify-center items-center py-8 md:py-12 max-w-6xl mx-auto sm:px-8">
+		<div class="flex-1">
+			<div class="">
+				<h2 class="mb-6 text-lg lg:text-2xl leading-loose lg:leading-loose text-left text-black font-semibold px-6 sm:px-0">
+					Developers available now
+				</h2>
+			</div>
+			<div class="flex flex-col space-y-8">
+				@(await Html.RenderComponentAsync<DevTeaser>(RenderMode.Static, new { Developers = Model.Developers }))
+			</div>
+		</div>
+	</div>
+</div>

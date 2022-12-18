@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - DotnetDevs</title>
+    <link rel="shortcut icon" href="~/favicon.png">
+    <script src="https://cdn.tailwindcss.com?plugins=line-clamp,forms"></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <environment exclude="Development">
+        <script src="https://cdn.usefathom.com/script.js" data-site="VRRCLZQB" defer></script>
+   </environment>
+</head>
+<body>
+    <div class="bg-gray-50">
+        <partial name="~/Views/Shared/Partials/_Nav.cshtml" />
+        <main>
+            <article class="">
+                @RenderBody()
+            </article>
+        </main>
+        <partial name="~/Views/Shared/Partials/_Footer.cshtml" />
+    </div>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
