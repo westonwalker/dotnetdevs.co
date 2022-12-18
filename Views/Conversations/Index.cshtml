@@ -1,1 +1,81 @@
-﻿
+﻿@model ConversationIndex
+@{
+	ViewData["Title"] = "Your conversations on DotnetDevs";
+}
+<div class="">
+	<div class="relative flex flex-wrap justify-start items-center py-12 md:py-20 max-w-6xl mx-auto lg:px-8">
+        @if (Model.HasCompanyProfile && !Model.Company.IsSubscribed)
+        {
+            <partial name="~/Views/Shared/Partials/_SubscribeAlert.cshtml" />
+        }
+		<div class="flex-1">
+			<div class="text-left">
+				<div class="flex flex-col lg:flex-row lg:justify-between items-start py-6 mb-8 px-6 lg:px-0">
+					<div>
+						<h1 class="text-black text-3xl leading-tight font-bold">
+							Conversations
+						</h1>
+					</div>
+					<div class="mt-4 lg:mt-0">
+						@if (Model.HasCompanyProfile)
+						{
+							<a href="/developers" class="text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-1 px-4 mx-auto w-auto max-w-sm md:w-auto">
+								View developers
+							</a>
+						}
+					</div>
+				</div>
+				<div class="flex flex-col space-y-6">
+                        <a href="/conversations/1" class="border-l-4 border-y border-r border-indigo-400 bg-white p-4 mb-6 mx-6 md:mx-0 hover:bg-gray-50 flex flex-row justify-between">
+                            <p class="font-bold mr-4">Justin Gage →</p>
+                            <p>Nov 24 2022</p>
+                        </a>
+                        <a href="/conversations/2" class="border-l-4 border-y border-r border-indigo-400 bg-white p-4 mb-6 mx-6 md:mx-0 hover:bg-gray-50 flex flex-row justify-between">
+                            <p class="font-bold mr-4">Justin Gage →</p>
+                            <p>Nov 24 2022</p>
+                        </a>
+						@if (Model.Conversations.Count() > 0)
+						{
+                            foreach (var conversation in Model.Conversations.OrderByDescending(c => c.CreatedDate)) 
+                            {
+
+                            }
+						}
+                        else {
+                            <div class="text-center py-12">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+                                </svg>
+                                <h3 class="mt-2 text-sm font-medium text-gray-900">No conversations</h3>
+                            </div>
+                        }
+                        @if (!Model.HasDeveloperProfile && !Model.HasCompanyProfile)
+                        {
+                            <div class="border-l-4 border-y border-r border-yellow-400 bg-yellow-50 p-4 mb-6 mx-6 md:mx-0">
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                            <path fill-rule="evenodd" d="M8.485 3.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 3.495zM10 6a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 6zm0 9a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                    <div class="ml-3">
+                                        <p class="text-base text-yellow-700">
+                                            You need to setup a  
+                                            <a href="/developers/create" class="font-medium text-yellow-700 underline hover:text-yellow-600">
+                                                developer
+                                            </a>
+                                            &nbsp;or
+                                            <a href="/companies/create" class="font-medium text-yellow-700 underline hover:text-yellow-600">
+                                                company
+                                            </a>
+                                            &nbsp;profile to start having conversations.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

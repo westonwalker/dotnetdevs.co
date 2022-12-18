@@ -30,6 +30,36 @@ namespace dotnetdevs.Controllers
 
 		[HttpGet]
 		[Authorize]
+		[Route("conversations")]
+		public async Task<IActionResult>  Index()
+		{
+			var user = await _userService.GetAuthenticatedUser(this.User);
+			var company = await _companyService.GetByUserId(user.Id);
+			var developer = await _developerService.GetByUserId(user.Id);
+			var developerConversations = new List<Conversation>();
+			var companyConversations = new List<Conversation>();
+
+			if (developer != null) {
+				developerConversations = await _conversationService.GetAllByDeveloper(developer.ID);
+			}
+
+			if (company != null) {
+				companyConversations = await _conversationService.GetAllByCompany(company.ID);
+			}
+
+			var model = new ConversationIndex() {
+				HasCompanyProfile = company != null? true : false,
+				HasDeveloperProfile = developer != null? true: false,
+				Developer = developer,
+				Company = company,
+				Conversations = companyConversations.Concat(developerConversations).ToList()
+			};
+
+			return View(model);
+		}
+
+		[HttpGet]
+		[Authorize]
 		[Route("conversations/show/{id}")]
 		public async Task<IActionResult> Show(int id)
 		{
@@ -132,11 +162,6 @@ namespace dotnetdevs.Controllers
 
 			conversation.Developer = developer;
 			return View("Create", conversation);
-		}
-
-		public IActionResult Index()
-		{
-			return View();
 		}
 	}
 }

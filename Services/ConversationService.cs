@@ -22,6 +22,21 @@ namespace dotnetdevs.Services
 							.FirstOrDefaultAsync();
 		}
 
+		public async Task<List<Conversation>> GetAllByDeveloper(int developerId)
+		{
+			return await _dbContext.Conversations
+							.Where(d => d.DeveloperID == developerId)
+							.ToListAsync();
+		}
+
+		public async Task<List<Conversation>> GetAllByCompany(int companyId)
+		{
+			return await _dbContext.Conversations
+							.Where(d => d.CompanyID == companyId)
+							.ToListAsync();
+		}
+
+
 		public async Task<Conversation?> Get(int developerId, int companyId)
 		{
 			return await _dbContext.Conversations

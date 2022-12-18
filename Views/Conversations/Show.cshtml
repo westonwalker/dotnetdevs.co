@@ -8,10 +8,12 @@
 			<h1 class="mb-4 text-black text-3xl leading-tight font-bold pl-6 lg:pl-0">
 				Conversation
 			</h1>
-			@foreach (var message in Model.Messages)
-			{
-				<p>@message.Text</p>
-			}
+			<div class="flex flex-col space-y-4">
+				@foreach (var message in Model.Messages)
+				{
+					<p>@message.Text</p>
+				}
+			</div>
 		</div>
 	</div>
 </div>

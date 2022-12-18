@@ -38,6 +38,5 @@ namespace dotnetdevs.Models
 
         public bool IsSubscribed { get; set; }
 		public string? PaymentGuid { get; set; }
-		public string? StripeId { get; set; }
 	}
 }

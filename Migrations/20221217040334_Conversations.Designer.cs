@@ -123,9 +123,6 @@ namespace dotnetdevs.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
-                    b.Property<string>("StripeId")
-                        .HasColumnType("longtext");
-
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime(6)");
 
