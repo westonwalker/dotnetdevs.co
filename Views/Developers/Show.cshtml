@@ -4,7 +4,7 @@
 @inject UserManager<ApplicationUser> UserManager
 @inject UserService UserService
 @{
-	ViewData["Title"] = "Hire .NET developers";
+	ViewData["Title"] = Model.Developer.Hero;
 	var isSubscribed = false;
 	if ((Model.User != null && Model.User.Company != null && Model.User.Company.IsSubscribed) || (Model.User != null && Model.Developer.UserID == Model.User.Id))
 	{
@@ -66,7 +66,7 @@
 										</div>
 									}
 									<div class="flex flex-row space-x-4 items-start mt-2">
-										<span class="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs sm:text-sm font-medium bg-green-100 text-green-800">Recently Active</span>
+										<span class="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs sm:text-sm font-medium bg-green-100 text-green-800 border border-green-800">Recently Active</span>
 									</div>
 									<div class="hidden xl:block w-full mt-12">
 										<p class="leading-loose lg:leading-loose text-sm sm:text-base text-gray-700">

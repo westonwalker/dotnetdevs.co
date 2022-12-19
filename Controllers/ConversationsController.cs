@@ -52,7 +52,8 @@ namespace dotnetdevs.Controllers
 				HasDeveloperProfile = developer != null? true: false,
 				Developer = developer,
 				Company = company,
-				Conversations = companyConversations.Concat(developerConversations).ToList()
+				DeveloperConversations = developerConversations,
+				CompanyConversations = companyConversations
 			};
 
 			return View(model);
