@@ -8,7 +8,7 @@
 			<h1 class="mb-4 text-black text-3xl leading-tight font-bold pl-6 lg:pl-0">
 				Message @Model.Developer.FullName
 			</h1>
-			<form asp-action="Store" asp-controller="Conversations" method="post" enctype="multipart/form-data">
+			<form asp-action="Store" asp-controller="Conversations" method="post">
 				<input asp-for="DeveloperId" type="hidden" class="" />
 				<div class="text-red-500 text-sm flex justify-start">
 					@Html.ValidationSummary()

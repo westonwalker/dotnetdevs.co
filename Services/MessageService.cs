@@ -44,11 +44,13 @@ namespace dotnetdevs.Services
 
 
 
-		//public async Task<Company> Update(Company company)
-		//{
-		//	_dbContext.Attach(company);
-		//	_dbContext.SaveChanges();
-		//	return company;
-		//}
+		public async Task UpdateMessagesToRead(int conversationId, string sender)
+		{
+			_dbContext.Messages.Where(x => x.ConversationID == conversationId && x.Sender == sender).ToList().ForEach(x =>
+			{
+				x.HasBeenRead = true; x.UpdatedDate = DateTime.Now;
+			});
+			_dbContext.SaveChanges();
+		}
 	}
 }

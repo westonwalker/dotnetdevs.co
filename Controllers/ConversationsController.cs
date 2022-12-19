@@ -66,6 +66,7 @@ namespace dotnetdevs.Controllers
 		{
 			var user = await _userService.GetAuthenticatedUser(this.User);
 			var conversation = await _conversationService.Get(id);
+			var sender = "";
 			if (user.Id != conversation.Company.UserID && user.Id != conversation.Developer.UserID)
 			{
 				return StatusCode(401);
@@ -75,11 +76,27 @@ namespace dotnetdevs.Controllers
 				return NotFound();
 			}
 
-			ConversationShow model = new ConversationShow();
-			model.Messages = await _messageService.GetConversationMessages(conversation.ID);
-			//DeveloperShow model = new DeveloperShow();
-			//model.Developer = developer;
-			//model.User = await _userService.GetAuthenticatedUser(this.User);
+			if (user.Id == conversation.Company.UserID) {
+				// mark developer messages to company as read
+				await _messageService.UpdateMessagesToRead(conversation.ID, "DEVELOPER");
+				sender = "COMPANY";
+			}
+			if (user.Id == conversation.Developer.UserID) {
+				// mark company messages to developer as read
+				await _messageService.UpdateMessagesToRead(conversation.ID, "COMPANY");
+				sender = "DEVELOPER";
+			}
+			var messages = await _messageService.GetConversationMessages(conversation.ID);
+
+			ConversationShow model = new ConversationShow() {
+				User = user,
+				Conversation = conversation,
+				Messages = messages,
+				UserIsCompany = user.Id == conversation.Company.UserID ? true : false,
+				Sender = sender,
+				DeveloperId = conversation.Developer.ID,
+				CompanyId = conversation.Company.ID
+			};
 			return View(model);
 		}
 
@@ -163,6 +180,15 @@ namespace dotnetdevs.Controllers
 
 			conversation.Developer = developer;
 			return View("Create", conversation);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		[Authorize]
+		[Route("conversations/{id}/store-message")]
+		public async Task<IActionResult> StoreMessage(int id)
+		{
+			return RedirectToAction("Show", "Conversations", new { id = id });
 		}
 	}
 }
