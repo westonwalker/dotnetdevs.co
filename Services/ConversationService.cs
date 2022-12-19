@@ -25,6 +25,8 @@ namespace dotnetdevs.Services
 		public async Task<List<Conversation>> GetAllByDeveloper(int developerId)
 		{
 			return await _dbContext.Conversations
+							.Include(c => c.Company)
+							.Include(c => c.Developer)
 							.Where(d => d.DeveloperID == developerId)
 							.ToListAsync();
 		}
@@ -32,6 +34,8 @@ namespace dotnetdevs.Services
 		public async Task<List<Conversation>> GetAllByCompany(int companyId)
 		{
 			return await _dbContext.Conversations
+							.Include(c => c.Company)
+							.Include(c => c.Developer)
 							.Where(d => d.CompanyID == companyId)
 							.ToListAsync();
 		}

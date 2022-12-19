@@ -10,13 +10,13 @@
         }
 		<div class="flex-1">
 			<div class="text-left">
-				<div class="flex flex-col lg:flex-row lg:justify-between items-start py-6 mb-8 px-6 lg:px-0">
+				<div class="flex flex-col sm:flex-row sm:justify-between items-start py-6 mb-8 px-6 lg:px-0">
 					<div>
 						<h1 class="text-black text-3xl leading-tight font-bold">
 							Conversations
 						</h1>
 					</div>
-					<div class="mt-4 lg:mt-0">
+					<div class="mt-4 sm:mt-0">
 						@if (Model.HasCompanyProfile)
 						{
 							<a href="/developers" class="text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-1 px-4 mx-auto w-auto max-w-sm md:w-auto">
@@ -25,20 +25,20 @@
 						}
 					</div>
 				</div>
-				<div class="flex flex-col space-y-6">
-                        <a href="/conversations/1" class="border-l-4 border-y border-r border-indigo-400 bg-white p-4 mb-6 mx-6 md:mx-0 hover:bg-gray-50 flex flex-row justify-between">
-                            <p class="font-bold mr-4">Justin Gage →</p>
-                            <p>Nov 24 2022</p>
+				<div class="flex flex-col space-y-2 py-6 mb-8 px-6 lg:px-0">
+                        <h2 class="text-lg font-semibold text-gray-900">RLI Insurance</h2>
+                        <a href="/conversations/1" class="border-l-4 border-y border-r border-indigo-400 bg-white p-4 hover:bg-gray-50 flex flex-row justify-between">
+                            <p class="font-bold mr-4 text-sm sm:text-base">Justin Gage →</p>
+                            <p class="text-sm">Nov 24 2022</p>
                         </a>
-                        <a href="/conversations/2" class="border-l-4 border-y border-r border-indigo-400 bg-white p-4 mb-6 mx-6 md:mx-0 hover:bg-gray-50 flex flex-row justify-between">
-                            <p class="font-bold mr-4">Justin Gage →</p>
-                            <p>Nov 24 2022</p>
+                        <a href="/conversations/1" class="border-l-4 border-y border-r border-indigo-400 bg-white p-4 hover:bg-gray-50 flex flex-row justify-between">
+                            <p class="font-bold mr-4 text-sm sm:text-base">Justin Gage →</p>
+                            <p class="text-sm">Nov 24 2022</p>
                         </a>
 						@if (Model.Conversations.Count() > 0)
 						{
                             foreach (var conversation in Model.Conversations.OrderByDescending(c => c.CreatedDate)) 
                             {
-
                             }
 						}
                         else {
