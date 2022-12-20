@@ -4,11 +4,11 @@
 }
 <div class="">
 	<div class="relative flex flex-wrap justify-start items-center py-12 md:py-20 max-w-6xl mx-auto lg:px-8">
-        @if (Model.HasCompanyProfile && !Model.Company.IsSubscribed)
-        {
-            <partial name="~/Views/Shared/Partials/_SubscribeAlert.cshtml" />
-        }
-		<div class="flex-1">
+        <div class="flex-1">
+            @if (Model.HasCompanyProfile && !Model.Company.IsSubscribed)
+            {
+                <partial name="~/Views/Shared/Partials/_SubscribeAlert.cshtml" />
+            }
 			<div class="text-left">
 				<div class="flex flex-col sm:flex-row sm:justify-between items-start py-6 mb-8 px-6 lg:px-0">
 					<div>

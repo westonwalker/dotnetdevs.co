@@ -5,7 +5,7 @@
 <div class="">
 	<div class="relative flex flex-wrap justify-center items-center py-12 md:py-20 max-w-4xl mx-auto lg:px-8">
 		<div class="flex-1">
-			<div class="flex flex-col sm:flex-row sm:justify-between items-start py-6 px-4 lg:px-0">
+			<div class="flex flex-col sm:flex-row sm:justify-between items-start py-6 px-6 lg:px-0">
 				<div class="inline-flex items-center">
 					@if (Model.Sender == "COMPANY") 
 					{
@@ -30,7 +30,7 @@
 			<div class="flex flex-col space-y-4 mb-8 px-6 lg:px-0">
 				@foreach (var message in Model.Messages)
 				{
-					@if (message.Sender == Model.Sender) 
+					@if (message.Sender == Model.Sender)
 					{
 					<div class="flex flex-col w-full items-end justify-end">
 						<div class="p-4 shadow-xl max-w-lg border text-white bg-indigo-600 mb-2">
@@ -63,8 +63,6 @@
 			</div>
 
 			<form asp-action="StoreMessage" asp-controller="Conversations" asp-route-id="@Model.Conversation.ID" method="post">
-				<input asp-for="DeveloperId" type="hidden" class="" />
-				<input asp-for="CompanyId" type="hidden" class="" />
 				<input asp-for="Sender" type="hidden" class="" />
 				<div class="text-red-500 text-sm flex justify-start">
 					@Html.ValidationSummary()

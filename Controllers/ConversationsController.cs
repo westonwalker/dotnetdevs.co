@@ -92,10 +92,7 @@ namespace dotnetdevs.Controllers
 				User = user,
 				Conversation = conversation,
 				Messages = messages,
-				UserIsCompany = user.Id == conversation.Company.UserID ? true : false,
-				Sender = sender,
-				DeveloperId = conversation.Developer.ID,
-				CompanyId = conversation.Company.ID
+				Sender = sender
 			};
 			return View(model);
 		}
@@ -186,8 +183,30 @@ namespace dotnetdevs.Controllers
 		[ValidateAntiForgeryToken]
 		[Authorize]
 		[Route("conversations/{id}/store-message")]
-		public async Task<IActionResult> StoreMessage(int id)
+		public async Task<IActionResult> StoreMessage(int id, ConversationShow model)
 		{
+			var user = await _userService.GetAuthenticatedUser(this.User);
+			var conversation = await _conversationService.Get(id);
+			if (conversation == null)
+			{
+				return NotFound();
+			}
+			if (user.Id != conversation.Developer.UserID && user.Id != conversation.Company.UserID)
+			{
+				return StatusCode(401); // user is not the company or developer in the conversation
+			}
+
+			if (!String.IsNullOrEmpty(model.Sender) && !String.IsNullOrEmpty(model.Text))
+			{
+				Message newMessage = new Message();
+				newMessage.ConversationID = conversation.ID;
+				newMessage.Sender = model.Sender;
+				newMessage.HasBeenRead = false;
+				newMessage.Text = model.Text;
+				newMessage.CreatedDate = DateTime.Now;
+
+				newMessage = await _messageService.Store(newMessage);
+			}
 			return RedirectToAction("Show", "Conversations", new { id = id });
 		}
 	}
