@@ -1,5 +1,5 @@
 ﻿# DotnetDevs
-The reverse job board for .NET developers.
+The reverse job board for .NET developers. [Link to live site →](https://dotnetdevs.co)
 
 ## Getting started
 ### Requirements
