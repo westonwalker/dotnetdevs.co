@@ -18,6 +18,7 @@ namespace dotnetdevs.Services
 			return await _dbContext.Developers
 							.Include(developer => developer.SearchStatus)
 							.Include(developer => developer.ExperienceLevel)
+							.OrderByDescending(developer => developer.CreatedDate)
 							.ToListAsync();
 		}
 
