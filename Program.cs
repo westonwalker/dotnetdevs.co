@@ -61,7 +61,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddAutoMapper(typeof(MapperProfile));
 builder.Services.AddMarkdown(config =>
 {
-    var folderConfig = config.AddMarkdownProcessingFolder("/blog/", "~/Views/__MarkdownPageTemplate.cshtml");
+    var folderConfig = config.AddMarkdownProcessingFolder("/posts/", "~/Views/__MarkdownPageTemplate.cshtml");
     folderConfig.PreProcess = (model, controller) =>
     {
         var fontmatter = model.YamlHeader;

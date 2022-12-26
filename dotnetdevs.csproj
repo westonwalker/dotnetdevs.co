@@ -30,7 +30,7 @@
     <Folder Include="Views\Subscriptions\" />
     <Folder Include="wwwroot\js\" />
     <Folder Include="wwwroot\lib\" />
-	<Folder Include="wwwroot\blog\" />
+	<Folder Include="wwwroot\posts\" />
   </ItemGroup>
 
   <ItemGroup>
