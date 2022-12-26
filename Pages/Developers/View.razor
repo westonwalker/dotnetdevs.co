@@ -1,0 +1,229 @@
+﻿@page "/developers/{id:int}"
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Identity
+@using System.Web
+@using System.Text.RegularExpressions;
+@inject DeveloperService developerService
+@inject CompanyService companyService
+@inject UserService userService
+@inject NavigationManager NavManager
+
+@if (developer == null)
+{
+}
+else
+{
+	<PageTitle>@developer.Hero - DotnetDevs</PageTitle>
+	<div class="">
+		<div class="relative flex flex-wrap justify-center items-center py-12 md:py-20 max-w-6xl mx-auto lg:px-8">
+			<div class="flex-1">
+				<div class="bg-[#182635] lg:rounded-lg transition ease-in-out">
+					<div class="relative">
+						<div class="px-6 py-6 sm:p-6 flex sm:space-x-8 flex-col sm:flex-row">
+							<div class="shrink-0">
+								<img alt="@developer.Hero avatar" class="h-20 w-20 sm:h-32 sm:w-32 ring-4 ring-white object-cover rounded-full bg-gray-300" src="@developer.Avatar">
+							</div>
+							<div class="self-start flex-1 min-w-0 space-y-3 mt-4 sm:mt-0">
+								<div class="flex flex-col xl:flex-row gap-x-6 space-y-4 xl:space-y-0">
+									<div class="w-full xl:w-2/3 space-y-6">
+										<div class="flex items-start justify-between space-x-2">
+											<h1 class="text-lg sm:text-xl font-medium text-gray-200" title="Junior Fullstack Developer React + Rails.">
+												@developer.Hero
+											</h1>
+											<div class="inline-flex ml-auto flex-row-reverse shrink-0 items-center text-gray-400">
+												<div class="flex items-center">
+													@if (user != null && developer.UserID == user.Id)
+													{
+														<a href="/developers/@developer.ID/edit" class="group relative flex items-center justify-center py-1 px-4 mx-auto w-auto max-w-sm md:w-auto text-lg font-semibold text-white bg-gradient-to-r from-pink-500 to-orange-700 overflow-hidden rounded-md overflow-hidden rounded-md">
+															<div class="absolute transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-to-r from-teal-400 to-blue-700">
+															</div>
+															<p class="relative z-10 mr-2 text-base leading-loose inline-flex items-center">
+																<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="mr-1 w-4 h-4 fill-white">
+																	<path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z" />
+																</svg>
+																Edit
+															</p>
+														</a>
+													}
+													else
+													{
+														<a href="/developers/3/hire" class="group relative flex items-center justify-center py-1 px-4 mx-auto w-auto max-w-sm md:w-auto text-lg font-semibold text-white bg-gradient-to-r from-pink-500 to-orange-700 overflow-hidden rounded-md overflow-hidden rounded-md">
+															<div class="absolute transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-to-r from-teal-400 to-blue-700">
+															</div>
+															<p class="relative z-10 mr-2 text-base leading-loose inline-flex items-center">
+																<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="mr-1 w-4 h-4 fill-white">
+																	<path fill-rule="evenodd" d="M7.5 5.25a3 3 0 013-3h3a3 3 0 013 3v.205c.933.085 1.857.197 2.774.334 1.454.218 2.476 1.483 2.476 2.917v3.033c0 1.211-.734 2.352-1.936 2.752A24.726 24.726 0 0112 15.75c-2.73 0-5.357-.442-7.814-1.259-1.202-.4-1.936-1.541-1.936-2.752V8.706c0-1.434 1.022-2.7 2.476-2.917A48.814 48.814 0 017.5 5.455V5.25zm7.5 0v.09a49.488 49.488 0 00-6 0v-.09a1.5 1.5 0 011.5-1.5h3a1.5 1.5 0 011.5 1.5zm-3 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z" clip-rule="evenodd" />
+																	<path d="M3 18.4v-2.796a4.3 4.3 0 00.713.31A26.226 26.226 0 0012 17.25c2.892 0 5.68-.468 8.287-1.335.252-.084.49-.189.713-.311V18.4c0 1.452-1.047 2.728-2.523 2.923-2.12.282-4.282.427-6.477.427a49.19 49.19 0 01-6.477-.427C4.047 21.128 3 19.852 3 18.4z" />
+																</svg>																Hire
+															</p>
+														</a>
+													}
+												</div>
+											</div>
+										</div>
+										<div class="flex flex-row space-x-4 items-start">
+											<span class="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs sm:text-sm font-medium bg-green-100 text-green-800">Recently Active</span>
+										</div>
+										<div class="hidden xl:block w-full">
+											<p class="leading-loose lg:leading-loose text-sm sm:text-base text-gray-200">
+												@((MarkupString)Regex.Replace(HttpUtility.HtmlEncode(developer.Bio), "\r?\n|\r", "<br />"))
+											</p>
+										</div>
+									</div>
+									<div class="space-y-5 divide-y divide-gray-300 w-full xl:w-1/3 xl:border-l xl:border-gray-300 xl:pl-6">
+										@if ((company != null && company.IsSubscribed) || (user != null && developer.UserID == user.Id))
+										{
+											<div class="flex flex-col items-start space-y-3">
+												<p class="text-gray-200 inline-flex items-center">
+													<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 fill-gray-400 mr-2">
+														<path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clip-rule="evenodd" />
+													</svg>
+													<span>@developer.FullName</span>
+												</p>
+												<p class="text-gray-200 inline-flex items-center">
+													<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 fill-gray-400 mr-2">
+														<path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z" clip-rule="evenodd" />
+													</svg>
+													<span>@developer.SearchStatus.Name</span>
+												</p>
+												<p class="text-gray-200 inline-flex items-center">
+													<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 fill-gray-400 mr-2">
+														<path d="M12.75 12.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM7.5 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM8.25 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM9.75 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM10.5 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM12.75 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM14.25 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM15 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM16.5 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM15 12.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM16.5 13.5a.75.75 0 100-1.5.75.75 0 000 1.5z" />
+														<path fill-rule="evenodd" d="M6.75 2.25A.75.75 0 017.5 3v1.5h9V3A.75.75 0 0118 3v1.5h.75a3 3 0 013 3v11.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V7.5a3 3 0 013-3H6V3a.75.75 0 01.75-.75zm13.5 9a1.5 1.5 0 00-1.5-1.5H5.25a1.5 1.5 0 00-1.5 1.5v7.5a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5v-7.5z" clip-rule="evenodd" />
+													</svg>
+													<span>Start date @developer.StartDate.ToShortDateString()</span>
+												</p>
+											</div>
+											<div class="flex flex-col items-start space-y-3 pt-4">
+												<h2 class="text-sm font-medium text-gray-400">Experience level</h2>
+												<p class="text-gray-300 inline-flex items-center">
+													<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 fill-gray-400 mr-2">
+														<path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
+													</svg>
+													<span>@developer.ExperienceLevel.Name</span>
+												</p>
+											</div>
+											<div class="flex flex-col items-start space-y-3 pt-4">
+												<p class="text-gray-200 inline-flex items-center">
+													<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 fill-gray-400 mr-2">
+														<path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM6.262 6.072a8.25 8.25 0 1010.562-.766 4.5 4.5 0 01-1.318 1.357L14.25 7.5l.165.33a.809.809 0 01-1.086 1.085l-.604-.302a1.125 1.125 0 00-1.298.21l-.132.131c-.439.44-.439 1.152 0 1.591l.296.296c.256.257.622.374.98.314l1.17-.195c.323-.054.654.036.905.245l1.33 1.108c.32.267.46.694.358 1.1a8.7 8.7 0 01-2.288 4.04l-.723.724a1.125 1.125 0 01-1.298.21l-.153-.076a1.125 1.125 0 01-.622-1.006v-1.089c0-.298-.119-.585-.33-.796l-1.347-1.347a1.125 1.125 0 01-.21-1.298L9.75 12l-1.64-1.64a6 6 0 01-1.676-3.257l-.172-1.03z" clip-rule="evenodd" />
+													</svg>
+													<span>@developer.City, @developer.State</span>
+												</p>
+											</div>
+											<div class="flex flex-col items-start space-y-3 pt-4">
+												@if (!String.IsNullOrEmpty(developer.Website))
+												{
+													<a href="https://@developer.Website" target="_blank" class="text-gray-200 inline-flex items-center">
+														<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 fill-gray-400 mr-2">
+															<path fill-rule="evenodd" d="M19.902 4.098a3.75 3.75 0 00-5.304 0l-4.5 4.5a3.75 3.75 0 001.035 6.037.75.75 0 01-.646 1.353 5.25 5.25 0 01-1.449-8.45l4.5-4.5a5.25 5.25 0 117.424 7.424l-1.757 1.757a.75.75 0 11-1.06-1.06l1.757-1.757a3.75 3.75 0 000-5.304zm-7.389 4.267a.75.75 0 011-.353 5.25 5.25 0 011.449 8.45l-4.5 4.5a5.25 5.25 0 11-7.424-7.424l1.757-1.757a.75.75 0 111.06 1.06l-1.757 1.757a3.75 3.75 0 105.304 5.304l4.5-4.5a3.75 3.75 0 00-1.035-6.037.75.75 0 01-.354-1z" clip-rule="evenodd" />
+														</svg>
+														<span>@developer.Website</span>
+													</a>
+												}
+												@if (!String.IsNullOrEmpty(developer.Github))
+												{
+													<a href="https://@developer.Github" target="_blank" class="text-gray-200 inline-flex items-center">
+														<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 fill-gray-400 mr-2">
+															<path fill-rule="evenodd" d="M19.902 4.098a3.75 3.75 0 00-5.304 0l-4.5 4.5a3.75 3.75 0 001.035 6.037.75.75 0 01-.646 1.353 5.25 5.25 0 01-1.449-8.45l4.5-4.5a5.25 5.25 0 117.424 7.424l-1.757 1.757a.75.75 0 11-1.06-1.06l1.757-1.757a3.75 3.75 0 000-5.304zm-7.389 4.267a.75.75 0 011-.353 5.25 5.25 0 011.449 8.45l-4.5 4.5a5.25 5.25 0 11-7.424-7.424l1.757-1.757a.75.75 0 111.06 1.06l-1.757 1.757a3.75 3.75 0 105.304 5.304l4.5-4.5a3.75 3.75 0 00-1.035-6.037.75.75 0 01-.354-1z" clip-rule="evenodd" />
+														</svg>
+														<span>@developer.Github</span>
+													</a>
+												}
+												@if (!String.IsNullOrEmpty(developer.Twitter))
+												{
+													<a href="https://@developer.Twitter" target="_blank" class="text-gray-200 inline-flex items-center">
+														<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 fill-gray-400 mr-2">
+															<path fill-rule="evenodd" d="M19.902 4.098a3.75 3.75 0 00-5.304 0l-4.5 4.5a3.75 3.75 0 001.035 6.037.75.75 0 01-.646 1.353 5.25 5.25 0 01-1.449-8.45l4.5-4.5a5.25 5.25 0 117.424 7.424l-1.757 1.757a.75.75 0 11-1.06-1.06l1.757-1.757a3.75 3.75 0 000-5.304zm-7.389 4.267a.75.75 0 011-.353 5.25 5.25 0 011.449 8.45l-4.5 4.5a5.25 5.25 0 11-7.424-7.424l1.757-1.757a.75.75 0 111.06 1.06l-1.757 1.757a3.75 3.75 0 105.304 5.304l4.5-4.5a3.75 3.75 0 00-1.035-6.037.75.75 0 01-.354-1z" clip-rule="evenodd" />
+														</svg>
+														<span>@developer.Twitter</span>
+													</a>
+												}
+												@if (!String.IsNullOrEmpty(developer.Linkedin))
+												{
+													<a href="https://@developer.Linkedin" target="_blank" class="text-gray-200 inline-flex items-center">
+														<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 fill-gray-400 mr-2">
+															<path fill-rule="evenodd" d="M19.902 4.098a3.75 3.75 0 00-5.304 0l-4.5 4.5a3.75 3.75 0 001.035 6.037.75.75 0 01-.646 1.353 5.25 5.25 0 01-1.449-8.45l4.5-4.5a5.25 5.25 0 117.424 7.424l-1.757 1.757a.75.75 0 11-1.06-1.06l1.757-1.757a3.75 3.75 0 000-5.304zm-7.389 4.267a.75.75 0 011-.353 5.25 5.25 0 011.449 8.45l-4.5 4.5a5.25 5.25 0 11-7.424-7.424l1.757-1.757a.75.75 0 111.06 1.06l-1.757 1.757a3.75 3.75 0 105.304 5.304l4.5-4.5a3.75 3.75 0 00-1.035-6.037.75.75 0 01-.354-1z" clip-rule="evenodd" />
+														</svg>
+														<span>@developer.Linkedin</span>
+													</a>
+												}
+												@if (!String.IsNullOrEmpty(developer.StackOverflow))
+												{
+													<a href="https://@developer.StackOverflow" target="_blank" class="text-gray-200 inline-flex items-center">
+														<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 fill-gray-400 mr-2">
+															<path fill-rule="evenodd" d="M19.902 4.098a3.75 3.75 0 00-5.304 0l-4.5 4.5a3.75 3.75 0 001.035 6.037.75.75 0 01-.646 1.353 5.25 5.25 0 01-1.449-8.45l4.5-4.5a5.25 5.25 0 117.424 7.424l-1.757 1.757a.75.75 0 11-1.06-1.06l1.757-1.757a3.75 3.75 0 000-5.304zm-7.389 4.267a.75.75 0 011-.353 5.25 5.25 0 011.449 8.45l-4.5 4.5a5.25 5.25 0 11-7.424-7.424l1.757-1.757a.75.75 0 111.06 1.06l-1.757 1.757a3.75 3.75 0 105.304 5.304l4.5-4.5a3.75 3.75 0 00-1.035-6.037.75.75 0 01-.354-1z" clip-rule="evenodd" />
+														</svg>
+														<span>@developer.StackOverflow</span>
+													</a>
+												}
+											</div>
+										}
+										else
+										{
+											<PrivateInfoPlaceholder />
+											<div class="flex flex-col items-start space-y-3 pt-4">
+												<p class="text-gray-200 inline-flex items-center">
+													<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 fill-gray-400 mr-2">
+														<path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z" clip-rule="evenodd" />
+													</svg>
+													<span>@developer.SearchStatus.Name</span>
+												</p>
+												<p class="text-gray-200 inline-flex items-center">
+													<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 fill-gray-400 mr-2">
+														<path d="M12.75 12.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM7.5 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM8.25 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM9.75 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM10.5 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM12.75 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM14.25 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM15 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM16.5 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM15 12.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM16.5 13.5a.75.75 0 100-1.5.75.75 0 000 1.5z" />
+														<path fill-rule="evenodd" d="M6.75 2.25A.75.75 0 017.5 3v1.5h9V3A.75.75 0 0118 3v1.5h.75a3 3 0 013 3v11.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V7.5a3 3 0 013-3H6V3a.75.75 0 01.75-.75zm13.5 9a1.5 1.5 0 00-1.5-1.5H5.25a1.5 1.5 0 00-1.5 1.5v7.5a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5v-7.5z" clip-rule="evenodd" />
+													</svg>
+													<span>Start date @developer.StartDate.ToShortDateString()</span>
+												</p>
+												<p class="text-gray-200 inline-flex items-center">
+													<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 fill-gray-400 mr-2">
+														<path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM6.262 6.072a8.25 8.25 0 1010.562-.766 4.5 4.5 0 01-1.318 1.357L14.25 7.5l.165.33a.809.809 0 01-1.086 1.085l-.604-.302a1.125 1.125 0 00-1.298.21l-.132.131c-.439.44-.439 1.152 0 1.591l.296.296c.256.257.622.374.98.314l1.17-.195c.323-.054.654.036.905.245l1.33 1.108c.32.267.46.694.358 1.1a8.7 8.7 0 01-2.288 4.04l-.723.724a1.125 1.125 0 01-1.298.21l-.153-.076a1.125 1.125 0 01-.622-1.006v-1.089c0-.298-.119-.585-.33-.796l-1.347-1.347a1.125 1.125 0 01-.21-1.298L9.75 12l-1.64-1.64a6 6 0 01-1.676-3.257l-.172-1.03z" clip-rule="evenodd" />
+													</svg>
+													<span>@developer.City, @developer.State</span>
+												</p>
+												<h2 class="text-sm font-medium text-gray-400">Experience level</h2>
+												<p class="text-gray-200 inline-flex items-center">
+													<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 fill-gray-400 mr-2">
+														<path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
+													</svg>
+													<span>@developer.ExperienceLevel.Name</span>
+												</p>
+											</div>
+										}
+									</div>
+									<div class="block xl:hidden w-full">
+										<p class="leading-loose lg:leading-loose text-sm sm:text-base text-gray-200">
+											@((MarkupString)Regex.Replace(HttpUtility.HtmlEncode(developer.Bio), "\r?\n|\r", "<br />"))
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+@code {
+	[Parameter]
+	public int ID { get; set; }
+	[CascadingParameter]
+	public MainLayout Layout { get; set; }
+	private Developer? developer;
+	private Company? company => Layout.Company;
+	private ApplicationUser? user => Layout.User;
+
+	protected override async Task OnInitializedAsync()
+	{
+		ID = ID;
+		developer = await developerService.Get(ID);
+		// TODO: retreive company and check if subscribed
+		if (developer == null)
+		{
+			NavManager.NavigateTo($"/developers");
+		}
+	}
+}

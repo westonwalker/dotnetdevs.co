@@ -57,6 +57,7 @@ builder.Services.AddScoped<MessageService>();
 builder.Services.AddScoped<SearchStatusService>();
 builder.Services.AddScoped<ExperienceLevelService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddAutoMapper(typeof(MapperProfile));
 var app = builder.Build();
@@ -92,9 +93,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapRazorPages();
+app.MapBlazorHub();
+app.MapFallbackToPage("/_Host");
 
 app.Run();

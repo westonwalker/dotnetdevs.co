@@ -13,14 +13,19 @@ namespace dotnetdevs.Services
 		private readonly ApplicationDbContext _dbContext;
 		private readonly UserManager<ApplicationUser> _userManager;
 
-        public UserService(UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext)
-        {
-            _userManager = userManager;
+		private readonly AuthenticationStateProvider _stateProvider;
+
+		public UserService(AuthenticationStateProvider stateProvider, UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext)
+		{
+			_stateProvider = stateProvider;
+			_userManager = userManager;
 			_dbContext = dbContext;
 		}
 
-        public async Task<ApplicationUser?> GetAuthenticatedUser(ClaimsPrincipal user)
+        public async Task<ApplicationUser?> GetAuthenticatedUser(ClaimsPrincipal temp = null)
         {
+			var authState = await _stateProvider.GetAuthenticationStateAsync();
+			var user = authState.User;
             if (user.Identity != null && user.Identity.IsAuthenticated)
 			{
 				return _userManager.Users
