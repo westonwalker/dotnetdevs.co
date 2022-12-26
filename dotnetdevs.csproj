@@ -30,12 +30,10 @@
     <Folder Include="Views\Subscriptions\" />
     <Folder Include="wwwroot\js\" />
     <Folder Include="wwwroot\lib\" />
+	<Folder Include="wwwroot\blog\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="wwwroot\blog\efcore-make-database-column-nullable.md">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
 </Project>
