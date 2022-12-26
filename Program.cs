@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Components.Web;
 using dotnetdevs.Models;
 using dotnetdevs.Services;
 using Stripe;
+using Westwind.AspNetCore.Markdown;
+using dotnetdevs.ViewModels;
 
 DotNetEnv.Env.Load();
 
@@ -57,7 +59,17 @@ builder.Services.AddScoped<ExperienceLevelService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddAutoMapper(typeof(MapperProfile));
+builder.Services.AddMarkdown(config =>
+{
+    var folderConfig = config.AddMarkdownProcessingFolder("/blog/", "~/Views/__MarkdownPageTemplate.cshtml");
+    folderConfig.PreProcess = (model, controller) =>
+    {
+        var fontmatter = model.YamlHeader;
+        var description = StringHelpers.ExtractString(fontmatter, "description: ", "\n", false, true);
+        controller.ViewBag.Model = new BlogPost() { Description = description };
 
+    };
+});
 var app = builder.Build();
 
 StripeConfiguration.ApiKey = Environment.GetEnvironmentVariable("STRIPE_SECRET");
@@ -82,9 +94,12 @@ else
 }
 
 app.UseHttpsRedirection();
+app.UseMarkdown();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+// app.UseMvc();
 
 app.UseAuthentication();
 app.UseAuthorization();

@@ -20,13 +20,14 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.10" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.2" />
     <PackageReference Include="Stripe.net" Version="41.2.0" />
+    <PackageReference Include="Westwind.AspNetCore.Markdown" Version="3.10.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
     <Folder Include="Migrations\" />
+    <Folder Include="Views\Blog\" />
     <Folder Include="Views\Subscriptions\" />
-    <Folder Include="wwwroot\css\" />
     <Folder Include="wwwroot\js\" />
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>

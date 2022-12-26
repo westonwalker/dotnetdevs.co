@@ -1,0 +1,57 @@
+﻿.blog {
+	position: relative;
+}
+.blog h1 {
+	margin-bottom: 80px;
+	font-weight: 500;
+	margin-top: 8px;
+	color: hsl(225deg, 15%, 15%);
+	font-size: calc(2.375rem);
+}
+.blog p {
+	font-size: calc(1.1875rem);
+	margin-bottom: 1.5rem;
+	line-height: calc(1em + 0.725rem);
+	font-weight: 400;
+	color: rgb(17 24 39);
+}
+.breadcrumbs {
+	display: flex;
+	-webkit-box-align: center;
+	align-items: center;
+}
+.breadcrumbs .chevron {
+	color: hsl(225deg, 8%, 70%);
+	pointer-events: none;
+	margin: 0px 8px;
+}
+.breadcrumbs .breadcrumb-links {
+	font-size: 1rem;
+	color: hsl(225deg, 12%, 40%);
+	line-height: calc(1em + 0.725rem);
+}
+p > code {
+	position: relative;
+	display: inline;
+	font-size: 0.9em;
+	letter-spacing: -0.5px;
+	padding: 4.5px 6px;
+	margin: 1px -1px;
+	background: rgb(209 213 219);
+	border-radius: 3px;
+}
+pre {
+	background: #1E1E1E;
+	color: #eee;
+	padding: 0.5em !important;
+	white-space: pre;
+	word-break: normal;
+	word-wrap: normal;
+	margin-bottom: 80px !important;
+	margin-top: 48px !important;
+	overflow: auto;
+	position: relative;
+}
+pre > code {
+	white-space: pre;
+}

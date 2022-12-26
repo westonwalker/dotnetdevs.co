@@ -41,9 +41,15 @@ namespace dotnetdevs.Controllers
 		public IActionResult Pricing()
 		{
 			return View();
-		}
+        }
 
-		[Route("about")]
+        [Route("blog")]
+        public IActionResult Blog()
+        {
+            return View();
+        }
+
+        [Route("about")]
 		public IActionResult About()
 		{
 			return View();
