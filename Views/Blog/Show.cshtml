@@ -1,0 +1,36 @@
+﻿@model Post
+@using dotnetdevs.Helpers
+@{
+    ViewData["Title"] = Model.Title;
+    ViewData["Description"] = Model.Description;
+    Layout = "_Layout";
+}
+@section Headers {
+        <link href="~/css/blog.css" rel="stylesheet" type="text/css" />
+}
+
+<div class="relative py-12 md:py-20 px-4 md:px-8 max-w-4xl mx-auto text-left">
+    <div class="flex-1 blog">
+        <div class="breadcrumbs">
+            <a href="/" class="breadcrumb-links">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            <a href="/blog" class="breadcrumb-links">Blog</a>
+        </div>
+        <h1>@Model.Title</h1>
+         @Html.Raw(@MarkdownHelper.Parse(Model.Markdown))
+    </div>
+</div>
+
+@section Scripts {
+        <link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+        <link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+        <script>
+            setTimeout(function () {
+                var pres = document.querySelectorAll("pre>code");
+                for (var i = 0; i < pres.length; i++) { hljs.highlightBlock(pres[i]); }
+            });
+        </script>
+}

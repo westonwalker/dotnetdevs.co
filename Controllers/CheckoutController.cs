@@ -60,20 +60,6 @@ namespace dotnetdevs.Controllers
 			Session session = service.Create(options);
 
 			return Redirect(session.Url);
-			// return view(session.Url);
-			//\Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-			//header('Content-Type: application/json');
-			//$checkout_session = \Stripe\Checkout\Session::create([
-			//    'line_items' => [[
-			//      # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
-			//      'price' => $priceId,
-			//      'quantity' => 1,
-			//    ]],
-			//    'mode' => 'payment',
-			//    'success_url' => env('APP_URL') . '/checkout/success/' . $job->payment_guid,
-			//    'cancel_url' => env('APP_URL') . '/hire-software-engineers',
-			//]);
-			//return redirect()->away($checkout_session->url);
 		}
 
 		[HttpGet]

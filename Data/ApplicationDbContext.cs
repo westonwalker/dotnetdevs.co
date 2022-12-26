@@ -16,9 +16,10 @@ namespace dotnetdevs.Data
         public DbSet<SearchStatus> SearchStatuses { get; set; }
 		public DbSet<Conversation> Conversations { get; set; }
 		public DbSet<Message> Messages { get; set; }
+        public DbSet<Post> Posts { get; set; }
 
-		#region Seed Data
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
+        #region Seed Data
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<SearchStatus>().HasData(

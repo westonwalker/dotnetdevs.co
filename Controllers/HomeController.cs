@@ -43,12 +43,6 @@ namespace dotnetdevs.Controllers
 			return View();
         }
 
-        [Route("blog")]
-        public IActionResult Blog()
-        {
-            return View();
-        }
-
         [Route("about")]
 		public IActionResult About()
 		{
