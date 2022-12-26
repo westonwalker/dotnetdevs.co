@@ -21,7 +21,8 @@
 
 <nav x-data="{ desktopMenuOpen: false, mobileMenuOpen: false }">
 	<div class="relative bg-white">
-		<div class="flex items-center justify-between px-8 xl:px-16 py-5 mx-auto">
+		<!-- relative flex flex-wrap justify-center items-center py-12 md:py-20 max-w-5xl mx-auto lg:px-8 -->
+		<div class="flex items-center justify-between px-4 sm:px-6 lg:px-16 py-5 mx-auto">
 			<div class="w-auto">
 				<div class="flex flex-wrap items-center">
 					<div class="w-auto mr-14">
@@ -38,6 +39,9 @@
 						</li>
 						<li class="font-semibold mr-9 text-gray-600 hover:text-black text-lg">
 							<a href="/about">About</a>
+						</li>
+						<li class="font-semibold mr-9 text-gray-600 hover:text-black text-lg">
+							<a href="/blog">Blog</a>
 						</li>
 						@* <li class="font-semibold mr-9 text-gray-300 hover:text-white text-lg">
 						<span class="absolute -mt-2 -ml-4 z-10 uppercase text-emerald-400 tracking-tight font-bold text-xs -rotate-12">New!</span>
@@ -120,6 +124,7 @@
 			<a x-on:click="mobileMenuOpen = false" class="text-gray-600 hover:bg-gray-100 hover:text-black block px-4 py-2 font-medium" href="/developers">Developers</a>
 			<a x-on:click="mobileMenuOpen = false" class="text-gray-600 hover:bg-gray-100 hover:text-black block px-4 py-2 font-medium" href="/pricing">Pricing</a>
 			<a x-on:click="mobileMenuOpen = false" class="text-gray-600 hover:bg-gray-100 hover:text-black block px-4 py-2 font-medium" href="/about">About</a>
+			<a x-on:click="mobileMenuOpen = false" class="text-gray-600 hover:bg-gray-100 hover:text-black block px-4 py-2 font-medium" href="/blog">Blog</a>
 		</div>
 		<div class="pt-3 pb-3 border-t border-gray-700">
 			<div class="px-4 md:px-12 space-y-1">

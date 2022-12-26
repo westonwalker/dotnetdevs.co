@@ -1,15 +1,17 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>@ViewData["Title"] - DotnetDevs</title>
+    <meta name="description" content="@ViewData["Description"]">
     <link rel="shortcut icon" href="~/favicon.png">
     <script src="https://cdn.tailwindcss.com?plugins=line-clamp,forms"></script>
     <script src="//unpkg.com/alpinejs" defer></script>
     <environment exclude="Development">
         <script src="https://cdn.usefathom.com/script.js" data-site="VRRCLZQB" defer></script>
-   </environment>
+    </environment>
+    @await RenderSectionAsync("Headers", required: false)
 </head>
 <body>
     <div class="bg-gray-50">
