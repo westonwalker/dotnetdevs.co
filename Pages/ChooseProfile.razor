@@ -1,6 +1,9 @@
-﻿@{
-	ViewData["Title"] = "Choose a profile type";
-}
+﻿@page "/choose-profile"
+<PageTitle>Choose a profile type</PageTitle>
+<HeadContent>
+	<meta name="description" content="Choose whether your a developer looking to match with a company or a company looking to talk with developers?">
+</HeadContent>
+
 <div class="min-h-screen">
 	<div class="relative flex flex-wrap justify-center items-center py-12 md:py-20 max-w-6xl mx-auto md:px-8">
 		<div class="flex-1">
@@ -17,7 +20,7 @@
 					<p class="mb-4 text-base text-gray-700">
 						Fill out your dev profile and sit back as companies reach out to you.
 					</p>
-					<a asp-controller="Developers" asp-action="Create" class="text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-1 px-4 mx-auto w-auto max-w-sm md:w-auto">
+					<a href="/developers/create" class="text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-1 px-4 mx-auto w-auto max-w-sm md:w-auto">
 						Create developer profile
 					</a>
 				</div>
@@ -28,7 +31,7 @@
 					<p class="mb-4 text-base text-gray-700">
 						Fill out your companies profile and start hiring .NET developers.
 					</p>
-					<a asp-controller="Companies" asp-action="Create" class="text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-1 px-4 mx-auto w-auto max-w-sm md:w-auto">
+					<a href="/companies/create" class="text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-1 px-4 mx-auto w-auto max-w-sm md:w-auto">
 						Create company profile
 					</a>
 				</div>
