@@ -10,16 +10,14 @@ namespace dotnetdevs.Services
 
     public class UserService
 	{
-		private readonly ApplicationDbContext _dbContext;
 		private readonly UserManager<ApplicationUser> _userManager;
 
 		private readonly AuthenticationStateProvider _stateProvider;
 
-		public UserService(AuthenticationStateProvider stateProvider, UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext)
+		public UserService(AuthenticationStateProvider stateProvider, UserManager<ApplicationUser> userManager)
 		{
 			_stateProvider = stateProvider;
 			_userManager = userManager;
-			_dbContext = dbContext;
 		}
 
         public async Task<ApplicationUser?> GetAuthenticatedUser(ClaimsPrincipal temp = null)

@@ -5,13 +5,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
-    <base href="~/" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>@ViewData["Title"] - DotnetDevs</title>
+    <meta name="description" content="@ViewData["Description"]">
+    <link rel="shortcut icon" href="~/favicon.png">
+    <link href="~/css/blog.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com?plugins=line-clamp,forms"></script>
     <script src="//unpkg.com/alpinejs" defer></script>
+    <environment exclude="Development">
+        <script src="https://cdn.usefathom.com/script.js" data-site="VRRCLZQB" defer></script>
+    </environment>
+    <base href="~/" />
     <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
 </head>
 <body>
     @RenderBody()

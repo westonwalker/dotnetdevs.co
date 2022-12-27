@@ -1,52 +1,44 @@
 ﻿@page "/"
-
-@using Microsoft.EntityFrameworkCore
-@using dotnetdevs.Models
-@using dotnetdevs.Data
 @inject DeveloperService developerService
 <PageTitle>The reverse job board for .NET developers</PageTitle>
 
 <div class="relative z-10 flex flex-wrap justify-center items-center pt-12 md:pt-20 pb-8 md:pb-12 max-w-6xl mx-auto px-8">
 	<div class="flex-1">
-		<div class="lg:max-w-4xl mx-auto">
-			<h1 class="mb-5 text-center text-gray-100 text-4xl leading-tight md:text-5xl md:leading-tight lg:text-7xl lg:leading-tight font-bold">
-				The reverse job board for <br class="hidden sm:block" /><span class="text-sky-400">.NET developers</span>
+		<div class="lg:max-w-5xl mx-auto">
+			<h1 class="mb-5 text-center text-black text-4xl leading-tight md:text-5xl md:leading-tight lg:text-7xl lg:leading-tight font-bold">
+				The reverse job board for <br class="hidden sm:block" /><span class="text-indigo-600">.NET developers</span>
 			</h1>
-			<p class="mb-10 text-lg lg:text-2xl leading-loose lg:leading-loose text-center text-gray-200">
-				DotnetDevs empowers .NET developers to help them find their next gig. No more scouring job boards, writing cover letters, and filling out applications. Sit back as companies reach out to you.
+			<p class="mb-10 text-lg lg:text-2xl leading-loose lg:leading-loose text-center text-gray-700">
+				DotnetDevs empowers .NET developers to help them find their next job. No more scouring job boards and Linkedin recruiter spam. Sit back as companies reach out to you.
 			</p>
-			<a href="/choose-profile" class="group mb-9 relative flex items-center justify-center px-8 md:px-12 py-3 md:py-4 mx-auto w-fit max-w-xs md:max-w-xs uppercase text-white text-xs font-semibold tracking-[1px] bg-gradient-to-r from-pink-500 to-orange-700 overflow-hidden rounded-md">
-				<div class="absolute transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-to-r from-teal-400 to-blue-700">
-				</div>
-				<p class="relative z-10 mr-2 text-base lg:text-xl leading-loose lg:leading-loose">Get started</p>
+			<a asp-controller="Home" asp-action="ChooseProfile" class="bg-indigo-600 hover:bg-indigo-700 text-white mb-9 relative flex items-center justify-center w-fit max-w-xs md:max-w-xs px-8 md:px-12 py-3 md:py-4 mx-auto uppercase text-base lg:text-xl leading-loose lg:leading-loose font-semibold tracking-[1px]">
+				Get started
 			</a>
 		</div>
 	</div>
 </div>
 <div class="">
-	<div class="relative flex flex-wrap justify-center items-center py-8 md:py-12 max-w-6xl mx-auto lg:px-8">
+	<div class="relative flex flex-wrap justify-center items-center py-8 md:py-12 max-w-6xl mx-auto sm:px-8">
 		<div class="flex-1">
 			<div class="">
-				<h2 class="mb-6 text-lg lg:text-2xl leading-loose lg:leading-loose text-left text-gray-200 font-semibold px-8 lg:px-0">
+				<h2 class="mb-6 text-lg lg:text-2xl leading-loose lg:leading-loose text-left text-black font-semibold px-6 sm:px-0">
 					Developers available now
 				</h2>
 			</div>
-			<div class="flex flex-col space-y-4">
+			<div class="flex flex-col space-y-8">
 				@if (_developers == null)
 				{
 					<p><em>Loading...</em></p>
 				}
 				else
 				{
-					@foreach (var developer in _developers)
-					{
-						<DevTeaser Developer="@developer" />
-					}
+					<DevTeaser Developers="@_developers" />
 				}
 			</div>
 		</div>
 	</div>
 </div>
+
 
 @code {
 	private List<Developer> _developers;

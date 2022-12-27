@@ -14,8 +14,8 @@ DotNetEnv.Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = ConnectionHelper.GetConnectionString();
-builder.Services.AddDbContext<ApplicationDbContext>(options => options
-    .UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+builder.Services.AddDbContextFactory<ApplicationDbContext>(options => options
+	.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -57,6 +57,7 @@ builder.Services.AddScoped<MessageService>();
 builder.Services.AddScoped<SearchStatusService>();
 builder.Services.AddScoped<ExperienceLevelService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<BlogService>();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddAutoMapper(typeof(MapperProfile));

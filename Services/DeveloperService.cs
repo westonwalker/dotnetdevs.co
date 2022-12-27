@@ -6,16 +6,17 @@ namespace dotnetdevs.Services
 {
 	public class DeveloperService
 	{
-		private readonly ApplicationDbContext _dbContext;
+		private readonly IDbContextFactory<ApplicationDbContext> _factory;
 
-		public DeveloperService(ApplicationDbContext dbContext)
+		public DeveloperService(IDbContextFactory<ApplicationDbContext> factory)
 		{
-			this._dbContext = dbContext;
+			_factory = factory;
 		}
 
 		public async Task<List<Developer>> GetAll()
 		{
-			return await _dbContext.Developers
+			using var context = _factory.CreateDbContext();
+			return await context.Developers
 							.Include(developer => developer.SearchStatus)
 							.Include(developer => developer.ExperienceLevel)
 							.OrderByDescending(developer => developer.CreatedDate)
@@ -24,7 +25,8 @@ namespace dotnetdevs.Services
 
 		public async Task<Developer?> Get(int id)
 		{
-			return await _dbContext.Developers
+			using var context = _factory.CreateDbContext();
+			return await context.Developers
 							.Where(d => d.ID == id)
 							.Include(developer => developer.SearchStatus)
 							.Include(developer => developer.ExperienceLevel)
@@ -33,7 +35,8 @@ namespace dotnetdevs.Services
 
 		public async Task<Developer?> GetByUserId(string userId)
 		{
-			return await _dbContext.Developers
+			using var context = _factory.CreateDbContext();
+			return await context.Developers
 							.Where(d => d.UserID == userId)
 							.Include(developer => developer.SearchStatus)
 							.Include(developer => developer.ExperienceLevel)
@@ -42,15 +45,17 @@ namespace dotnetdevs.Services
 
 		public async Task<Developer> Store(Developer developer)
 		{
-			_dbContext.Developers.Add(developer);
-			_dbContext.SaveChanges();
+			using var context = _factory.CreateDbContext();
+			context.Developers.Add(developer);
+			context.SaveChanges();
 			return developer;
 		}
 
 		public async Task<Developer> Update(Developer developer)
 		{
-			_dbContext.Attach(developer);
-			_dbContext.SaveChanges();
+			using var context = _factory.CreateDbContext();
+			context.Attach(developer);
+			context.SaveChanges();
 			return developer;
 		}
 	}

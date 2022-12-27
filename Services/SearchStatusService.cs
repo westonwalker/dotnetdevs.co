@@ -6,15 +6,16 @@ namespace dotnetdevs.Services
 {
 	public class SearchStatusService
 	{
-		private readonly ApplicationDbContext _dbContext;
+		private readonly IDbContextFactory<ApplicationDbContext> _factory;
 
-		public SearchStatusService(ApplicationDbContext dbContext)
+		public SearchStatusService(IDbContextFactory<ApplicationDbContext> factory)
 		{
-			this._dbContext = dbContext;
+			_factory = factory;
 		}
 		public async Task<List<SearchStatus>> GetAll()
 		{
-			return await _dbContext.SearchStatuses.ToListAsync();
+			using var context = _factory.CreateDbContext();
+			return await context.SearchStatuses.ToListAsync();
 		}
 	}
 }

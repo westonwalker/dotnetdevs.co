@@ -1,0 +1,45 @@
+﻿@page "/blog/{slug}"
+@inject BlogService blogService
+@inject NavigationManager NavManager
+<PageTitle>@title</PageTitle>
+<HeadContent>
+    <meta name="description" content="@description">
+</HeadContent>
+
+<div class="relative py-12 md:py-20 px-4 md:px-8 max-w-4xl mx-auto text-left">
+    <div class="flex-1 blog">
+        <div class="breadcrumbs">
+            <a href="/" class="breadcrumb-links">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            <a href="/blog" class="breadcrumb-links">Blog</a>
+        </div>
+        @if (_post == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            <h1>@_post.Title</h1>
+            @((MarkupString)@MarkdownHelper.Parse(_post.Markdown))
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string slug { get; set; }
+    private string title = "";
+    private string description = "";
+    private Post _post;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _post = await blogService.Get(slug);
+        if (_post == null)
+        {
+            NavManager.NavigateTo($"blog");
+        }
+        title = _post.Title;
+        description = _post.Description;
+    }
+}

@@ -6,16 +6,17 @@ namespace dotnetdevs.Services
 {
 	public class ConversationService
 	{
-		private readonly ApplicationDbContext _dbContext;
+		private readonly IDbContextFactory<ApplicationDbContext> _factory;
 
-		public ConversationService(ApplicationDbContext dbContext)
+		public ConversationService(IDbContextFactory<ApplicationDbContext> factory)
 		{
-			this._dbContext = dbContext;
+			_factory = factory;
 		}
 
 		public async Task<Conversation?> Get(int id)
 		{
-			return await _dbContext.Conversations
+			using var context = _factory.CreateDbContext();
+			return await context.Conversations
 							.Include(c => c.Company)
 							.Include(c => c.Developer)
 							.Where(d => d.ID == id)
@@ -24,7 +25,8 @@ namespace dotnetdevs.Services
 
 		public async Task<List<Conversation>> GetAllByDeveloper(int developerId)
 		{
-			return await _dbContext.Conversations
+			using var context = _factory.CreateDbContext();
+			return await context.Conversations
 							.Include(c => c.Company)
 							.Include(c => c.Developer)
 							.Where(d => d.DeveloperID == developerId)
@@ -33,7 +35,8 @@ namespace dotnetdevs.Services
 
 		public async Task<List<Conversation>> GetAllByCompany(int companyId)
 		{
-			return await _dbContext.Conversations
+			using var context = _factory.CreateDbContext();
+			return await context.Conversations
 							.Include(c => c.Company)
 							.Include(c => c.Developer)
 							.Where(d => d.CompanyID == companyId)
@@ -43,7 +46,8 @@ namespace dotnetdevs.Services
 
 		public async Task<Conversation?> Get(int developerId, int companyId)
 		{
-			return await _dbContext.Conversations
+			using var context = _factory.CreateDbContext();
+			return await context.Conversations
 							.Where(d => d.DeveloperID == developerId)
 							.Where(d => d.CompanyID == companyId)
 							.FirstOrDefaultAsync();
@@ -51,8 +55,9 @@ namespace dotnetdevs.Services
 
 		public async Task<Conversation> Store(Conversation conversation)
 		{
-			_dbContext.Conversations.Add(conversation);
-			_dbContext.SaveChanges();
+			using var context = _factory.CreateDbContext();
+			context.Conversations.Add(conversation);
+			context.SaveChanges();
 			return conversation;
 		}
 
