@@ -28,5 +28,17 @@
     @RenderBody()
 
     <script src="_framework/blazor.server.js"></script>
+    <link rel="stylesheet"
+    href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <link rel="stylesheet"
+    href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>
+        window.highlightSnippet = function(){
+            document.querySelectorAll('pre code').forEach((el)=>{
+                hljs.highlightBlock(el);
+            });
+        }
+    </script>
 </body>
 </html>

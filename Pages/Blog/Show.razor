@@ -31,6 +31,7 @@
     private string title = "";
     private string description = "";
     private Post _post;
+    [Inject] private IJSRuntime _js { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -41,5 +42,10 @@
         }
         title = _post.Title;
         description = _post.Description;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await _js.InvokeVoidAsync("highlightSnippet");
     }
 }
