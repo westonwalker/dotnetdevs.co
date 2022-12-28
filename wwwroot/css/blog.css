@@ -8,12 +8,42 @@
 	color: hsl(225deg, 15%, 15%);
 	font-size: calc(2.375rem);
 }
+.blog h2 {
+	margin-bottom: 25px;
+	font-weight: 500;
+	margin-top: 8px;
+	color: hsl(225deg, 15%, 15%);
+	font-size: calc(2.0rem);
+}
+.blog h3 {
+	font-weight: 600;
+	color: hsl(225deg, 15%, 15%);
+	font-size: calc(1.2rem);
+}
 .blog p {
 	font-size: calc(1.1875rem);
 	margin-bottom: 1.5rem;
 	line-height: calc(1em + 0.725rem);
 	font-weight: 400;
-	color: rgb(17 24 39);
+	color: rgb(55 65 81);
+}
+.job ul {
+	list-style-type: disc;
+	list-style-position: inside;
+	margin-top: 1.33333em !important;
+	margin-bottom: 1.33333em !important;
+	padding-left: 1.5555556em;
+}
+.job li {
+	padding-left: 0.4444444em;
+}
+.job p {
+	margin-top: 1.33333em !important;
+	margin-bottom: 1.33333em !important;
+}
+.job h3 {
+	margin-top: 1.33333em !important;
+	margin-bottom: 1.33333em !important;
 }
 .breadcrumbs {
 	display: flex;

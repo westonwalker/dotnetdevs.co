@@ -22,7 +22,7 @@
 <nav x-data="{ desktopMenuOpen: false, mobileMenuOpen: false }">
 	<div class="relative bg-white">
 		<!-- relative flex flex-wrap justify-center items-center py-12 md:py-20 max-w-5xl mx-auto lg:px-8 -->
-		<div class="flex items-center justify-between px-4 sm:px-6 lg:px-16 py-5 mx-auto">
+		<div class="flex items-center justify-between px-4 sm:px-6 lg:px-16 py-5 mx-auto max-w-[1400px]">
 			<div class="w-auto">
 				<div class="flex flex-wrap items-center">
 					<div class="w-auto mr-14">
@@ -31,16 +31,19 @@
 						</a>
 					</div>
 					<ul class="items-center mr-10 hidden lg:flex">
-						<li class="font-semibold mr-9 text-gray-600 hover:text-black text-lg">
+						<li class="font-semibold mr-9 text-gray-600 hover:text-black text-base">
 							<a href="/developers">Developers</a>
 						</li>
-						<li class="font-semibold mr-9 text-gray-600 hover:text-black text-lg">
+						<li class="font-semibold mr-9 text-gray-600 hover:text-black text-base">
+							<a href="/jobs">Job Board</a>
+						</li>
+						<li class="font-semibold mr-9 text-gray-600 hover:text-black text-base">
 							<a href="/pricing">Pricing</a>
 						</li>
-						<li class="font-semibold mr-9 text-gray-600 hover:text-black text-lg">
+						<li class="font-semibold mr-9 text-gray-600 hover:text-black text-base">
 							<a href="/about">About</a>
 						</li>
-						<li class="font-semibold mr-9 text-gray-600 hover:text-black text-lg">
+						<li class="font-semibold mr-9 text-gray-600 hover:text-black text-base">
 							<a href="/blog">Blog</a>
 						</li>
 						@* <li class="font-semibold mr-9 text-gray-300 hover:text-white text-lg">
@@ -52,7 +55,7 @@
 			</div>
 			<div class="w-auto">
 				<div class="flex flex-wrap items-center">
-					<div class="flex-wrap items-center w-auto hidden lg:flex space-x-4">
+					<div class="flex-wrap items-center w-auto hidden lg:flex space-x-4 z-10">
 						@if (SignInManager.IsSignedIn(this.User))
 						{
 							<a href="/conversations" class="rounded-full bg-transparent hover:bg-gray-100 p-2">
@@ -97,10 +100,10 @@
 						}
 						else
 						{
-							<a href="/login" class="font-semibold text-gray-600 hover:text-black text-lg mr-2">
+							<a href="/login" class="font-semibold text-gray-600 hover:text-black text-base mr-2">
 								Sign in
 							</a>
-							<a href="/register" class="flex py-1 px-4 bg-slate-900 text-white hover:bg-black font-semibold text-base lg:text-xl leading-loose lg:leading-loose">
+							<a href="/register" class="flex py-1 px-4 bg-slate-900 text-white hover:bg-black font-semibold text-base leading-loose">
 								Register
 							</a>
 						}

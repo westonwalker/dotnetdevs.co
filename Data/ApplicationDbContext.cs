@@ -17,9 +17,13 @@ namespace dotnetdevs.Data
 		public DbSet<Conversation> Conversations { get; set; }
 		public DbSet<Message> Messages { get; set; }
         public DbSet<Post> Posts { get; set; }
+		public DbSet<Job> Jobs { get; set; }
+		public DbSet<UnverifiedCompany> UnverifiedCompanies { get; set; }
+		public DbSet<WorkType> WorkTypes { get; set; }
+		public DbSet<RemotePolicy> RemotePolicies { get; set; }
 
-        #region Seed Data
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+		#region Seed Data
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<SearchStatus>().HasData(
@@ -28,13 +32,25 @@ namespace dotnetdevs.Data
                 new SearchStatus { ID = 3, Name = "Not interested", Description = "Your profile will not appear in search results." },
                 new SearchStatus { ID = 4, Name = "Invisible", Description = "Your profile is hidden and can only be seen by yourself." }
             );
-            modelBuilder.Entity<ExperienceLevel>().HasData(
-                new ExperienceLevel { ID = 1, Name = "Junior" },
-                new ExperienceLevel { ID = 2, Name = "Mid-level", IsDefault = true },
-                new ExperienceLevel { ID = 3, Name = "Senior" },
-                new ExperienceLevel { ID = 4, Name = "Lead" }
-            );
-        }
+			modelBuilder.Entity<ExperienceLevel>().HasData(
+				new ExperienceLevel { ID = 1, Name = "Junior" },
+				new ExperienceLevel { ID = 2, Name = "Mid-level", IsDefault = true },
+				new ExperienceLevel { ID = 3, Name = "Senior" },
+				new ExperienceLevel { ID = 4, Name = "Lead" }
+			);
+			modelBuilder.Entity<WorkType>().HasData(
+                new WorkType { ID = 1, Name = "Full-time" },
+                new WorkType { ID = 2, Name = "Part-time"},
+                new WorkType { ID = 3, Name = "Internship" },
+                new WorkType { ID = 4, Name = "Freelance" },
+				new WorkType { ID = 5, Name = "Contract" }
+			);
+			modelBuilder.Entity<RemotePolicy>().HasData(
+				new RemotePolicy { ID = 1, Name = "Remote", Description = "Descentralized team no matter where you are" },
+				new RemotePolicy { ID = 2, Name = "Hybrid", Description = "Remote position but some on-site is required" },
+				new RemotePolicy { ID = 3, Name = "On-site", Description = "On-site is required" }
+			);
+		}
         #endregion
     }
 }
