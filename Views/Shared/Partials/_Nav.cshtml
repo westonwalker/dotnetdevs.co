@@ -19,7 +19,7 @@
 	}
 }
 
-<nav x-data="{ desktopMenuOpen: false, mobileMenuOpen: false }">
+<nav class="z-20" x-data="{ desktopMenuOpen: false, mobileMenuOpen: false }">
 	<div class="relative bg-white">
 		<!-- relative flex flex-wrap justify-center items-center py-12 md:py-20 max-w-5xl mx-auto lg:px-8 -->
 		<div class="flex items-center justify-between px-4 sm:px-6 lg:px-16 py-5 mx-auto max-w-[1400px]">
@@ -108,7 +108,7 @@
 							</a>
 						}
 					</div>
-					<div class="w-auto lg:hidden">
+					<div class="w-auto lg:hidden z-50">
 						<button x-on:click="mobileMenuOpen = !mobileMenuOpen" class="text-gray-600 hover:text-black hover:bg-gray-100 bg-transparent p-2">
 							<svg x-show="!mobileMenuOpen" class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
 								<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
@@ -122,7 +122,7 @@
 			</div>
 		</div>
 	</div>
-	<div x-cloak x-show="mobileMenuOpen" class="lg:hidden bg-white drop-shadow-lg" id="mobile-menu">
+	<div x-cloak x-show="mobileMenuOpen" class="lg:hidden bg-white drop-shadow-lg z-50 mb-12" id="mobile-menu">
 		<div class="pb-3 space-y-1 px-4 md:px-12">
 			<a x-on:click="mobileMenuOpen = false" class="text-gray-600 hover:bg-gray-100 hover:text-black block px-4 py-2 font-medium" href="/developers">Developers</a>
 			<a x-on:click="mobileMenuOpen = false" class="text-gray-600 hover:bg-gray-100 hover:text-black block px-4 py-2 font-medium" href="/pricing">Pricing</a>
