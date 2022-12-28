@@ -2,41 +2,52 @@
 
 @foreach (var developer in Developers)
 {
-	<div class="bg-white hover:bg-gray-50 border-y sm:border border-gray-600 transition ease-in-out shadow-xl">
-		<div class="relative">
-			<a class="px-6 py-6 sm:p-6 flex space-x-4 sm:space-x-8" href="/developers/show/@developer.ID">
-				<div class="shrink-0">
-					<img alt="@developer.Hero avatar" class="h-20 w-20 sm:h-24 sm:w-24 object-cover border border-gray-100" src="@developer.Avatar">
+
+	<a href="/developers/show/@developer.ID"
+   class="transition-all group duration-200 ease-in-out relative block bg-white border p-4 hover:border-l-8 hover:ring-2 ring-indigo-600 hover:border-indigo-600 cursor-pointer relative bg-white">
+		<!---->
+		<div class="flex flex-col justify-center md:flex-row md:justify-start md:items-center">
+			<div class="flex items-center">
+				<div class="overflow-hidden w-full h-full w-12 h-12 md:w-12 md:h-12 shrink-0">
+					<img src="@developer.Avatar"
+					 alt="@developer.Hero avatar" class="object-contain w-full h-full" loading="lazy">
 				</div>
-				<div class="self-start flex-1 min-w-0 space-y-3">
-					<div class="flex items-baseline">
-						<h2 class="text-lg sm:text-xl font-medium text-black line-clamp-2 break-word">
-							@developer.Hero
-						</h2>
-						<div class="hidden sm:inline-flex ml-auto flex-row-reverse shrink-0 items-center">
-							<div class="flex items-center text-gray-900">
-								<svg xmlns="http://www.w3.org/2000/svg" title="Check Circle" class="h-5 w-5 h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-									<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-								</svg>
-								<span class="ml-2 text-sm font-medium text-green-500 uppercase tracking-[.2rem]">
-									@developer.SearchStatus.Name
-								</span>
+				<div class="ml-3">
+					<div class="font-display text-lg leading-tight font-bold">@developer.Hero</div>
+					<div>
+						@if (developer.SearchStatus.Name == "Not interested")
+						{
+							<div class="flex items-center text-sm font-medium text-gray-500">
+								@developer.SearchStatus.Name
 							</div>
-						</div>
-					</div>
-					<div class="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4 items-start">
-						<span class="inline-flex items-center rounded-md px-2.5 py-0.5 text-sm font-medium bg-green-100 text-green-800 border border-green-800">Recently Active</span>
-						<span class="inline-flex items-center rounded-md px-2.5 py-0.5 text-sm font-medium bg-yellow-100 text-yellow-800 border border-yellow-800">@developer.ExperienceLevel.Name</span>
-					</div>
-					<div class="text-sm sm:text-base text-gray-800 space-y-4">
-						<p class="line-clamp-3 break-words leading-loose lg:leading-loose">
-							@developer.Bio
-						</p>
+						}
+						else
+						{
+							<div class="flex items-center text-sm font-medium text-green-500">
+								@developer.SearchStatus.Name
+							</div>
+						}
 					</div>
 				</div>
-			</a>
+			</div>
+			<div class="ml-auto font-display font-bold transition-opacity duration-400 absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 text-sm">
+				View details <i class="far fa-arrow-right fa-fw ml-1" aria-hidden="true"></i>
+			</div>
 		</div>
-	</div>
+		<div class="text-sm sm:text-base text-gray-800 space-y-4">
+			<p class="line-clamp-3 break-words leading-loose lg:leading-loose">
+				@developer.Bio
+			</p>
+		</div>
+		<div class="text-xs mt-3 flex gap-x-4 gap-y-1 flex-wrap items-center md:gap-2">
+			@*	<span class="inline-flex gap-1.5 items-center px-1.5 py-0.5 bg-gray-100 font-medium rounded-lg">
+		<img src="https://hatscripts.github.io/circle-flags/flags/us.svg" alt="Flag of United States"
+		class="h-3"> Chicago, IL, USA
+		</span>*@
+			<span class="inline-flex items-center rounded-md px-2.5 py-0.5 font-medium bg-green-100 text-green-800 border border-green-800">Recently Active</span>
+			<span class="inline-flex items-center rounded-md px-2.5 py-0.5 font-medium bg-yellow-100 text-yellow-800 border border-yellow-800">@developer.ExperienceLevel.Name</span>
+		</div>
+	</a>
 }
 @code {
 	[Parameter]
