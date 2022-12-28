@@ -4,76 +4,72 @@
 @inject UserService userService
 @inject DeveloperService developerService
 @inject CompanyService companyService
-<PageTitle>Hire .NET developers - DotnetDevs</PageTitle>
+<PageTitle>hire .NET developers</PageTitle>
+<HeadContent>
+	<meta name="description" content="Find .NET developers looking for their next gig. From juniors to seniors and everyone in between.">
+</HeadContent>
 
 <div class="">
-	<div class="relative flex flex-wrap justify-center items-center py-12 md:py-20 max-w-6xl mx-auto lg:px-8">
+	<div class="relative flex flex-wrap justify-center items-center py-12 md:py-20 max-w-6xl mx-auto sm:px-8">
 		<div class="flex-1">
-			<div class="bg-[#182635] text-left lg:rounded-lg">
-				<div class="flex flex-col lg:flex-row lg:justify-between items-start border-b border-gray-900 p-6">
+			<div class="text-left">
+				<div class="flex flex-col lg:flex-row lg:justify-between items-start py-6 mb-8 px-6 lg:px-0">
 					<div>
-						<h1 class="mb-4 text-gray-100 text-3xl leading-tight font-bold">
+						<h1 class="mb-4 text-black text-3xl leading-tight font-bold">
 							Hire .NET developers
 						</h1>
-						<p class="line-clamp-3 break-words leading-loose lg:leading-loose">
+						<p class="text-gray-700 line-clamp-3 break-words leading-loose lg:leading-loose">
 							Find .NET developers looking for their next gig. From juniors to seniors and everyone in between.
 						</p>
 					</div>
 					<div class="mt-4 lg:mt-0">
-						@if (isExistingDev && developer != null)
+						@if (isExistingDev)
 						{
-						<a href="/developers/@developer.ID/edit" class="group relative flex items-center justify-center py-1 px-4 mx-auto w-auto max-w-sm md:w-auto text-base font-semibold text-white bg-gradient-to-r from-pink-500 to-orange-700 overflow-hidden rounded-md overflow-hidden rounded-md">
-							<div class="absolute transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-to-r from-teal-400 to-blue-700">
-							</div>
-							<p class="relative z-10 mr-2 text-base leading-loose">Update my profile</p>
-						</a>
+							<a href="/developers/edit/@developer.ID" class="text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-1 px-4 mx-auto w-auto max-w-sm md:w-auto">
+								Update my profile
+							</a>
 						}
-						else {
-						<a href="/developers/create" class="group relative flex items-center justify-center py-1 px-4 mx-auto w-auto max-w-sm md:w-auto text-base font-semibold text-white bg-gradient-to-r from-pink-500 to-orange-700 overflow-hidden rounded-md overflow-hidden rounded-md">
-							<div class="absolute transform -translate-x-full group-hover:-translate-x-0 h-full w-full transition ease-in-out duration-500 bg-gradient-to-r from-teal-400 to-blue-700">
-							</div>
-							<p class="relative z-10 mr-2 text-base leading-loose">Add my profile</p>
-						</a>
+						else
+						{
+							<a href="/developers/create" class="text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-1 px-4 mx-auto w-auto max-w-sm md:w-auto">
+								Add my profile
+							</a>
 						}
 					</div>
 				</div>
-
-				@if (developers == null)
-				{
-					<p><em>Loading...</em></p>
-				}
-				else
-				{
-					<div class="flex flex-col">
-						@foreach (var developer in developers)
-						{
-							<DevTeaser Developer="@developer" />
-						}
-					</div>
-				}
+				<div class="flex flex-col space-y-8">
+					@if (developers == null)
+					{
+						<p><em>Loading...</em></p>
+					}
+					else
+					{
+						<DevTeaser Developers="@developers" />
+					}
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
 
 @code {
+	[CascadingParameter]
+	public MainLayout? Layout { get; set; }
+
+	private Developer? developer => Layout.Developer;
+	private Company? company => Layout.Company;
+	private ApplicationUser? user => Layout.User;
 	private List<Developer> developers;
-	private Developer? developer {get;set;}
-	private Company? company {get;set;}
 	private bool isExistingDev { get; set; } = false;
 	private bool isExistingCompany { get; set; } = false;
 
 	protected override async Task OnInitializedAsync()
 	{
 		developers = await developerService.GetAll();
-		var user = await userService.GetAuthenticatedUser();
-		if (user != null)
+		if (developer != null)
 		{
-			developer =  await developerService.GetByUserId(user.Id);
-			if (developer != null) {
-				isExistingDev = true;
-				return;
-			}
+			isExistingDev = true;
+			return;
 		}
 	}
 }

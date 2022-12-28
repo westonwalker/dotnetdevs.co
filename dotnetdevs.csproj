@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="Styles\input.css" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="DotNetEnv" Version="2.3.0" />
     <PackageReference Include="Imagekit" Version="4.0.0" />
@@ -20,19 +24,16 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.10" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.2" />
     <PackageReference Include="Stripe.net" Version="41.2.0" />
+    <PackageReference Include="Tailwind.Extensions.AspNetCore" Version="1.0.0-beta3" />
     <PackageReference Include="Westwind.AspNetCore.Markdown" Version="3.10.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
     <Folder Include="Migrations\" />
-    <Folder Include="Views\Subscriptions\" />
     <Folder Include="wwwroot\js\" />
     <Folder Include="wwwroot\lib\" />
 	<Folder Include="wwwroot\posts\" />
-  </ItemGroup>
-
-  <ItemGroup>
   </ItemGroup>
 
 </Project>
