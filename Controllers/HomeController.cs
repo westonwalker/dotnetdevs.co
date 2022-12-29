@@ -37,8 +37,8 @@ namespace dotnetdevs.Controllers
             return View();
         }
 
-		[Route("pricing")]
-		public IActionResult Pricing()
+		[Route("hire")]
+		public IActionResult Hire()
 		{
 			return View();
         }

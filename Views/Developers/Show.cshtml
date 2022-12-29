@@ -1,6 +1,8 @@
 ﻿@model DeveloperShow
 @using Microsoft.AspNetCore.Identity
 @using dotnetdevs.Helpers
+@using System.Web
+@using System.Text.RegularExpressions;
 @{
 	ViewData["Title"] = Model.Developer.Hero;
 	var isSubscribed = false;
@@ -41,8 +43,8 @@
 		</div>
 		<div class="container">
 			<div class="grid lg:grid-cols-7 gap-12 pt-8">
-				<div class="lg:order-1 order-2 lg:col-span-5 lg:mt-0 pb-12 blog job">
-					@Html.Raw(Model.Developer.Bio)
+				<div class="lg:order-1 order-2 lg:col-span-5 lg:mt-0 pb-12 blog job text-gray-700 break-words leading-loose lg:leading-loose">
+					@Html.Raw(Regex.Replace(HttpUtility.HtmlEncode(Model.Developer.Bio), "\r?\n|\r", "<br />"))
 				</div>
 				<div class="space-y-5 lg:order-1 lg:col-span-2">
 					@if (isSubscribed)
@@ -164,7 +166,7 @@
 									}
 									else
 									{
-										<a href="/pricing" class="text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-1 px-4 mx-auto w-full">
+										<a href="/hire" class="text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-1 px-4 mx-auto w-full">
 											Subscribe to hire →
 										</a>
 									}
@@ -232,7 +234,7 @@
 									}
 									else
 									{
-										<a href="/pricing" class="text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-1 px-4 mx-auto w-full">
+										<a href="/hire" class="text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-1 px-4 mx-auto w-full">
 											Subscribe to hire →
 										</a>
 									}

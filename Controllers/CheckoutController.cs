@@ -54,7 +54,7 @@ namespace dotnetdevs.Controllers
 				},
 				Mode = "subscription",
 				SuccessUrl = domain + $"/checkout/success/{paymentGuid}",
-				CancelUrl = domain + "/pricing",
+				CancelUrl = domain + "/hire",
 			};
 			var service = new SessionService();
 			Session session = service.Create(options);

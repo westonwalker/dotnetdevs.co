@@ -110,7 +110,7 @@ namespace dotnetdevs.Controllers
 			}
 			if (!company.IsSubscribed)
 			{
-				return RedirectToAction("Pricing", "Home");
+				return RedirectToAction("Hire", "Home");
 			}
 			var developer = await _developerService.Get(id);
 			if (developer == null)
@@ -146,7 +146,7 @@ namespace dotnetdevs.Controllers
 			}
 			if (!company.IsSubscribed)
 			{
-				return RedirectToAction("Pricing", "Home");
+				return RedirectToAction("Hire", "Home");
 			}
 			var developer = await _developerService.Get(conversation.DeveloperId);
 			if (developer == null)
