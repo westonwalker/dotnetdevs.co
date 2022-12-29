@@ -25,12 +25,12 @@
 		<div class="flex items-center justify-between px-4 sm:px-6 lg:px-16 py-5 mx-auto max-w-[1400px]">
 			<div class="w-auto">
 				<div class="flex flex-wrap items-center">
-					<div class="w-auto mr-14">
+					<div class="w-auto mr-14 z-10">
 						<a class="uppercase font-extrabold text-xl py-4 text-indigo-600" href="/">
 							<span class="font-light">Dotnet</span>Devs
 						</a>
 					</div>
-					<ul class="items-center mr-10 hidden lg:flex">
+					<ul class="items-center mr-10 hidden lg:flex z-10">
 						<li class="font-semibold mr-9 text-gray-600 hover:text-black text-base">
 							<a href="/developers">Developers</a>
 						</li>
@@ -125,6 +125,7 @@
 	<div x-cloak x-show="mobileMenuOpen" class="lg:hidden bg-white drop-shadow-lg z-50 mb-12" id="mobile-menu">
 		<div class="pb-3 space-y-1 px-4 md:px-12">
 			<a x-on:click="mobileMenuOpen = false" class="text-gray-600 hover:bg-gray-100 hover:text-black block px-4 py-2 font-medium" href="/developers">Developers</a>
+			<a x-on:click="mobileMenuOpen = false" class="text-gray-600 hover:bg-gray-100 hover:text-black block px-4 py-2 font-medium" href="/jobs">Job board</a>
 			<a x-on:click="mobileMenuOpen = false" class="text-gray-600 hover:bg-gray-100 hover:text-black block px-4 py-2 font-medium" href="/pricing">Pricing</a>
 			<a x-on:click="mobileMenuOpen = false" class="text-gray-600 hover:bg-gray-100 hover:text-black block px-4 py-2 font-medium" href="/about">About</a>
 			<a x-on:click="mobileMenuOpen = false" class="text-gray-600 hover:bg-gray-100 hover:text-black block px-4 py-2 font-medium" href="/blog">Blog</a>
