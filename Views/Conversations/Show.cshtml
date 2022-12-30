@@ -5,6 +5,13 @@
 <div class="">
 	<div class="relative flex flex-wrap justify-center items-center py-12 md:py-20 max-w-4xl mx-auto lg:px-8">
 		<div class="flex-1">
+			<div class="flex-1">
+				<div class="flex items-center text-gray-500">
+					<a href="/" class="breadcrumb-links">Home</a>
+					<svg class="mx-2" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+					<a href="/conversations" class="breadcrumb-links">Conversations</a>
+				</div>
+			</div>
 			<div class="flex flex-col sm:flex-row sm:justify-between items-start py-6 px-6 lg:px-0">
 				<div class="inline-flex items-center">
 					@if (Model.Sender == "COMPANY") 
@@ -33,7 +40,7 @@
 					@if (message.Sender == Model.Sender)
 					{
 					<div class="flex flex-col w-full items-end justify-end">
-						<div class="p-4 shadow-xl max-w-lg border text-white bg-indigo-600 mb-2">
+						<div class="p-4 max-w-lg border text-white bg-indigo-600 mb-2">
 							<p>@message.Text</p>
 						</div>
 						<div class="inline-flex">
@@ -53,7 +60,7 @@
 					else 
 					{
 					<div class="flex flex-col w-full justify-start items-start">
-						<div class="p-4 shadow-xl bg-white max-w-lg border border-black mb-2">
+						<div class="p-4 bg-white max-w-lg border mb-2">
 							<p>@message.Text</p>
 						</div>
 						<p class="text-xs text-gray-600">@message.CreatedDate</p>
