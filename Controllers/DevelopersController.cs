@@ -22,8 +22,9 @@ namespace dotnetdevs.Controllers
 		private readonly ExperienceLevelService _experienceLevelService;
 		private readonly SearchStatusService _searchStatusService;
 		private readonly IMapper _mapper;
+		private readonly ConvertKit _convertKit;
 
-		public DevelopersController(ILogger<HomeController> logger, DeveloperService developerService, UserService userService, ExperienceLevelService experienceLevelService, SearchStatusService searchStatusService, IMapper mapper)
+		public DevelopersController(ILogger<HomeController> logger, ConvertKit convertKit, DeveloperService developerService, UserService userService, ExperienceLevelService experienceLevelService, SearchStatusService searchStatusService, IMapper mapper)
 		{
 			_logger = logger;
 			_developerService = developerService;
@@ -31,6 +32,7 @@ namespace dotnetdevs.Controllers
 			_experienceLevelService = experienceLevelService;
 			_searchStatusService = searchStatusService;
 			_mapper = mapper;
+			_convertKit = convertKit;
 		}
 
 		public async Task<IActionResult> Index()
@@ -104,6 +106,8 @@ namespace dotnetdevs.Controllers
 				newDeveloper.UpdatedDate = DateTime.Now;
 
 				newDeveloper = await _developerService.Store(newDeveloper);
+				// add to convertkit
+				await _convertKit.Subscribe(user.Email);
 				return RedirectToAction("Show", "Developers", new { id = newDeveloper.ID });
 			}
 
