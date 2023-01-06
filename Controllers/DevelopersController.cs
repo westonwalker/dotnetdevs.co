@@ -38,7 +38,7 @@ namespace dotnetdevs.Controllers
 		public async Task<IActionResult> Index()
 		{
 			DeveloperIndex model = new DeveloperIndex();
-			model.Developers = await _developerService.GetAll();
+			model.Developers = await _developerService.GetAvailableDevelopers();
 			return View(model);
 		}
 

@@ -21,7 +21,7 @@ namespace dotnetdevs.Controllers
         public async Task<IActionResult> Index()
 		{
 			Home model = new Home();
-			model.Developers = await _developerService.GetAll();
+			model.Developers = await _developerService.GetAvailableDevelopers();
 			return View(model);
 		}
 

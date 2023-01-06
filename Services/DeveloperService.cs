@@ -20,9 +20,19 @@ namespace dotnetdevs.Services
 							.Include(developer => developer.ExperienceLevel)
 							.OrderByDescending(developer => developer.CreatedDate)
 							.ToListAsync();
-		}
+        }
 
-		public async Task<Developer?> Get(int id)
+        public async Task<List<Developer>> GetAvailableDevelopers()
+        {
+            return await _dbContext.Developers
+                            .Include(developer => developer.SearchStatus)
+                            .Include(developer => developer.ExperienceLevel)
+							.Where(developer => developer.SearchStatusID != 4)
+                            .OrderByDescending(developer => developer.CreatedDate)
+                            .ToListAsync();
+        }
+
+        public async Task<Developer?> Get(int id)
 		{
 			return await _dbContext.Developers
 							.Where(d => d.ID == id)

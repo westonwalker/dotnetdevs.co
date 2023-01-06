@@ -6,7 +6,7 @@
     Layout = "_Layout";
 }
 @section Headers {
-        <link href="~/css/blog.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/blog.css" rel="stylesheet" type="text/css" />
 }
 <div class="bg-white mt-20">
     <div class="relative py-12 md:py-20 px-4 md:px-8 max-w-4xl mx-auto text-left">
@@ -40,11 +40,6 @@
       href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
         <link rel="stylesheet"
       href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css">
-        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
-        <script>
-            setTimeout(function () {
-                var pres = document.querySelectorAll("pre>code");
-                for (var i = 0; i < pres.length; i++) { hljs.highlightBlock(pres[i]); }
-            });
-        </script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
 }
