@@ -1,4 +1,5 @@
 ﻿using dotnetdevs.Models;
+using dotnetdevs.Services;
 using dotnetdevs.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -13,11 +14,12 @@ namespace dotnetdevs.Controllers
 	{
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly SignInManager<ApplicationUser> _signInManager;
-		public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+		private readonly EmailService _email;
+		public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, EmailService email)
 		{
-
-			this._userManager = userManager;
-			this._signInManager = signInManager;
+			_email = email;
+			_userManager = userManager;
+			_signInManager = signInManager;
 		}
 
 		[HttpGet, AllowAnonymous]
@@ -48,7 +50,8 @@ namespace dotnetdevs.Controllers
 					if (result.Succeeded)
 					{
 						await _signInManager.SignInAsync(user, isPersistent: true);
-						return RedirectToAction("ChooseProfile", "Home");
+						_email.SendAdminAlert(user);
+                        return RedirectToAction("ChooseProfile", "Home");
 					}
 					else
 					{

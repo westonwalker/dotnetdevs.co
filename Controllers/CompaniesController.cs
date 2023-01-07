@@ -15,8 +15,9 @@ namespace dotnetdevs.Controllers
 		private readonly ExperienceLevelService _experienceLevelService;
 		private readonly SearchStatusService _searchStatusService;
 		private readonly IMapper _mapper;
+        private readonly EmailService _email;
 
-		public CompaniesController(ILogger<HomeController> logger, CompanyService companyService, UserService userService, ExperienceLevelService experienceLevelService, SearchStatusService searchStatusService, IMapper mapper)
+        public CompaniesController(ILogger<HomeController> logger, EmailService email, CompanyService companyService, UserService userService, ExperienceLevelService experienceLevelService, SearchStatusService searchStatusService, IMapper mapper)
 		{
 			_logger = logger;
 			_companyService = companyService;
@@ -24,7 +25,8 @@ namespace dotnetdevs.Controllers
 			_experienceLevelService = experienceLevelService;
 			_searchStatusService = searchStatusService;
 			_mapper = mapper;
-		}
+            _email = email;
+        }
 
 		public async Task<IActionResult> Show(int id)
 		{
@@ -88,7 +90,10 @@ namespace dotnetdevs.Controllers
 				newCompany.UpdatedDate = DateTime.Now;
 
 				newCompany = await _companyService.Store(newCompany);
-				return RedirectToAction("Show", "Companies", new { id = newCompany.ID });
+                // send welcome emails
+                _email.SendAdminAlert(newCompany, user);
+                _email.SendWelcomeAlert(newCompany, user);
+                return RedirectToAction("Show", "Companies", new { id = newCompany.ID });
 			}
 
 			return View("Create", company);

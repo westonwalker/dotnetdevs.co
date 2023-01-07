@@ -59,6 +59,7 @@ builder.Services.AddScoped<SearchStatusService>();
 builder.Services.AddScoped<ExperienceLevelService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<ConvertKit>();
+builder.Services.AddScoped<EmailService>();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddAutoMapper(typeof(MapperProfile));
 var app = builder.Build();

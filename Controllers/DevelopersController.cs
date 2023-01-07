@@ -23,8 +23,9 @@ namespace dotnetdevs.Controllers
 		private readonly SearchStatusService _searchStatusService;
 		private readonly IMapper _mapper;
 		private readonly ConvertKit _convertKit;
+        private readonly EmailService _email;
 
-		public DevelopersController(ILogger<HomeController> logger, ConvertKit convertKit, DeveloperService developerService, UserService userService, ExperienceLevelService experienceLevelService, SearchStatusService searchStatusService, IMapper mapper)
+        public DevelopersController(ILogger<HomeController> logger, EmailService email, ConvertKit convertKit, DeveloperService developerService, UserService userService, ExperienceLevelService experienceLevelService, SearchStatusService searchStatusService, IMapper mapper)
 		{
 			_logger = logger;
 			_developerService = developerService;
@@ -33,6 +34,7 @@ namespace dotnetdevs.Controllers
 			_searchStatusService = searchStatusService;
 			_mapper = mapper;
 			_convertKit = convertKit;
+			_email= email;
 		}
 
 		public async Task<IActionResult> Index()
@@ -108,7 +110,10 @@ namespace dotnetdevs.Controllers
 				newDeveloper = await _developerService.Store(newDeveloper);
 				// add to convertkit
 				await _convertKit.Subscribe(user.Email);
-				return RedirectToAction("Show", "Developers", new { id = newDeveloper.ID });
+                // send welcome emails
+                _email.SendAdminAlert(newDeveloper, user);
+				_email.SendWelcomeAlert(newDeveloper, user);
+                return RedirectToAction("Show", "Developers", new { id = newDeveloper.ID });
 			}
 
 			developer.SearchStatuses = await _searchStatusService.GetAll();
