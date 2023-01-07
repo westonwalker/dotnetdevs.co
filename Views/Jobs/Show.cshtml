@@ -17,7 +17,8 @@
 		companyAvatar = Model.Job.UnverifiedCompany.Avatar;
 		companyWebsite = Model.Job.UnverifiedCompany.website;
 	}
-	ViewData["Title"] = $"{companyName} - {Model.Job.Title}";
+	ViewData["Title"] = $"{companyName} is hiring a {Model.Job.Title}";
+	ViewData["Description"] = $"{companyName} posted a new {Model.Job.Title} job opening. Apply now.";
 }
 @section Headers {
 	<link href="~/css/blog.css" rel="stylesheet" type="text/css" />
