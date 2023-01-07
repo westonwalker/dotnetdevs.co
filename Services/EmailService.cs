@@ -89,6 +89,7 @@ namespace dotnetdevs.Services
 
         public void SendWelcomeAlert(Developer developer, ApplicationUser user)
         {
+            var firstName = getFirstName(developer.FullName);
             string body = $@"
                 <!DOCTYPE html>
                 <html>
@@ -98,7 +99,7 @@ namespace dotnetdevs.Services
                     <title>Welcome to DotnetDevs!</title>
                 </head>
                 <body>
-                    <p>Hi {developer.FullName},</p>
+                    <p>Hi {firstName},</p>
                     <p>I'm Wes, the founder of <a href=""https://dotnetdevs.co/"">DotnetDevs</a>. Thanks for adding your profile!</p>
                     <p>Here are some tips for increasing your chances of getting contacted by a company:</p>
                     <ul>
@@ -119,6 +120,7 @@ namespace dotnetdevs.Services
 
         public void SendWelcomeAlert(Company company, ApplicationUser user)
         {
+            var firstName = getFirstName(company.PersonalName);
             string body = $@"
                 <!DOCTYPE html>
                 <html>
@@ -128,7 +130,7 @@ namespace dotnetdevs.Services
                     <title>Welcome to DotnetDevs!</title>
                 </head>
                 <body>
-                    <p>Hi {company.PersonalName},</p>
+                    <p>Hi {firstName},</p>
                     <p>I'm Wes, the founder of <a href=""https://dotnetdevs.co/"">DotnetDevs</a>. I saw that you added your company and wanted to reach out.</p>
                     <p>Are you looking to recruit on behalf of other businesses or is {company.CompanyName} directly hiring?</p>
                     <br>
@@ -160,6 +162,17 @@ namespace dotnetdevs.Services
                 client.Send(message);
                 client.Disconnect(true);
             }
+        }
+
+        private string getFirstName(string fullname)
+        {
+            var names = fullname.Split(' ');
+            string firstName = "";
+            if (names.Length >= 1 )
+            {
+                firstName = names[0];
+            }
+            return firstName;
         }
     }
 }
