@@ -4,6 +4,7 @@ using dotnetdevs.Services;
 using dotnetdevs.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace dotnetdevs.Controllers
 {
@@ -15,9 +16,10 @@ namespace dotnetdevs.Controllers
 		private readonly ConversationService _conversationService;
 		private readonly MessageService _messageService;
 		private readonly UserService _userService;
+		private readonly EmailService _emailService;
 		private readonly IMapper _mapper;
 
-		public ConversationsController(ILogger<HomeController> logger, CompanyService companyService, UserService userService, DeveloperService developerService, ConversationService conversationService, MessageService messageService, IMapper mapper)
+		public ConversationsController(ILogger<HomeController> logger, EmailService emailService, CompanyService companyService, UserService userService, DeveloperService developerService, ConversationService conversationService, MessageService messageService, IMapper mapper)
 		{
 			_logger = logger;
 			_companyService = companyService;
@@ -25,6 +27,7 @@ namespace dotnetdevs.Controllers
 			_developerService = developerService;
 			_conversationService = conversationService;
 			_messageService = messageService;
+			_emailService = emailService;
 			_mapper = mapper;
 		}
 
@@ -148,7 +151,7 @@ namespace dotnetdevs.Controllers
 			{
 				return RedirectToAction("Hire", "Home");
 			}
-			var developer = await _developerService.Get(conversation.DeveloperId);
+			var developer = await _developerService.GetWithUser(conversation.DeveloperId);
 			if (developer == null)
 			{
 				return NotFound();
@@ -172,6 +175,8 @@ namespace dotnetdevs.Controllers
 				newMessage.CreatedDate = DateTime.Now;
 
 				newMessage = await _messageService.Store(newMessage);
+				// send email alert
+				_emailService.SendNewConversationAlert($"{company.PersonalName} from {company.CompanyName}", developer.FullName, developer.ApplicationUser);
 				return RedirectToAction("Show", "Conversations", new { id = newConversation.ID });
 			}
 
@@ -206,6 +211,17 @@ namespace dotnetdevs.Controllers
 				newMessage.CreatedDate = DateTime.Now;
 
 				newMessage = await _messageService.Store(newMessage);
+				// send email alert to receiver.
+				if (model.Sender == "DEVELOPER")
+				{
+					var recievingCompanyUser = await _userService.Get(conversation.Company.UserID);
+					_emailService.SendNewMessageAlert($"{conversation.Developer.FullName}", conversation.Company.PersonalName, recievingCompanyUser);
+				}
+				else
+				{
+					var recievingDevUser = await _userService.Get(conversation.Developer.UserID);
+					_emailService.SendNewMessageAlert($"{conversation.Company.PersonalName}", conversation.Developer.FullName, recievingDevUser);
+				}
 			}
 			return RedirectToAction("Show", "Conversations", new { id = id });
 		}

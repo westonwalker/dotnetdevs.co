@@ -11,7 +11,7 @@
 	<div class="relative flex flex-wrap justify-center items-center py-12 md:py-20 max-w-6xl mx-auto sm:px-8">
 		<div class="flex-1">
 			<div class="text-left">
-				<div class="flex flex-col lg:flex-row lg:justify-between items-start py-6 mb-8 px-6">
+				<div class="flex flex-col lg:flex-row lg:justify-between items-start py-6 px-6">
 					<div>
 						<h1 class="mb-4 text-black text-3xl leading-tight font-bold">
 							Hire .NET developers
@@ -34,6 +34,9 @@
 							</a>
 						}
 					</div>
+				</div>
+				<div class="py-2 w-full mb-2 text-left">
+					<p class="text-sm text-gray-500">Showing all <span class="font-bold">@Model.Developers.Count</span> of <span class="font-bold">@Model.Developers.Count</span> developers</p>
 				</div>
 				<div class="flex flex-col space-y-8">
 					@(await Html.RenderComponentAsync<DevTeaser>(RenderMode.Static, new { Developers = Model.Developers }))

@@ -13,15 +13,17 @@ namespace dotnetdevs.Controllers
 		private readonly JobService _jobService;
 		private readonly ConvertKit _convertKit;
 		private readonly UserService _userService;
+		private readonly CompanyService _companyService;
 		private readonly IMapper _mapper;
 
-		public JobsController(ILogger<HomeController> logger, ConvertKit convertKit, JobService jobService, UserService userService, IMapper mapper)
+		public JobsController(ILogger<HomeController> logger, ConvertKit convertKit, CompanyService companyService, JobService jobService, UserService userService, IMapper mapper)
 		{
 			_logger = logger;
 			_jobService = jobService;
 			_userService = userService;
 			_convertKit = convertKit;
 			_mapper = mapper;
+			_companyService = companyService;
 		}
 
 		[Route("jobs")]
@@ -30,6 +32,32 @@ namespace dotnetdevs.Controllers
 			JobIndex model = new JobIndex();
 			model.Jobs = await _jobService.GetAll();
 			return View(model);
+		}
+
+		[HttpGet]
+		[Authorize]
+		[Route("jobs/create")]
+		public async Task<IActionResult> Create()
+		{
+			//var user = await _userService.GetAuthenticatedUser(this.User);
+			//var company = await _companyService.GetByUserId(user.Id);
+
+			//if (company == null)
+			//{
+			//	return RedirectToAction("Create", "Companies");
+			//}
+
+			//if (!company.IsSubscribed)
+			//{
+			//	return RedirectToAction("Hire", "Home");
+			//}
+
+			//JobCreate model = new JobCreate();
+			//model.WorkTypes = await _jobService.GetWorkTypes();
+			//model.RemotePolicies = await _jobService.GetRemotePolicies();
+			//model.ExperienceLevels = await _jobService.GetExperienceLevels();
+
+			return View();
 		}
 
 		[Route("jobs/{id}")]

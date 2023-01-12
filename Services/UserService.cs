@@ -29,6 +29,13 @@ namespace dotnetdevs.Services
 					.SingleOrDefault(x => x.Id == _userManager.GetUserId(user));
 			}
             return null;
-        }
-    }
+		}
+
+		public async Task<ApplicationUser?> Get(string id)
+		{
+			return await _dbContext.Users
+							.Where(d => d.Id == id)
+							.FirstOrDefaultAsync();
+		}
+	}
 }

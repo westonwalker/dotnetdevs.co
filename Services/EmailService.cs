@@ -85,9 +85,59 @@ namespace dotnetdevs.Services
         public void SendWelcomeAlert(ApplicationUser user)
         {
             throw new NotImplementedException();
-        }
+		}
 
-        public void SendWelcomeAlert(Developer developer, ApplicationUser user)
+		public void SendNewConversationAlert(string senderName, string recieverName, ApplicationUser user)
+		{
+			var firstName = getFirstName(recieverName);
+			string body = $@"
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset=""UTF-8"">
+                    <meta name=""viewport"" content=""width=device-width"" initial-scale=""1"">
+                    <title>A company has messaged you on DotnetDevs!</title>
+                </head>
+                <body>
+                    <p>Hi {firstName},</p>
+                    <p>{senderName} is interested in hiring you.</p>
+                    <p>View your <a href=""https://dotnetdevs.co/conversations"">conversations</a> to see what they said.</p>
+                    <br>
+                    <p>Weston Walker</p>
+                    <p><a href=""mailto:wes@dotnetdevs.com"">wes@dotnetdevs.co</a></p>
+                    <p>Founder of DotnetDevs</p>
+                </body>
+                </html>
+            ";
+			SendAlert(user.Email, $"A company has messaged you on DotnetDevs!", body, _user);
+		}
+
+		public void SendNewMessageAlert(string senderName, string recieverName, ApplicationUser user)
+		{
+			var firstName = getFirstName(recieverName);
+			string body = $@"
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset=""UTF-8"">
+                    <meta name=""viewport"" content=""width=device-width"" initial-scale=""1"">
+                    <title>New message from {senderName} on DotnetDevs!</title>
+                </head>
+                <body>
+                    <p>Hi {firstName},</p>
+                    <p>{senderName} has responded to you on DotnetDevs.</p>
+                    <p>View your <a href=""https://dotnetdevs.co/conversations"">conversations</a> to see what they said.</p>
+                    <br>
+                    <p>Weston Walker</p>
+                    <p><a href=""mailto:wes@dotnetdevs.com"">wes@dotnetdevs.co</a></p>
+                    <p>Founder of DotnetDevs</p>
+                </body>
+                </html>
+            ";
+			SendAlert(user.Email, $"New message from {senderName} on DotnetDevs!", body, _user);
+		}
+
+		public void SendWelcomeAlert(Developer developer, ApplicationUser user)
         {
             var firstName = getFirstName(developer.FullName);
             string body = $@"

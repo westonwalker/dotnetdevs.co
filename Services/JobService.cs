@@ -24,6 +24,7 @@ namespace dotnetdevs.Services
 							.OrderByDescending(job => job.CreatedDate)
 							.ToListAsync();
 		}
+
 		public async Task<Job?> GetBySlug(string slug)
 		{
 			return await _dbContext.Jobs
@@ -35,5 +36,22 @@ namespace dotnetdevs.Services
 							.Include(job => job.ExperienceLevel)
 							.FirstOrDefaultAsync();
 		}
+
+		public async Task<List<WorkType>> GetWorkTypes()
+		{
+			return await _dbContext.WorkTypes.ToListAsync();
+		}
+
+		public async Task<List<RemotePolicy>> GetRemotePolicies()
+		{
+			return await _dbContext.RemotePolicies.ToListAsync();
+		}
+
+		public async Task<List<ExperienceLevel>> GetExperienceLevels()
+		{
+			return await _dbContext.ExperienceLevels.ToListAsync();
+		}
+
+
 	}
 }

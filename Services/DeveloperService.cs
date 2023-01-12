@@ -41,6 +41,16 @@ namespace dotnetdevs.Services
 							.FirstOrDefaultAsync();
 		}
 
+		public async Task<Developer?> GetWithUser(int id)
+		{
+			return await _dbContext.Developers
+							.Where(d => d.ID == id)
+							.Include(developer => developer.ApplicationUser)
+							.Include(developer => developer.SearchStatus)
+							.Include(developer => developer.ExperienceLevel)
+							.FirstOrDefaultAsync();
+		}
+
 		public async Task<Developer?> GetByUserId(string userId)
 		{
 			return await _dbContext.Developers
