@@ -31,6 +31,10 @@ namespace dotnetdevs.Services
                             .OrderByDescending(developer => developer.CreatedDate)
                             .ToListAsync();
 		}
+		public async Task<List<string>> GetAllDeveloperLocations()
+		{
+			return await _dbContext.Developers.Select(m => m.Country).Distinct().ToListAsync();
+		}
 
 		public async Task<List<Developer>> Get10Developers()
 		{

@@ -11,7 +11,7 @@
 	<div class="relative flex flex-wrap justify-center items-center py-12 md:py-20 max-w-6xl mx-auto sm:px-8">
 		<div class="flex-1">
 			<div class="text-left">
-				<div class="flex flex-col lg:flex-row lg:justify-between items-start py-6 px-6">
+				<div class="flex flex-col lg:flex-row lg:justify-between items-start py-6 px-4">
 					<div>
 						<h1 class="mb-4 text-black text-3xl leading-tight font-bold">
 							Hire .NET developers
@@ -35,11 +35,59 @@
 						}
 					</div>
 				</div>
-				<div class="py-2 w-full mb-2 text-left">
-					<p class="text-sm text-gray-500">Showing all <span class="font-bold">@Model.Developers.Count</span> of <span class="font-bold">@Model.Developers.Count</span> developers</p>
-				</div>
-				<div class="flex flex-col space-y-8">
-					@(await Html.RenderComponentAsync<DevTeaser>(RenderMode.Static, new { Developers = Model.Developers }))
+				<div class="flex flex-col mt-8">
+					<h2 class="text-lg lg:text-xl leading-loose lg:leading-loose text-left text-black font-semibold px-4 md:px-0">
+						Search developers
+					</h2>
+					<form asp-action="Index" asp-controller="Developers" method="get" class="flex flex-col md:flex-row w-full md:space-x-4 items-start md:items-end pl-4 md:pl-0 space-y-2">
+						<div class="max-w-xs">
+							<label for="location" class="block text-sm font-medium text-gray-700">Location</label>
+							<select id="location" name="Location" class="mt-1 block w-full border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
+								<option value="">Search...</option>
+								@foreach(var location in Model.Locations)
+								{
+									var isSelected = location == Model.locationSearch ? true : false;
+									if (isSelected)
+									{
+										<option selected value="@location">@location</option>
+									}
+									else
+									{
+										<option value="@location">@location</option>
+									}
+								}
+							</select>
+						</div>
+						<div class="max-w-xs">
+							<label for="location" class="block text-sm font-medium text-gray-700">Experience Level</label>
+							<select id="location" name="ExperienceLevel" class="mt-1 block w-full border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
+								<option value="">Search...</option>
+								@foreach (var level in Model.ExperienceLevels)
+								{
+									var isSelected = level.ID.ToString() == Model.experienceLevelSearch ? true : false;
+									if (isSelected)
+									{
+										<option selected value="@level.ID">@level.Name</option>
+									}
+									else
+									{
+										<option value="@level.ID">@level.Name</option>
+									}
+								}
+							</select>
+						</div>
+						<div class="max-w-xs">
+							<button type="submit" class="text-base font-semibold text-white bg-gray-900 hover:bg-black leading-loose relative flex items-center justify-center py-1 px-4 mx-auto w-auto max-w-sm md:w-auto">
+								Apply
+							</button>
+						</div>
+					</form>
+					<div class="py-2 w-full my-2 px-4 md:px-0 text-left">
+						<p class="text-sm text-gray-500">Showing all <span class="font-bold">@Model.Developers.Count</span> of <span class="font-bold">@Model.Developers.Count</span> developers</p>
+					</div>
+					<div class="flex flex-col space-y-8">
+						@(await Html.RenderComponentAsync<DevTeaser>(RenderMode.Static, new { Developers = Model.Developers }))
+					</div>
 				</div>
 			</div>
 		</div>

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Sprache;
 using System.IO;
 using System.Net.Mime;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
@@ -39,8 +40,28 @@ namespace dotnetdevs.Controllers
 
 		public async Task<IActionResult> Index()
 		{
+			string location = HttpContext.Request.Query["Location"];
+			string experienceLevel = HttpContext.Request.Query["ExperienceLevel"];
+
+
+			var developers = await _developerService.GetAvailableDevelopers();
+			var locations = await _developerService.GetAllDeveloperLocations();
+			var experienceLevels = await _experienceLevelService.GetAll();
+
 			DeveloperIndex model = new DeveloperIndex();
-			model.Developers = await _developerService.GetAvailableDevelopers();
+			if (!string.IsNullOrEmpty(location)) 
+			{
+				model.locationSearch = location;
+				developers = developers.Where(d => d.Country== location).ToList();
+			}
+			if (!string.IsNullOrEmpty(experienceLevel) && int.TryParse(experienceLevel, out int value))
+			{
+				model.experienceLevelSearch = experienceLevel;
+				developers = developers.Where(d => d.ExperienceLevelID == Int32.Parse(experienceLevel)).ToList();
+			}
+			model.Developers = developers;
+			model.Locations = locations;
+			model.ExperienceLevels = experienceLevels;
 			return View(model);
 		}
 
