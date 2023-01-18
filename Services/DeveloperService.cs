@@ -33,7 +33,11 @@ namespace dotnetdevs.Services
 		}
 		public async Task<List<string>> GetAllDeveloperLocations()
 		{
-			return await _dbContext.Developers.Select(m => m.Country).Distinct().ToListAsync();
+			return await _dbContext.Developers
+				.Select(m => m.Country)
+				.Distinct()
+				.OrderBy(country => country)
+				.ToListAsync();
 		}
 
 		public async Task<List<Developer>> Get10Developers()
