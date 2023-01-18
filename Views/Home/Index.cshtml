@@ -30,6 +30,12 @@
 			</div>
 			<div class="flex flex-col space-y-8">
 				@(await Html.RenderComponentAsync<DevTeaser>(RenderMode.Static, new { Developers = Model.Developers }))
+				<a href="/developers" class="text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-2 px-5 mx-auto w-auto max-w-sm md:w-auto">
+					See more developers
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-3 -mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+					</svg>
+				</a>
 			</div>
 		</div>
 	</div>
