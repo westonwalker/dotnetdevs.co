@@ -121,13 +121,13 @@ namespace dotnetdevs.Controllers
 
 			if (ModelState.IsValid)
 			{
-				Developer newDeveloper = _mapper.Map<Developer>(developer);
+				developer.Country = developer.Country.Trim();
+                Developer newDeveloper = _mapper.Map<Developer>(developer);
 				var user = await _userService.GetAuthenticatedUser(this.User);
                 newDeveloper.Avatar = await ImageKitService.UploadImage(developer.AvatarFile);
                 newDeveloper.UserID = user.Id;
                 newDeveloper.CreatedDate = DateTime.Now;
 				newDeveloper.UpdatedDate = DateTime.Now;
-
 				newDeveloper = await _developerService.Store(newDeveloper);
 				// add to convertkit
 				await _convertKit.Subscribe(user.Email);
@@ -198,7 +198,7 @@ namespace dotnetdevs.Controllers
 				existingDeveloper.Hero = developer.Hero;
 				existingDeveloper.City = developer.City;
 				existingDeveloper.State = developer.State;
-				existingDeveloper.Country = developer.Country;
+				existingDeveloper.Country = developer.Country.Trim();
 				existingDeveloper.Bio = developer.Bio;
 				existingDeveloper.SearchStatusID= developer.SearchStatusID;
 				existingDeveloper.ExperienceLevelID = developer.ExperienceLevelID;
