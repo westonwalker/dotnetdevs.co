@@ -129,8 +129,6 @@ namespace dotnetdevs.Controllers
                 newDeveloper.CreatedDate = DateTime.Now;
 				newDeveloper.UpdatedDate = DateTime.Now;
 				newDeveloper = await _developerService.Store(newDeveloper);
-				// add to convertkit
-				await _convertKit.Subscribe(user.Email);
                 // send welcome emails
                 _email.SendAdminAlert(newDeveloper, user);
 				_email.SendWelcomeAlert(newDeveloper, user);

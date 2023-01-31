@@ -15,12 +15,14 @@ namespace dotnetdevs.Controllers
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly SignInManager<ApplicationUser> _signInManager;
 		private readonly EmailService _email;
-		public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, EmailService email)
+        private readonly ConvertKit _convertKit;
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ConvertKit convertKit, EmailService email)
 		{
 			_email = email;
 			_userManager = userManager;
 			_signInManager = signInManager;
-		}
+            _convertKit = convertKit;
+        }
 
 		[HttpGet, AllowAnonymous]
 		[Route("register")]
@@ -50,7 +52,8 @@ namespace dotnetdevs.Controllers
 					if (result.Succeeded)
 					{
 						await _signInManager.SignInAsync(user, isPersistent: true);
-						_email.SendAdminAlert(user);
+                        await _convertKit.Subscribe(user.Email);
+                        _email.SendAdminAlert(user);
                         return RedirectToAction("ChooseProfile", "Home");
 					}
 					else
