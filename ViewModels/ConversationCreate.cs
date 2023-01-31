@@ -14,6 +14,6 @@ namespace dotnetdevs.ViewModels
 		[Required]
 		public string Text { get; set; }
 
-		public bool Terms { get; set; }
+		//public bool Terms { get; set; }
 	}
 }
