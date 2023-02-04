@@ -60,6 +60,7 @@ builder.Services.AddScoped<ExperienceLevelService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<ConvertKit>();
 builder.Services.AddScoped<EmailService>();
+builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddAutoMapper(typeof(MapperProfile));
 var app = builder.Build();
@@ -90,14 +91,14 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// app.UseMvc();
-
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+//app.MapControllerRoute(
+//    name: "default",
+//    pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
+app.MapBlazorHub();
+app.MapFallbackToPage("/_Host");
 
 app.Run();

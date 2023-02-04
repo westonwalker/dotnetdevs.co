@@ -9,15 +9,17 @@ namespace dotnetdevs.Services
 {
 
     public class UserService
-	{
-		private readonly ApplicationDbContext _dbContext;
+    {
+        private readonly AuthenticationStateProvider _stateProvider;
+        private readonly ApplicationDbContext _dbContext;
 		private readonly UserManager<ApplicationUser> _userManager;
 
-        public UserService(UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext)
+        public UserService(AuthenticationStateProvider stateProvider, UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext)
         {
             _userManager = userManager;
 			_dbContext = dbContext;
-		}
+            _stateProvider = stateProvider;
+        }
 
         public async Task<ApplicationUser?> GetAuthenticatedUser(ClaimsPrincipal user)
         {
@@ -29,9 +31,22 @@ namespace dotnetdevs.Services
 					.SingleOrDefault(x => x.Id == _userManager.GetUserId(user));
 			}
             return null;
-		}
+        }
+        public async Task<ApplicationUser?> GetAuthenticatedUser()
+        {
+            var authState = await _stateProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+            if (user.Identity != null && user.Identity.IsAuthenticated)
+            {
+                return _userManager.Users
+                    .Include(x => x.Developer)
+                    .Include(x => x.Company)
+                    .SingleOrDefault(x => x.Id == _userManager.GetUserId(user));
+            }
+            return null;
+        }
 
-		public async Task<ApplicationUser?> Get(string id)
+        public async Task<ApplicationUser?> Get(string id)
 		{
 			return await _dbContext.Users
 							.Where(d => d.Id == id)
