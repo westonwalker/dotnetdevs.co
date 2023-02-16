@@ -14,8 +14,8 @@ DotNetEnv.Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = ConnectionHelper.GetConnectionString();
-builder.Services.AddDbContext<ApplicationDbContext>(options => options
-    .UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+builder.Services.AddDbContextFactory<ApplicationDbContext>(options => options
+	.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 

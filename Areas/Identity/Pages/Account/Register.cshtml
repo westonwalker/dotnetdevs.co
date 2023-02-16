@@ -1,7 +1,7 @@
-﻿@model Register
+﻿@page "/register"
+@model dotnetdevs.Areas.Identity.Pages.Account.RegisterModel
 @{
 	ViewData["Title"] = "Register";
-	Layout = "~/Views/Shared/_AuthLayout.cshtml";
 }
 
 <div class="min-h-screen bg-white">
@@ -26,30 +26,30 @@
 				</div>
 			}
 			<div>
-				<label asp-for="@Model.Email" class="block text-sm font-medium text-gray-700">Email address</label>
+				<label asp-for="Input.Email" class="block text-sm font-medium text-gray-700">Email address</label>
 				<div class="mt-1">
-					<input asp-for="@Model.Email" id="email" name="Email" type="email" autocomplete="email" required class="block w-full appearance-none border border-gray-300 px-3 py-2 placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" />
+					<input asp-for="Input.Email" id="email" name="Email" type="email" autocomplete="email" required class="block w-full appearance-none border border-gray-300 px-3 py-2 placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" />
 				</div>
 				<div class="mt-1 text-red-500 text-sm">
-					@Html.ValidationMessageFor(m => m.Email)
+					@Html.ValidationMessageFor(m => m.Input.Email)
 				</div>
 			</div>
 			<div class="mt-8">
-				<label asp-for="@Model.Password" class="block text-sm font-medium text-gray-700">Password</label>
+				<label asp-for="Input.Password" class="block text-sm font-medium text-gray-700">Password</label>
 				<div class="mt-1">
-					<input asp-for="@Model.Password" id="password" name="Password" type="password" autocomplete="current-password" required class="block w-full appearance-none border border-gray-300 px-3 py-2 placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" />
+					<input asp-for="Input.Password" id="password" name="Password" type="password" autocomplete="current-password" required class="block w-full appearance-none border border-gray-300 px-3 py-2 placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" />
 				</div>
 				<div class="mt-1 text-red-500 text-sm">
-					@Html.ValidationMessageFor(m => m.Password)
+					@Html.ValidationMessageFor(m => m.Input.Password)
 				</div>
 			</div>
 			<div class="mt-8">
-				<label asp-for="@Model.ConfirmPassword" class="block text-sm font-medium text-gray-700">Comfirm password</label>
+				<label asp-for="Input.ConfirmPassword" class="block text-sm font-medium text-gray-700">Comfirm password</label>
 				<div class="mt-1">
-					<input asp-for="@Model.ConfirmPassword" id="confirm_password" name="ConfirmPassword" type="password" autocomplete="current-password" required class="block w-full appearance-none border border-gray-300 px-3 py-2 placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" />
+					<input asp-for="Input.ConfirmPassword" id="confirm_password" name="ConfirmPassword" type="password" autocomplete="current-password" required class="block w-full appearance-none border border-gray-300 px-3 py-2 placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" />
 				</div>
 				<div class="mt-1 text-red-300 text-sm">
-					@Html.ValidationMessageFor(m => m.ConfirmPassword)
+					@Html.ValidationMessageFor(m => m.Input.ConfirmPassword)
 				</div>
 			</div>
 			<div class="mt-8">

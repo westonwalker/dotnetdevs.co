@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Subscriptions\**" />
+    <Content Remove="Views\Subscriptions\**" />
+    <EmbeddedResource Remove="Views\Subscriptions\**" />
+    <None Remove="Views\Subscriptions\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="DotNetEnv" Version="2.3.0" />
     <PackageReference Include="Imagekit" Version="4.0.0" />
@@ -27,7 +34,6 @@
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
     <Folder Include="Migrations\" />
-    <Folder Include="Views\Subscriptions\" />
     <Folder Include="wwwroot\js\" />
     <Folder Include="wwwroot\lib\" />
 	<Folder Include="wwwroot\posts\" />
