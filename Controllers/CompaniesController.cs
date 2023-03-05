@@ -92,7 +92,7 @@ namespace dotnetdevs.Controllers
 				newCompany = await _companyService.Store(newCompany);
                 // send welcome emails
                 _email.SendAdminAlert(newCompany, user);
-                _email.SendWelcomeAlert(newCompany, user);
+                // _email.SendWelcomeAlert(newCompany, user);
                 return RedirectToAction("Show", "Companies", new { id = newCompany.ID });
 			}
 

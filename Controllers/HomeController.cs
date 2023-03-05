@@ -24,6 +24,12 @@ namespace dotnetdevs.Controllers
 			model.Developers = await _developerService.Get10Developers();
 			return View(model);
 		}
+		
+		[Route("hire/sign-up")]
+		public async Task<IActionResult> SignUp()
+		{
+			return View();
+		}
 
 		[Route("open-startup")]
 		public IActionResult OpenStartup()
