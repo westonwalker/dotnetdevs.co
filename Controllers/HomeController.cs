@@ -4,6 +4,7 @@ using dotnetdevs.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 
 namespace dotnetdevs.Controllers
 {
@@ -11,11 +12,13 @@ namespace dotnetdevs.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly DeveloperService _developerService;
+        private readonly EmailService _email;
 
-        public HomeController(ILogger<HomeController> logger, DeveloperService developerService)
+        public HomeController(ILogger<HomeController> logger, EmailService email, DeveloperService developerService)
         {
             _logger = logger;
             _developerService = developerService;
+			_email = email;
 		}
 
         public async Task<IActionResult> Index()
@@ -28,8 +31,29 @@ namespace dotnetdevs.Controllers
 		[Route("hire/sign-up")]
 		public async Task<IActionResult> SignUp()
 		{
-			return View();
+			CompanySignup model = new CompanySignup();
+			return View(model);
 		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Store(CompanySignup company)
+		{
+
+			if (ModelState.IsValid)
+			{
+                _email.SendSignupAdminAlert(company);
+                return RedirectToAction("Success", "Home");
+			}
+
+			return View("SignUp", company);
+		}
+
+		[Route("success")]
+		public IActionResult Success()
+		{
+			return View();
+        }
 
 		[Route("open-startup")]
 		public IActionResult OpenStartup()

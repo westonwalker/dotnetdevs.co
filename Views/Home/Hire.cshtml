@@ -3,25 +3,33 @@
 	ViewData["Description"] = "Our goal is to make it easy for companies to hire .NET developers. Search, find, and message the perfect .NET developer for your next job opening.";
 
 }
-<div class="relative flex flex-wrap justify-center items-center py-12 md:py-20 max-w-6xl mx-auto lg:px-8">
+<div class="relative flex flex-wrap justify-center items-center py-12 md:py-20 bg-white">
 	<div class="flex-1">
-		<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-			<div class="text-center">
-				<h1 class="mb-5 text-center text-black text-4xl leading-tight md:text-5xl md:leading-tight lg:text-6xl lg:leading-tight font-bold max-w-3xl mx-auto">
+		<div class="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
+			<div class="text-left">
+				<h1 class="mb-5 text-left text-black text-4xl leading-tight md:text-5xl md:leading-tight font-bold max-w-2xl">
 					We make hiring developers fast & easy
 				</h1>
-				<p class="text-lg lg:text-2xl leading-loose lg:leading-loose text-center text-gray-700 max-w-xl mx-auto">
-					Directly connect with .NET developers looking for their next job
+				<p class="text-lg lg:text-2xl leading-loose lg:leading-loose text-gray-700 max-w-xl">
+					Directly connect with .NET developers looking for their next job.
 				</p>
+				<div class="mt-6">
+					<a href="/hire/sign-up" class="text-xl rounded-full font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-4 px-6 w-auto max-w-sm md:w-auto">
+						Start hiring risk free
+					</a>
+				</div>
 			</div>
 		</div>
 
-		<div id="plans" class="mt-6 pb-16 lg:mt-12 sm:pb-20 lg:pb-28">
+		<div id="plans" class="mt-12 pb-16 lg:mt-20 sm:pb-20 lg:pb-28  px-4 sm:px-6 lg:px-8 max-w-2xl mx-auto">
 			<div class="relative">
-				<div class="relative mx-auto max-w-7xl px-0 sm:px-8">
-					<div class="mx-auto overflow-hidden border-y sm:border lg:flex lg:max-w-none">
-						<div class="flex-1 bg-white px-6 py-8 lg:p-12">
+				<div class="relative">
+					<div class=" mx-auto overflow-hidden lg:flex">
+						<div class="flex-1 bg-white py-12">
 							<h2 class="mb-4 text-black text-3xl md:text-4xl md:leading-tight leading-tight font-bold">Find talented .NET developers</h2>
+							<p class="text-lg lg:text-xl leading-loose lg:leading-loose text-gray-700 max-w-xl">
+								Skip the formal job postings and middlemen – hire directly from a candidate pool of .NET developers looking for their next job.
+							</p>
 							<div class="mt-8">
 								<ul role="list" class="mt-8 space-y-5">
 									<li class="flex items-start">
@@ -30,56 +38,68 @@
 												<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
 											</svg>
 										</div>
-										<p class="ml-3 text-base text-gray-700">Search, find, and message directly with developers. From juniors to architects.</p>
+										<p class="ml-3 text-base text-gray-700">Exclusively .NET developers</p>
 									</li>
-								@*	<li class="flex items-start">
-										<div class="flex-shrink-0">
-											<svg xmlns="http://www.w3.org/2000/svg" title="Check Circle" class="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
-												<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-											</svg>
-
-										</div>
-										<p class="ml-3 text-base text-gray-700">Post to our job board and get your job email blasted to 500+ .NET developers</p>
-									</li>*@
-
 									<li class="flex items-start">
 										<div class="flex-shrink-0">
 											<svg xmlns="http://www.w3.org/2000/svg" title="Check Circle" class="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
 												<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
 											</svg>
-
+										</div>
+										<p class="ml-3 text-base text-gray-700">Search, find, and message directly with developers.</p>
+									</li>
+									<li class="flex items-start">
+										<div class="flex-shrink-0">
+											<svg xmlns="http://www.w3.org/2000/svg" title="Check Circle" class="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+												<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+											</svg>
+										</div>
+										<p class="ml-3 text-base text-gray-700">Free to signup. Pay an affordable flat fee after you hire a developer.</p>
+									</li>
+									<li class="flex items-start">
+										<div class="flex-shrink-0">
+											<svg xmlns="http://www.w3.org/2000/svg" title="Check Circle" class="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+												<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+											</svg>
+										</div>
+										<p class="ml-3 text-base text-gray-700">Higher response rates than Linkedin and cold email.</p>
+									</li>
+									<li class="flex items-start">
+										<div class="flex-shrink-0">
+											<svg xmlns="http://www.w3.org/2000/svg" title="Check Circle" class="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+												<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+											</svg>
 										</div>
 										<p class="ml-3 text-base text-gray-700">Hand-selected matches every month</p>
 									</li>
-
 									<li class="flex items-start">
 										<div class="flex-shrink-0">
 											<svg xmlns="http://www.w3.org/2000/svg" title="Check Circle" class="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
 												<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
 											</svg>
-
-										</div>
-										<p class="ml-3 text-base text-gray-700">Email updates of new candidates</p>
-									</li>
-
-									<li class="flex items-start">
-										<div class="flex-shrink-0">
-											<svg xmlns="http://www.w3.org/2000/svg" title="Check Circle" class="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
-												<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-											</svg>
-
 										</div>
 										<p class="ml-3 text-base text-gray-700">Email support from the founder</p>
 									</li>
 								</ul>
-								<div class="mt-6">
-									<a href="/hire/sign-up" class="text-xl font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-2 px-6 mx-auto w-auto max-w-sm md:w-auto">
-										Start hiring risk free
-									</a>
-								</div>
 							</div>
 						</div>
 					</div>
+				</div>
+			</div>
+		</div>
+		<div class="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
+			<div class="text-left">
+				<h2 class="mb-4 text-black text-3xl md:text-4xl md:leading-tight leading-tight font-bold">Save time & money</h2>
+				<p class="text-lg lg:text-xl leading-loose lg:leading-loose text-gray-700 max-w-xl">
+					Signing up for DotnetDevs is <span class="font-bold">100% free</span>. Signup and start messaging developers immediately. 
+				</p>
+				<p class="text-lg mt-6 lg:text-xl leading-loose lg:leading-loose text-gray-700 max-w-xl">
+					Pay nothing until your first successful hire. Even then, pay an affordable flat fee per hire
+				</p>
+				<div class="mt-8">
+					<a href="/hire/sign-up" class="text-xl rounded-full font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-4 px-6 w-auto max-w-sm md:w-auto">
+						Start hiring risk free
+					</a>
 				</div>
 			</div>
 		</div>
@@ -120,7 +140,7 @@
 	</h2>
 	<div class="mt-8 flex lg:flex-shrink-0 lg:mt-0">
 		<div class="inline-flex">
-			<a href="/hire#plans" class="bg-slate-900 py-3 px-5 inline-flex items-center justify-center text-base font-medium text-white hover:bg-black">
+			<a href="/hire/sign-up" class="bg-slate-900 rounded-full py-3 px-5 inline-flex items-center justify-center text-base font-medium text-white hover:bg-black">
 				Get started
 			</a>
 		</div>

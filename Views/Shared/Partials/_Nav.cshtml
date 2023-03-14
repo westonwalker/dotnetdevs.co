@@ -82,11 +82,11 @@
 										}
 										@if (userInfo != null && userInfo.Company != null)
 										{
-											<a href="/companies/show/@userInfo.Company.ID" x-on:click="desktopMenuOpen = false" class="block px-4 py-4 text-base text-gray-600 hover:text-black hover:bg-gray-100 font-semibold" role="menuitem">Company profile</a>
+											@* <a href="/companies/show/@userInfo.Company.ID" x-on:click="desktopMenuOpen = false" class="block px-4 py-4 text-base text-gray-600 hover:text-black hover:bg-gray-100 font-semibold" role="menuitem">Company profile</a> *@
 										}
 										else
 										{
-											<a href="/companies/create" x-on:click="desktopMenuOpen = false" class="block px-4 py-4 text-base text-gray-600 hover:text-black hover:bg-gray-100 font-semibold" role="menuitem">Add Company profile</a>
+											@* <a href="/companies/create" x-on:click="desktopMenuOpen = false" class="block px-4 py-4 text-base text-gray-600 hover:text-black hover:bg-gray-100 font-semibold" role="menuitem">Add Company profile</a> *@
 										}
 										@if (userInfo != null && (userInfo.Company != null || userInfo.Developer != null))
 										{
@@ -104,7 +104,7 @@
 							<a href="/login" class="font-semibold text-gray-600 hover:text-black text-base mr-2">
 								Sign in
 							</a>
-							<a href="/register" class="flex py-1 px-4 bg-slate-900 text-white hover:bg-black font-semibold text-base leading-loose">
+							<a href="/register" class="flex py-1 px-4 bg-slate-900 text-white hover:bg-black font-semibold text-base leading-loose rounded-full">
 								Register
 							</a>
 						}
@@ -145,11 +145,11 @@
 					}
 					@if (userInfo != null && userInfo.Company != null)
 					{
-						<a href="/companies/show/@userInfo.Company.ID" x-on:click="mobileMenuOpen = false" class="text-gray-600 hover:bg-gray-100 hover:text-black block px-4 py-2 rounded-md text-base font-medium">Company Profile</a>
+						@* <a href="/companies/show/@userInfo.Company.ID" x-on:click="mobileMenuOpen = false" class="text-gray-600 hover:bg-gray-100 hover:text-black block px-4 py-2 rounded-md text-base font-medium">Company Profile</a> *@
 					}
 					else
 					{
-						<a href="/companies/create" x-on:click="mobileMenuOpen = false" class="text-gray-600 hover:bg-gray-100 hover:text-black block px-4 py-2 rounded-md text-base font-medium">Company Profile</a>
+						@* <a href="/companies/create" x-on:click="mobileMenuOpen = false" class="text-gray-600 hover:bg-gray-100 hover:text-black block px-4 py-2 rounded-md text-base font-medium">Company Profile</a> *@
 					}
 					<a href="/conversations" x-on:click="mobileMenuOpen = false" class="text-gray-600 hover:bg-gray-100 hover:text-black block px-4 py-2 rounded-md text-base font-medium">Conversations</a>
 					<form method="post" action="/logout">

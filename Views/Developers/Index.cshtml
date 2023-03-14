@@ -23,13 +23,13 @@
 					<div class="mt-4 lg:mt-0">
 						@if (Model.User != null && Model.User.Developer != null)
 						{
-							<a href="/developers/edit/@Model.User.Developer.ID" class="text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-1 px-4 mx-auto w-auto max-w-sm md:w-auto">
+							<a href="/developers/edit/@Model.User.Developer.ID" class="text-base rounded-full font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-1 px-4 mx-auto w-auto max-w-sm md:w-auto">
 								Update my profile
 							</a>
 						}
 						else
 						{
-							<a href="/developers/create" class="text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-1 px-4 mx-auto w-auto max-w-sm md:w-auto">
+							<a href="/developers/create" class="text-base rounded-full font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-1 px-4 mx-auto w-auto max-w-sm md:w-auto">
 								Add my profile
 							</a>
 						}

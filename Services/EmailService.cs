@@ -3,6 +3,7 @@ using MailKit.Net.Smtp;
 using MailKit;
 using MimeKit;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using dotnetdevs.ViewModels;
 
 namespace dotnetdevs.Services
 {
@@ -57,6 +58,28 @@ namespace dotnetdevs.Services
                 </html>
             ";
             SendAlert(_user, "Dotnet Devs - New developer profile", body, _adminEmail);
+        }
+
+        public void SendSignupAdminAlert(CompanySignup company) {
+            string body = $@"
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset=""UTF-8"">
+                    <meta name=""viewport"" content=""width=device-width"" initial-scale=""1"">
+                    <title>New company signuip</title>
+                </head>
+                <body>
+                    <p style=""color:red"">New company signup</p>
+                    <p>Email: {company.CompanyName}</p>
+                    <p>Name: {company.PersonalName}</p>
+                    <p>Email: {company.Email}</p>
+                    <p>Email: {company.Website}</p>
+                    <p>Bio: {company.Bio}</p>
+                </body>
+                </html>
+            ";
+            SendAlert(_user, "Dotnet Devs - New company signup", body, _adminEmail);
         }
 
         public void SendAdminAlert(Company company, ApplicationUser user)
