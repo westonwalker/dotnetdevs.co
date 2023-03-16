@@ -10,25 +10,40 @@ namespace dotnetdevs.Services
 
     public class UserService
 	{
+		private readonly AuthenticationStateProvider _stateProvider;
 		private readonly ApplicationDbContext _dbContext;
 		private readonly UserManager<ApplicationUser> _userManager;
 
-        public UserService(UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext)
-        {
-            _userManager = userManager;
+		public UserService(AuthenticationStateProvider stateProvider, UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext)
+		{
+			_userManager = userManager;
 			_dbContext = dbContext;
+			_stateProvider = stateProvider;
 		}
 
-        public async Task<ApplicationUser?> GetAuthenticatedUser(ClaimsPrincipal user)
-        {
-            if (user.Identity != null && user.Identity.IsAuthenticated)
+		public async Task<ApplicationUser?> GetAuthenticatedUser(ClaimsPrincipal user)
+		{
+			if (user.Identity != null && user.Identity.IsAuthenticated)
 			{
 				return _userManager.Users
-                    .Include(x => x.Developer)
+					.Include(x => x.Developer)
 					.Include(x => x.Company)
 					.SingleOrDefault(x => x.Id == _userManager.GetUserId(user));
 			}
-            return null;
+			return null;
+		}
+		public async Task<ApplicationUser?> GetAuthenticatedUser()
+		{
+			var authState = await _stateProvider.GetAuthenticationStateAsync();
+			var user = authState.User;
+			if (user.Identity != null && user.Identity.IsAuthenticated)
+			{
+				return _userManager.Users
+					.Include(x => x.Developer)
+					.Include(x => x.Company)
+					.SingleOrDefault(x => x.Id == _userManager.GetUserId(user));
+			}
+			return null;
 		}
 
 		public async Task<ApplicationUser?> Get(string id)

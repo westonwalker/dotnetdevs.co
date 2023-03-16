@@ -14,7 +14,7 @@ DotNetEnv.Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = ConnectionHelper.GetConnectionString();
-builder.Services.AddDbContext<ApplicationDbContext>(options => options
+builder.Services.AddDbContextFactory<ApplicationDbContext>(options => options
     .UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -90,14 +90,11 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// app.UseMvc();
-
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
+app.MapBlazorHub();
+app.MapFallbackToPage("/_Host");
 
 app.Run();

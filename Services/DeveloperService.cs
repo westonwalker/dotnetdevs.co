@@ -6,16 +6,17 @@ namespace dotnetdevs.Services
 {
 	public class DeveloperService
 	{
-		private readonly ApplicationDbContext _dbContext;
+		private readonly IDbContextFactory<ApplicationDbContext> _factory;
 
-		public DeveloperService(ApplicationDbContext dbContext)
+		public DeveloperService(IDbContextFactory<ApplicationDbContext> factory)
 		{
-			this._dbContext = dbContext;
+			this._factory = factory;
 		}
 
 		public async Task<List<Developer>> GetAll()
 		{
-			return await _dbContext.Developers
+			using var context = _factory.CreateDbContext();
+			return await context.Developers
 							.Include(developer => developer.SearchStatus)
 							.Include(developer => developer.ExperienceLevel)
 							.OrderByDescending(developer => developer.CreatedDate)
@@ -23,8 +24,9 @@ namespace dotnetdevs.Services
         }
 
         public async Task<List<Developer>> GetAvailableDevelopers()
-        {
-            return await _dbContext.Developers
+		{
+			using var context = _factory.CreateDbContext();
+			return await context.Developers
                             .Include(developer => developer.SearchStatus)
                             .Include(developer => developer.ExperienceLevel)
 							.Where(developer => developer.SearchStatusID != 4)
@@ -33,7 +35,8 @@ namespace dotnetdevs.Services
 		}
 		public async Task<List<string>> GetAllDeveloperLocations()
 		{
-			return await _dbContext.Developers
+			using var context = _factory.CreateDbContext();
+			return await context.Developers
 				.Select(m => m.Country)
 				.Distinct()
 				.OrderBy(country => country)
@@ -42,7 +45,8 @@ namespace dotnetdevs.Services
 
 		public async Task<List<Developer>> Get10Developers()
 		{
-			return await _dbContext.Developers
+			using var context = _factory.CreateDbContext();
+			return await context.Developers
 							.Include(developer => developer.SearchStatus)
 							.Include(developer => developer.ExperienceLevel)
 							.Where(developer => developer.SearchStatusID != 4)
@@ -53,7 +57,8 @@ namespace dotnetdevs.Services
 
 		public async Task<Developer?> Get(int id)
 		{
-			return await _dbContext.Developers
+			using var context = _factory.CreateDbContext();
+			return await context.Developers
 							.Where(d => d.ID == id)
 							.Include(developer => developer.SearchStatus)
 							.Include(developer => developer.ExperienceLevel)
@@ -62,7 +67,8 @@ namespace dotnetdevs.Services
 
 		public async Task<Developer?> GetWithUser(int id)
 		{
-			return await _dbContext.Developers
+			using var context = _factory.CreateDbContext();
+			return await context.Developers
 							.Where(d => d.ID == id)
 							.Include(developer => developer.ApplicationUser)
 							.Include(developer => developer.SearchStatus)
@@ -72,7 +78,8 @@ namespace dotnetdevs.Services
 
 		public async Task<Developer?> GetByUserId(string userId)
 		{
-			return await _dbContext.Developers
+			using var context = _factory.CreateDbContext();
+			return await context.Developers
 							.Where(d => d.UserID == userId)
 							.Include(developer => developer.SearchStatus)
 							.Include(developer => developer.ExperienceLevel)
@@ -81,15 +88,19 @@ namespace dotnetdevs.Services
 
 		public async Task<Developer> Store(Developer developer)
 		{
-			_dbContext.Developers.Add(developer);
-			_dbContext.SaveChanges();
+			using var context = _factory.CreateDbContext();
+			context.Developers.Add(developer);
+			context.SaveChanges();
 			return developer;
 		}
 
 		public async Task<Developer> Update(Developer developer)
 		{
-			_dbContext.Attach(developer);
-			_dbContext.SaveChanges();
+			using var context = _factory.CreateDbContext();
+			//context.Attach(developer);
+			//context.SaveChanges();
+			context.Developers.Update(developer);
+			context.SaveChanges();
 			return developer;
 		}
 	}

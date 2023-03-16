@@ -1,8 +1,9 @@
-﻿@page "/login"
-@model dotnetdevs.Areas.Identity.Pages.Account.LoginModel
+﻿@page "/register"
+@model dotnetdevs.Areas.Identity.Pages.Account.RegisterModel
 @{
-	ViewData["Title"] = "Login";
+	ViewData["Title"] = "Register";
 }
+
 <div class="min-h-screen bg-white">
 	<section class="lg:max-w-4xl mx-auto py-20">
 		<div class="mb-5 text-center">
@@ -11,13 +12,13 @@
 			</a>
 		</div>
 		<h1 class="text-center mt-6 text-center text-3xl font-bold tracking-tight text-black">
-			Sign in to your account
+			Create your account
 		</h1>
 		<p class="mt-2 text-center text-sm text-gray-600">
 			Or
-			<a href="/register" class="font-medium text-indigo-600 hover:text-indigo-500">Create an account →</a>
+			<a href="/login" class="font-medium text-indigo-600 hover:text-indigo-500">Sign in to your account →</a>
 		</p>
-		<form asp-action="Login" asp-controller="Account" method="post" class="mt-8 flex flex-col py-8 px-4 sm:px-10 bg-white sm:mx-auto sm:w-full sm:max-w-md border-y sm:border">
+		<form asp-action="Register" asp-controller="Account" method="post" class="mt-8 flex flex-col py-8 px-4 sm:px-10 bg-white sm:mx-auto sm:w-full sm:max-w-md border-y sm:border">
 			@if (!Html.ViewData.ModelState.IsValid)
 			{
 				<div class="text-red-500 text-sm flex justify-center mb-6">
@@ -33,7 +34,6 @@
 					@Html.ValidationMessageFor(m => m.Input.Email)
 				</div>
 			</div>
-
 			<div class="mt-8">
 				<label asp-for="Input.Password" class="block text-sm font-medium text-gray-700">Password</label>
 				<div class="mt-1">
@@ -44,8 +44,17 @@
 				</div>
 			</div>
 			<div class="mt-8">
+				<label asp-for="Input.ConfirmPassword" class="block text-sm font-medium text-gray-700">Comfirm password</label>
+				<div class="mt-1">
+					<input asp-for="Input.ConfirmPassword" id="confirm_password" name="ConfirmPassword" type="password" autocomplete="current-password" required class="block w-full appearance-none border border-gray-300 px-3 py-2 placeholder-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" />
+				</div>
+				<div class="mt-1 text-red-300 text-sm">
+					@Html.ValidationMessageFor(m => m.Input.ConfirmPassword)
+				</div>
+			</div>
+			<div class="mt-8">
 				<button type="submit" class="ml-auto text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-2 px-4 w-full">
-					Sign in
+					Create account
 				</button>
 			</div>
 		</form>

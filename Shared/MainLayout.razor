@@ -1,0 +1,40 @@
+﻿@inherits LayoutComponentBase
+@using Microsoft.AspNetCore.Identity
+@using dotnetdevs.Helpers
+@inject NavigationManager NavManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject UserManager<ApplicationUser> UserManager
+@inject UserService userService
+@inject DeveloperService developerService
+@inject CompanyService companyService
+
+<PageTitle>DotnetDevs - The reverse job board for .NET developers</PageTitle>
+
+<CascadingValue Value="this">
+	<div class="bg-gray-50">
+		<NavMenu />
+		<main>
+			<article class="">
+				@Body
+			</article>
+		</main>
+		<Footer />
+	</div>
+</CascadingValue>
+
+@code {
+
+	public ApplicationUser? User = new ApplicationUser();
+	public Developer? Developer = new Developer();
+	public Company? Company = new Company();
+
+	protected override async Task OnInitializedAsync()
+	{
+		User = await userService.GetAuthenticatedUser();
+		if (User != null)
+		{
+			Developer = await developerService.GetByUserId(User.Id);
+			Company = await companyService.GetByUserId(User.Id);
+		}
+	}
+}

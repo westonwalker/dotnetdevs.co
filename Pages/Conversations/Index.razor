@@ -1,0 +1,149 @@
+﻿@page "/conversations"
+@attribute [Authorize]
+@inject DeveloperService developerService
+@inject SearchStatusService searchStatusService
+@inject ExperienceLevelService experienceLevelService
+@inject ConversationService conversationService
+@inject UserService userService
+@inject NavigationManager NavManager
+<PageTitle>Your conversations on DotnetDevs</PageTitle>
+<div class="">
+    <div class="relative flex flex-wrap justify-start items-center py-12 md:py-20 max-w-6xl mx-auto lg:px-8">
+        <div class="flex-1">
+            @if (companyProfile != null && !companyProfile.IsSubscribed)
+            {
+                <partial name="~/Views/Shared/Partials/_SubscribeAlert.cshtml" />
+            }
+            <div class="text-left">
+                <div class="flex flex-col sm:flex-row sm:justify-between items-start py-6 mb-8 px-6 lg:px-0">
+                    <div>
+                        <h1 class="text-black text-3xl leading-tight font-bold">
+                            Conversations
+                        </h1>
+                        @if (companyProfile != null && companyProfile.IsSubscribed)
+                        {
+                            <p class="text-gray-700 line-clamp-3 break-words leading-loose lg:leading-loose">
+                                To start a new conversation, got to our <a class="text-indigo-600 underline" href="/developers">developers</a> page.
+                            </p>
+                        }
+                    </div>
+                    <div class="mt-4 sm:mt-0">
+                        @if (companyProfile != null)
+                        {
+                            <a href="/developers" class="text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-1 px-4 mx-auto w-auto max-w-sm md:w-auto">
+                                View developers
+                            </a>
+                        }
+                    </div>
+                </div>
+                <div class="flex flex-col space-y-16 py-6 mb-8 px-6 lg:px-0">
+                    @if (companyProfile != null)
+                    {
+                        <div class="flex flex-col space-y-2">
+                            <div class="inline-flex">
+                                <h2 class="text-lg font-semibold text-gray-900 mr-2">@companyProfile.CompanyName</h2>
+                                <span class="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium bg-blue-100 text-blue-800 border border-blue-800">Company profile</span>
+                            </div>
+                            @if (companyConversations.Count() > 0)
+                            {
+                                foreach (var conversation in companyConversations.OrderByDescending(c => c.CreatedDate))
+                                {
+                                    <a href="/conversations/show/@conversation.ID" class="border-l-4 border-y border-r border-indigo-400 bg-white p-4 hover:bg-gray-50 flex flex-row justify-between">
+                                        <p class="font-bold mr-4 text-sm sm:text-base">@conversation.Developer.FullName→</p>
+                                        <p class="text-sm">@conversation.CreatedDate</p>
+                                    </a>
+                                }
+                            }
+                            else
+                            {
+                                <div class="text-center py-12 w-full border-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+                                    </svg>
+                                    <h3 class="mt-2 text-sm font-medium text-gray-900">No conversations</h3>
+                                </div>
+                            }
+                        </div>
+                    }
+                    @if (devProfile != null)
+                    {
+                        <div class="flex flex-col space-y-2">
+                            <div class="inline-flex">
+                                <h2 class="text-lg font-semibold text-gray-900 mr-2">@devProfile.FullName</h2>
+                                <span class="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium bg-yellow-100 text-yellow-800 border border-yellow-800">Developer profile</span>
+                            </div>
+                            @if (developerConversations.Count() > 0)
+                            {
+                                foreach (var conversation in developerConversations.OrderByDescending(c => c.CreatedDate))
+                                {
+                                    <a href="/conversations/show/@conversation.ID" class="border-l-4 border-y border-r border-indigo-400 bg-white p-4 hover:bg-gray-50 flex flex-row justify-between">
+                                        <p class="font-bold mr-4 text-sm sm:text-base">@conversation.Company.CompanyName</p>
+                                        <p class="text-sm">@conversation.CreatedDate</p>
+                                    </a>
+                                }
+                            }
+                            else
+                            {
+                                <div class="text-center py-12 w-full border-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+                                    </svg>
+                                    <h3 class="mt-2 text-sm font-medium text-gray-900">No conversations</h3>
+                                </div>
+                            }
+                        </div>
+                    }
+                    @if (devProfile == null && companyProfile == null)
+                    {
+                        <div class="border-l-4 border-y border-r border-yellow-400 bg-yellow-50 p-4 mb-6 mx-6 md:mx-0">
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path fill-rule="evenodd" d="M8.485 3.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 3.495zM10 6a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 6zm0 9a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-base text-yellow-700">
+                                        You need to setup a
+                                        <a href="/developers/create" class="font-medium text-yellow-700 underline hover:text-yellow-600">
+                                            developer
+                                        </a>
+                                        &nbsp;or
+                                        <a href="/companies/create" class="font-medium text-yellow-700 underline hover:text-yellow-600">
+                                            company
+                                        </a>
+                                        &nbsp;profile to start having conversations.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [CascadingParameter]
+    public MainLayout? Layout { get; set; }
+    private Developer? devProfile => Layout.Developer;
+    private Company? companyProfile => Layout.Company;
+    private ApplicationUser? user => Layout.User;
+
+    private List<Conversation> developerConversations = new List<Conversation>();
+    private List<Conversation> companyConversations = new List<Conversation>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (devProfile != null)
+        {
+            developerConversations = await conversationService.GetAllByDeveloper(devProfile.ID);
+        }
+
+        if (companyProfile != null)
+        {
+            companyConversations = await conversationService.GetAllByCompany(companyProfile.ID);
+        }
+    }
+}

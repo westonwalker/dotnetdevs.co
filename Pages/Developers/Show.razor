@@ -1,0 +1,267 @@
+﻿@page "/developers/{id:int}"
+@inject DeveloperService developerService
+@inject CompanyService companyService
+@inject UserService userService
+@inject NavigationManager NavManager
+@using System.Web
+@using System.Text.RegularExpressions;
+@if (developer != null)
+{
+<PageTitle>.NET Developer for hire - @@developer.Hero</PageTitle>
+<div class="mt-20 bg-white ">
+	<div class="mx-auto max-w-7xl px-4 sm:px-8">
+		<div>
+			<div class="p-1 w-20 h-20 bg-white shadow -translate-y-2/3">
+				<div class="overflow-hidden w-full h-full w-full h-full">
+					<img src="@developer.Avatar"
+						 alt="Logo PeopleStrata" class="object-contain w-full h-full" loading="lazy">
+				</div>
+			</div>
+			<div class="flex flex-col items-start lg:flex-row lg:items-center -mt-4">
+				<div class="mt-4 lg:mt-0">
+					<h1 class="text-black text-4xl leading-tight md:text-5xl md:leading-tight font-bold">
+						@developer.Hero
+					</h1>
+						<div class="flex flex-row space-x-4 items-center mt-2">
+						@if ((company != null && company.IsSubscribed) || (user != null && developer.UserID == user.Id))
+						{
+							<p class="text-lg flex items-center font-medium text-gray-600 inline-flex items-center">
+								<svg class="w-4 h-4 fill-gray-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+									<path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clip-rule="evenodd" />
+								</svg>
+								<span>@developer.FullName</span>
+							</p>
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="grid lg:grid-cols-7 gap-12 pt-8">
+				<div class="lg:order-1 order-2 lg:col-span-5 lg:mt-0 pb-12 blog job text-gray-700 break-words leading-loose lg:leading-loose">
+					@((MarkupString)Regex.Replace(HttpUtility.HtmlEncode(developer.Bio), "\r?\n|\r", "<br />"))
+				</div>
+					<div class="space-y-5 lg:order-1 lg:col-span-2">
+					@if ((company != null && company.IsSubscribed) || (user != null && developer.UserID == user.Id))
+					{
+						<div class="border-2 border-indigo-600">
+							<div class="flex flex-wrap flex-row items-start space-y-3 p-6">
+								<div class="w-full mt-3 xl:mt-0">
+									<h5 class="font-medium text-black mb-1">Search status</h5>
+									<p class="text-gray-600 text-base inline-flex items-center">
+										<svg class="w-4 h-4 fill-gray-400 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+											<path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z" clip-rule="evenodd" />
+										</svg>
+										<span>@developer.SearchStatus.Name</span>
+									</p>
+								</div>
+								<div class="w-full">
+									<h5 class="font-medium text-black mb-1">Start date</h5>
+									<p class="text-gray-600 text-base inline-flex items-center">
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 fill-gray-400 mr-2">
+											<path d="M12.75 12.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM7.5 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM8.25 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM9.75 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM10.5 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM12.75 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM14.25 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM15 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM16.5 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM15 12.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM16.5 13.5a.75.75 0 100-1.5.75.75 0 000 1.5z" />
+											<path fill-rule="evenodd" d="M6.75 2.25A.75.75 0 017.5 3v1.5h9V3A.75.75 0 0118 3v1.5h.75a3 3 0 013 3v11.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V7.5a3 3 0 013-3H6V3a.75.75 0 01.75-.75zm13.5 9a1.5 1.5 0 00-1.5-1.5H5.25a1.5 1.5 0 00-1.5 1.5v7.5a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5v-7.5z" clip-rule="evenodd" />
+										</svg>
+										<span>@developer.StartDate.ToShortDateString()</span>
+									</p>
+								</div>
+								<div class="w-full">
+									<h5 class="font-medium text-black mb-1">Experience level</h5>
+									<p class="text-gray-600 text-base inline-flex items-center">
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 fill-gray-400 mr-2">
+											<path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
+										</svg>
+										<span>@developer.ExperienceLevel.Name</span>
+									</p>
+								</div>
+								<div class="w-full">
+									<h5 class="font-medium text-black mb-1">Location</h5>
+									<p class="text-gray-600 text-base inline-flex items-center">
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 fill-gray-400 mr-2">
+											<path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM6.262 6.072a8.25 8.25 0 1010.562-.766 4.5 4.5 0 01-1.318 1.357L14.25 7.5l.165.33a.809.809 0 01-1.086 1.085l-.604-.302a1.125 1.125 0 00-1.298.21l-.132.131c-.439.44-.439 1.152 0 1.591l.296.296c.256.257.622.374.98.314l1.17-.195c.323-.054.654.036.905.245l1.33 1.108c.32.267.46.694.358 1.1a8.7 8.7 0 01-2.288 4.04l-.723.724a1.125 1.125 0 01-1.298.21l-.153-.076a1.125 1.125 0 01-.622-1.006v-1.089c0-.298-.119-.585-.33-.796l-1.347-1.347a1.125 1.125 0 01-.21-1.298L9.75 12l-1.64-1.64a6 6 0 01-1.676-3.257l-.172-1.03z" clip-rule="evenodd" />
+										</svg>
+										<span>@developer.City, @developer.State - @developer.Country</span>
+									</p>
+								</div>
+								@if (!String.IsNullOrEmpty(@developer.Website))
+								{
+									<div class="w-full">
+										<h5 class="font-medium text-black mb-1">Website</h5>
+										<a href="https://@developer.Website" target="_blank" class="text-gray-600 text-base inline-flex items-center">
+											<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 fill-gray-400 mr-2">
+												<path fill-rule="evenodd" d="M19.902 4.098a3.75 3.75 0 00-5.304 0l-4.5 4.5a3.75 3.75 0 001.035 6.037.75.75 0 01-.646 1.353 5.25 5.25 0 01-1.449-8.45l4.5-4.5a5.25 5.25 0 117.424 7.424l-1.757 1.757a.75.75 0 11-1.06-1.06l1.757-1.757a3.75 3.75 0 000-5.304zm-7.389 4.267a.75.75 0 011-.353 5.25 5.25 0 011.449 8.45l-4.5 4.5a5.25 5.25 0 11-7.424-7.424l1.757-1.757a.75.75 0 111.06 1.06l-1.757 1.757a3.75 3.75 0 105.304 5.304l4.5-4.5a3.75 3.75 0 00-1.035-6.037.75.75 0 01-.354-1z" clip-rule="evenodd" />
+											</svg>
+											<span>@UIHelpers.truncateText(@developer.Website)</span>
+										</a>
+									</div>
+								}
+								@if (!String.IsNullOrEmpty(@developer.Github))
+								{
+									<div class="w-full">
+										<h5 class="font-medium text-black mb-1">Github</h5>
+										<a href="https://@developer.Github" target="_blank" class="text-gray-600 text-base inline-flex items-center">
+											<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 fill-gray-400 mr-2">
+												<path fill-rule="evenodd" d="M19.902 4.098a3.75 3.75 0 00-5.304 0l-4.5 4.5a3.75 3.75 0 001.035 6.037.75.75 0 01-.646 1.353 5.25 5.25 0 01-1.449-8.45l4.5-4.5a5.25 5.25 0 117.424 7.424l-1.757 1.757a.75.75 0 11-1.06-1.06l1.757-1.757a3.75 3.75 0 000-5.304zm-7.389 4.267a.75.75 0 011-.353 5.25 5.25 0 011.449 8.45l-4.5 4.5a5.25 5.25 0 11-7.424-7.424l1.757-1.757a.75.75 0 111.06 1.06l-1.757 1.757a3.75 3.75 0 105.304 5.304l4.5-4.5a3.75 3.75 0 00-1.035-6.037.75.75 0 01-.354-1z" clip-rule="evenodd" />
+											</svg>
+											<span>@UIHelpers.truncateText(@developer.Github)</span>
+										</a>
+									</div>
+								}
+								@if (!String.IsNullOrEmpty(@developer.Twitter))
+								{
+									<div class="w-full">
+										<h5 class="font-medium text-black mb-1">Twitter</h5>
+										<a href="https://@developer.Twitter" target="_blank" class="text-gray-600 text-base inline-flex items-center">
+											<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 fill-gray-400 mr-2">
+												<path fill-rule="evenodd" d="M19.902 4.098a3.75 3.75 0 00-5.304 0l-4.5 4.5a3.75 3.75 0 001.035 6.037.75.75 0 01-.646 1.353 5.25 5.25 0 01-1.449-8.45l4.5-4.5a5.25 5.25 0 117.424 7.424l-1.757 1.757a.75.75 0 11-1.06-1.06l1.757-1.757a3.75 3.75 0 000-5.304zm-7.389 4.267a.75.75 0 011-.353 5.25 5.25 0 011.449 8.45l-4.5 4.5a5.25 5.25 0 11-7.424-7.424l1.757-1.757a.75.75 0 111.06 1.06l-1.757 1.757a3.75 3.75 0 105.304 5.304l4.5-4.5a3.75 3.75 0 00-1.035-6.037.75.75 0 01-.354-1z" clip-rule="evenodd" />
+											</svg>
+											<span>@UIHelpers.truncateText(@developer.Twitter)</span>
+										</a>
+									</div>
+								}
+								@if (!String.IsNullOrEmpty(@developer.Linkedin))
+								{
+									<div class="w-full">
+										<h5 class="font-medium text-black mb-1">Linkedin</h5>
+										<a href="https://@developer.Linkedin" target="_blank" class="text-gray-600 text-base inline-flex items-center">
+											<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 fill-gray-400 mr-2">
+												<path fill-rule="evenodd" d="M19.902 4.098a3.75 3.75 0 00-5.304 0l-4.5 4.5a3.75 3.75 0 001.035 6.037.75.75 0 01-.646 1.353 5.25 5.25 0 01-1.449-8.45l4.5-4.5a5.25 5.25 0 117.424 7.424l-1.757 1.757a.75.75 0 11-1.06-1.06l1.757-1.757a3.75 3.75 0 000-5.304zm-7.389 4.267a.75.75 0 011-.353 5.25 5.25 0 011.449 8.45l-4.5 4.5a5.25 5.25 0 11-7.424-7.424l1.757-1.757a.75.75 0 111.06 1.06l-1.757 1.757a3.75 3.75 0 105.304 5.304l4.5-4.5a3.75 3.75 0 00-1.035-6.037.75.75 0 01-.354-1z" clip-rule="evenodd" />
+											</svg>
+											<span>@UIHelpers.truncateText(@developer.Linkedin)</span>
+										</a>
+									</div>
+								}
+								@if (!String.IsNullOrEmpty(@developer.StackOverflow))
+								{
+									<div class="w-full">
+										<h5 class="font-medium text-black mb-1">Stack overflow</h5>
+										<a href="https://@developer.StackOverflow" target="_blank" class="text-gray-600 text-base inline-flex items-center">
+											<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 fill-gray-400 mr-2">
+												<path fill-rule="evenodd" d="M19.902 4.098a3.75 3.75 0 00-5.304 0l-4.5 4.5a3.75 3.75 0 001.035 6.037.75.75 0 01-.646 1.353 5.25 5.25 0 01-1.449-8.45l4.5-4.5a5.25 5.25 0 117.424 7.424l-1.757 1.757a.75.75 0 11-1.06-1.06l1.757-1.757a3.75 3.75 0 000-5.304zm-7.389 4.267a.75.75 0 011-.353 5.25 5.25 0 011.449 8.45l-4.5 4.5a5.25 5.25 0 11-7.424-7.424l1.757-1.757a.75.75 0 111.06 1.06l-1.757 1.757a3.75 3.75 0 105.304 5.304l4.5-4.5a3.75 3.75 0 00-1.035-6.037.75.75 0 01-.354-1z" clip-rule="evenodd" />
+											</svg>
+											<span>@UIHelpers.truncateText(@developer.StackOverflow)</span>
+										</a>
+									</div>
+								}
+							</div>
+							<div class="flex items-center">
+								@if (user != null && developer.UserID == user.Id)
+								{
+									<a href="/developers/@developer.ID/edit" class="text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-1 px-4 mx-auto w-full">
+										Edit
+									</a>
+								}
+								else
+								{
+									@if ((company != null && company.IsSubscribed))
+									{
+										<a href="/conversations/create/@developer.ID" class="text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-1 px-4 mx-auto w-full">
+											Hire
+										</a>
+									}
+									else
+									{
+										<a href="/hire" class="text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-1 px-4 mx-auto w-full">
+											Subscribe to hire →
+										</a>
+									}
+								}
+							</div>
+						</div>
+					}
+					else
+					{
+						<div class="border-2 border-indigo-600">
+							<div class="flex flex-wrap flex-row items-start space-y-3 p-6">
+								<partial name="~/Views/Shared/Partials/_PrivateInfo.cshtml" />
+								<div class="w-full">
+									<h5 class="font-medium text-black mb-1">Search status</h5>
+									<p class="text-gray-600 text-base inline-flex items-center">
+										<svg class="w-4 h-4 fill-gray-400 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+											<path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z" clip-rule="evenodd" />
+										</svg>
+										<span>@developer.SearchStatus.Name</span>
+									</p>
+								</div>
+								<div class="w-full">
+									<h5 class="font-medium text-black mb-1">Start date</h5>
+									<p class="text-gray-600 text-base inline-flex items-center">
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 fill-gray-400 mr-2">
+											<path d="M12.75 12.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM7.5 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM8.25 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM9.75 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM10.5 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM12.75 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM14.25 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM15 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM16.5 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM15 12.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM16.5 13.5a.75.75 0 100-1.5.75.75 0 000 1.5z" />
+											<path fill-rule="evenodd" d="M6.75 2.25A.75.75 0 017.5 3v1.5h9V3A.75.75 0 0118 3v1.5h.75a3 3 0 013 3v11.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V7.5a3 3 0 013-3H6V3a.75.75 0 01.75-.75zm13.5 9a1.5 1.5 0 00-1.5-1.5H5.25a1.5 1.5 0 00-1.5 1.5v7.5a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5v-7.5z" clip-rule="evenodd" />
+										</svg>
+										<span>@developer.StartDate.ToShortDateString()</span>
+									</p>
+								</div>
+								<div class="w-full">
+									<h5 class="font-medium text-black mb-1">Experience level</h5>
+									<p class="text-gray-600 text-base inline-flex items-center">
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 fill-gray-400 mr-2">
+											<path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
+										</svg>
+										<span>@developer.ExperienceLevel.Name</span>
+									</p>
+								</div>
+								<div class="w-full">
+									<h5 class="font-medium text-black mb-1">Location</h5>
+									<p class="text-gray-600 text-base inline-flex items-center">
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 fill-gray-400 mr-2">
+											<path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM6.262 6.072a8.25 8.25 0 1010.562-.766 4.5 4.5 0 01-1.318 1.357L14.25 7.5l.165.33a.809.809 0 01-1.086 1.085l-.604-.302a1.125 1.125 0 00-1.298.21l-.132.131c-.439.44-.439 1.152 0 1.591l.296.296c.256.257.622.374.98.314l1.17-.195c.323-.054.654.036.905.245l1.33 1.108c.32.267.46.694.358 1.1a8.7 8.7 0 01-2.288 4.04l-.723.724a1.125 1.125 0 01-1.298.21l-.153-.076a1.125 1.125 0 01-.622-1.006v-1.089c0-.298-.119-.585-.33-.796l-1.347-1.347a1.125 1.125 0 01-.21-1.298L9.75 12l-1.64-1.64a6 6 0 01-1.676-3.257l-.172-1.03z" clip-rule="evenodd" />
+										</svg>
+										<span>@developer.City, @developer.State - @developer.Country</span>
+									</p>
+								</div>
+							</div>
+							<div class="flex items-center">
+								@if (user != null && developer.UserID == user.Id)
+								{
+									<a href="/developers/@developer.ID/edit" class="text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-1 px-4 mx-auto w-full">
+										Edit
+									</a>
+								}
+								else
+								{
+									@if ((company != null && company.IsSubscribed))
+									{
+										<a href="/conversations/create/@developer.ID" asp-route-id="@developer.ID" class="text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-1 px-4 mx-auto w-full">
+											Hire
+										</a>
+									}
+									else
+									{
+										<a href="/hire" class="text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-1 px-4 mx-auto w-full">
+											Subscribe to hire →
+										</a>
+									}
+								}
+							</div>
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+}
+
+@code {
+	[Parameter]
+	public int ID { get; set; }
+	[CascadingParameter]
+	public MainLayout Layout { get; set; }
+	private Company? company => Layout.Company;
+	private ApplicationUser? user => Layout.User;
+
+	private Developer? developer;
+
+	protected override async Task OnInitializedAsync()
+	{
+		ID = ID;
+		developer = await developerService.GetWithUser(ID);
+		// TODO: retreive company and check if subscribed
+		if (developer == null)
+		{
+			NavManager.NavigateTo($"/developers");
+		}
+	}
+}

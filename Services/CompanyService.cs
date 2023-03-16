@@ -6,37 +6,41 @@ namespace dotnetdevs.Services
 {
 	public class CompanyService
 	{
-		private readonly ApplicationDbContext _dbContext;
+		private readonly IDbContextFactory<ApplicationDbContext> _factory;
 
-		public CompanyService(ApplicationDbContext dbContext)
+		public CompanyService(IDbContextFactory<ApplicationDbContext> factory)
 		{
-			this._dbContext = dbContext;
+			this._factory = factory;
 		}
 		public async Task<Company?> Get(int id)
 		{
-			return await _dbContext.Companies
+			using var context = _factory.CreateDbContext();
+			return await context.Companies
 							.Where(d => d.ID == id)
 							.FirstOrDefaultAsync();
 		}
 
 		public async Task<Company?> GetByUserId(string userId)
 		{
-			return await _dbContext.Companies
+			using var context = _factory.CreateDbContext();
+			return await context.Companies
 							.Where(x => x.UserID == userId)
 							.FirstOrDefaultAsync();
 		}
 
 		public async Task<Company> Store(Company company)
 		{
-			_dbContext.Companies.Add(company);
-			_dbContext.SaveChanges();
+			using var context = _factory.CreateDbContext();
+			context.Companies.Add(company);
+			context.SaveChanges();
 			return company;
 		}
 
 		public async Task<Company> Update(Company company)
 		{
-			_dbContext.Attach(company);
-			_dbContext.SaveChanges();
+			using var context = _factory.CreateDbContext();
+			context.Attach(company);
+			context.SaveChanges();
 			return company;
 		}
 	}

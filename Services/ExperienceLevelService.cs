@@ -6,15 +6,23 @@ namespace dotnetdevs.Services
 {
 	public class ExperienceLevelService
 	{
-		private readonly ApplicationDbContext _dbContext;
+		private readonly IDbContextFactory<ApplicationDbContext> _factory;
 
-		public ExperienceLevelService(ApplicationDbContext dbContext)
+		public ExperienceLevelService(IDbContextFactory<ApplicationDbContext> factory)
 		{
-			this._dbContext = dbContext;
+			this._factory = factory;
 		}
 		public async Task<List<ExperienceLevel>> GetAll()
 		{
-			return await _dbContext.ExperienceLevels.ToListAsync();
+			using var context = _factory.CreateDbContext();
+			return await context.ExperienceLevels.ToListAsync();
+		}
+		public async Task<ExperienceLevel?> Get(int id)
+		{
+			using var context = _factory.CreateDbContext();
+			return await context.ExperienceLevels
+							.Where(d => d.ID == id)
+							.FirstOrDefaultAsync();
 		}
 	}
 }

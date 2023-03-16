@@ -6,17 +6,18 @@ namespace dotnetdevs.Services
 {
 	public class MessageService
 	{
-		private readonly ApplicationDbContext _dbContext;
+		private readonly IDbContextFactory<ApplicationDbContext> _factory;
 
-		public MessageService(ApplicationDbContext dbContext)
+		public MessageService(IDbContextFactory<ApplicationDbContext> factory)
 		{
-			this._dbContext = dbContext;
+			this._factory = factory;
 		}
 
 		public async Task<Message> Store(Message message)
 		{
-			_dbContext.Messages.Add(message);
-			_dbContext.SaveChanges();
+			using var context = _factory.CreateDbContext();
+			context.Messages.Add(message);
+			context.SaveChanges();
 			return message;
 		}
 
@@ -29,7 +30,8 @@ namespace dotnetdevs.Services
 
 		public async Task<List<Message>> GetConversationMessages(int conversationid)
 		{
-			return await _dbContext.Messages
+			using var context = _factory.CreateDbContext();
+			return await context.Messages
 							.Include(c => c.Conversation)
 							.Where(m => m.ConversationID == conversationid)
 							.ToListAsync();
@@ -46,11 +48,12 @@ namespace dotnetdevs.Services
 
 		public async Task UpdateMessagesToRead(int conversationId, string sender)
 		{
-			_dbContext.Messages.Where(x => x.ConversationID == conversationId && x.Sender == sender).ToList().ForEach(x =>
+			using var context = _factory.CreateDbContext();
+			context.Messages.Where(x => x.ConversationID == conversationId && x.Sender == sender).ToList().ForEach(x =>
 			{
 				x.HasBeenRead = true; x.UpdatedDate = DateTime.Now;
 			});
-			_dbContext.SaveChanges();
+			context.SaveChanges();
 		}
 	}
 }

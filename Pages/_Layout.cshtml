@@ -1,0 +1,31 @@
+﻿@using Microsoft.AspNetCore.Components.Web
+@namespace DotnetDevs.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta property="og:title" content="The reverse job board for .NET developers" />
+    <meta property="og:description" content="We empower developers to help them find their next job." />
+    <meta property="og:image" content="https://ik.imagekit.io/nearfal/og-dotnetdevs.png" />
+    <link rel="shortcut icon" href="~/favicon.png">
+    <base href="~/" />
+    <script src="https://cdn.tailwindcss.com?plugins=line-clamp,forms"></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <environment exclude="Development">
+        <script src="https://cdn.usefathom.com/script.js" data-site="VRRCLZQB" defer></script>
+    </environment>
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    @RenderBody()
+    <script src="/_framework/blazor.server.js"></script>
+</body>
+</html>

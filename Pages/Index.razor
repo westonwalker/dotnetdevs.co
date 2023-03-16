@@ -1,0 +1,62 @@
+﻿@page "/"
+@inject DeveloperService developerService
+<PageTitle>The reverse job board for .NET developers</PageTitle>
+<HeadContent>
+	<meta name="description" content="Find your next job on the #1 job board for .NET developers. Create your developer profile and sit back as companies reach out to you.">
+</HeadContent>
+
+<div class="bg-white relative z-0">
+	<img style="" class="max-h-[500px] w-auto absolute -top-10 right-0 opacity-10" src="/csharp-logo.png" alt=".NET Core logo background">
+	<div class="relative flex flex-wrap justify-center items-center pt-12 md:pt-20 pb-8 md:pb-12 max-w-6xl mx-auto px-8">
+		<div class="flex-1">
+			<div class="lg:max-w-5xl mx-auto">
+				<h1 class="mb-5 text-center text-black text-4xl leading-tight md:text-5xl md:leading-tight lg:text-6xl lg:leading-tight font-bold">
+					The reverse job board for <br class="hidden sm:block" /><span class="text-indigo-600">.NET developers</span>
+				</h1>
+				<h2 class="mb-10 text-lg lg:text-2xl leading-loose lg:leading-loose text-center max-w-2xl mx-auto">
+					We empower developers to help them find their next job. <a class="text-indigo-600 underline font-semibold" href="/developers/create">Create a profile</a> and sit back as companies reach out to you.
+				</h2>
+				<a href="/choose-profile" class="rounded-full bg-indigo-600 hover:bg-indigo-700 text-white mb-9 relative flex items-center justify-center w-fit max-w-xs md:max-w-xs px-8 md:px-12 py-3 md:py-4 mx-auto uppercase text-base lg:text-lg leading-loose lg:leading-loose font-semibold tracking-[1px]">
+					Get started
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="mt-12">
+	<div class="relative flex flex-wrap justify-center items-center pb-8 md:pb-12 max-w-6xl mx-auto sm:px-8">
+		<div class="flex-1">
+			<div class="">
+				<h3 class="mb-6 text-lg lg:text-2xl leading-loose lg:leading-loose text-center text-black font-semibold px-6 sm:px-0">
+					Developers available now
+				</h3>
+			</div>
+			<div class="flex flex-col space-y-8">
+				@if (developers == null)
+				{
+					<p><em>Loading...</em></p>
+				}
+				else
+				{
+					<DevTeaser Developers="@developers" />
+				}
+				<a href="/developers" class="rounded-full text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-2 px-5 mx-auto w-auto max-w-sm md:w-auto">
+					See more developers
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-3 -mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+					</svg>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+@code {
+	private List<Developer> developers;
+
+	protected override async Task OnInitializedAsync()
+	{
+		developers = await developerService.Get10Developers();
+	}
+}

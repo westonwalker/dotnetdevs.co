@@ -1,0 +1,141 @@
+﻿@page "/developers"
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject UserService userService
+@inject DeveloperService developerService
+@inject CompanyService companyService
+@inject ExperienceLevelService experienceLevelService
+<PageTitle>Hire .NET developers</PageTitle>
+<HeadContent>
+	<meta name="description" content="Find the perfect .NET Developer to start at your company.">
+</HeadContent>
+<div class="">
+	<div class="relative flex flex-wrap justify-center items-center py-12 md:py-20 max-w-6xl mx-auto sm:px-8">
+		<div class="flex-1">
+			<div class="text-left">
+				<div class="flex flex-col lg:flex-row lg:justify-between items-start py-6 px-4">
+					<div>
+						<h1 class="mb-4 text-black text-3xl leading-tight font-bold">
+							Hire .NET developers
+						</h1>
+						<p class="text-gray-700 line-clamp-3 break-words leading-loose lg:leading-loose">
+							Find .NET developers looking for their next gig. From juniors to seniors and everyone in between.
+						</p>
+					</div>
+					<div class="mt-4 lg:mt-0">
+						@if (user != null && developer != null)
+						{
+							<a href="/developers/edit/@developer.ID" class="rounded-full text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-1 px-4 mx-auto w-auto max-w-sm md:w-auto">
+								Update my profile
+							</a>
+						}
+						else
+						{
+							<a href="/developers/create" class="rounded-full text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-1 px-4 mx-auto w-auto max-w-sm md:w-auto">
+								Add my profile
+							</a>
+						}
+					</div>
+				</div>
+				<div class="flex flex-col mt-8">
+					<h2 class="text-lg lg:text-xl leading-loose lg:leading-loose text-left text-black font-semibold px-4 md:px-0">
+						Search developers
+					</h2>
+					<EditForm Model="@developerSearchModel" OnSubmit="@SearchDevelopers" class="flex flex-col md:flex-row w-full md:space-x-4 items-start md:items-end pl-4 md:pl-0 space-y-2">
+						<div class="max-w-xs">
+							<label for="location" class="block text-sm font-medium text-gray-700">Location</label>
+							<InputSelect @bind-Value="developerSearchModel.Location" class="rounded-md mt-1 block w-full border-gray-300 py-2 pl-3 pr-20 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
+								<option value="">Search...</option>
+								@foreach (var location in locations)
+								{
+									<option value="@location">@location</option>
+								}
+							</InputSelect>
+						</div>
+						<div class="max-w-xs">
+							<label for="location" class="block text-sm font-medium text-gray-700">Experience Level</label>
+							<InputSelect @bind-Value="developerSearchModel.experienceLevelId" class="rounded-md mt-1 block w-full border-gray-300 py-2 pl-3 pr-20 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
+								<option value="">Search...</option>
+								@foreach (var experienceLevel in experienceLevels)
+								{
+									<option value="@experienceLevel.ID">@experienceLevel.Name</option>
+								}
+							</InputSelect>
+							@*@foreach (var level in Model.ExperienceLevels)
+							{
+							var isSelected = level.ID.ToString() == Model.experienceLevelSearch ? true : false;
+							if (isSelected)
+							{
+							<option selected value="@level.ID">@level.Name</option>
+							}
+							else
+							{
+							<option value="@level.ID">@level.Name</option>
+							}
+							}*@
+						</div>
+						<div class="max-w-xs">
+							<button type="submit" class="rounded-md text-base font-semibold text-white bg-gray-900 hover:bg-black leading-loose relative flex items-center justify-center py-1 px-4 mx-auto w-auto max-w-sm md:w-auto">
+								Apply
+							</button>
+						</div>
+					</EditForm>
+					<div class="py-2 w-full my-2 px-4 md:px-0 text-left">
+						@if (developers != null)
+						{
+							<p class="text-sm text-gray-500">Showing all <span class="font-bold">@developers.Count</span> of <span class="font-bold">@developers.Count</span> developers</p>
+						}
+					</div>
+					<div class="flex flex-col space-y-8">
+						@if (developers == null)
+						{
+							<p><em>Loading...</em></p>
+						}
+						else
+						{
+							<DevTeaser Developers="@developers" />
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+@code {
+	[CascadingParameter]
+	public MainLayout? Layout { get; set; }
+	private Developer? developer => Layout.Developer;
+	private Company? company => Layout.Company;
+	private ApplicationUser? user => Layout.User;
+	private List<Developer> developers;
+	private List<string> locations = new();
+	private List<ExperienceLevel> experienceLevels = new();
+	private DeveloperSearchModel developerSearchModel = new();
+
+	protected override async Task OnInitializedAsync()
+	{
+		developers = await developerService.GetAll();
+		locations = await developerService.GetAllDeveloperLocations();
+		experienceLevels = await experienceLevelService.GetAll();
+	}
+
+	private async Task SearchDevelopers()
+	{
+		developers = await developerService.GetAll();
+		if (!String.IsNullOrEmpty(developerSearchModel.Location))
+		{
+			developers = developers.Where(d => d.Country == developerSearchModel.Location).ToList();
+		}
+		if (developerSearchModel.experienceLevelId != null)
+		{
+			developers = developers.Where(d => d.ExperienceLevelID == developerSearchModel.experienceLevelId).ToList();
+		}
+	}
+
+	public class DeveloperSearchModel
+	{
+		public string? Location { get; set; }
+		public int? experienceLevelId { get; set; }
+	}
+}

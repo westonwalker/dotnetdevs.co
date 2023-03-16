@@ -27,13 +27,9 @@
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
     <Folder Include="Migrations\" />
-    <Folder Include="Views\Subscriptions\" />
     <Folder Include="wwwroot\js\" />
     <Folder Include="wwwroot\lib\" />
 	<Folder Include="wwwroot\posts\" />
-  </ItemGroup>
-
-  <ItemGroup>
   </ItemGroup>
 
 </Project>

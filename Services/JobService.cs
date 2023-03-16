@@ -6,16 +6,17 @@ namespace dotnetdevs.Services
 {
 	public class JobService
 	{
-		private readonly ApplicationDbContext _dbContext;
+		private readonly IDbContextFactory<ApplicationDbContext> _factory;
 
-		public JobService(ApplicationDbContext dbContext)
+		public JobService(IDbContextFactory<ApplicationDbContext> factory)
 		{
-			this._dbContext = dbContext;
+			this._factory = factory;
 		}
 
 		public async Task<List<Job>> GetAll()
 		{
-			return await _dbContext.Jobs
+			using var context = _factory.CreateDbContext();
+			return await context.Jobs
 							.Include(job => job.RemotePolicy)
 							.Include(job => job.Company)
 							.Include(job => job.UnverifiedCompany)
@@ -27,7 +28,8 @@ namespace dotnetdevs.Services
 
 		public async Task<Job?> GetBySlug(string slug)
 		{
-			return await _dbContext.Jobs
+			using var context = _factory.CreateDbContext();
+			return await context.Jobs
 							.Where(d => d.Slug == slug)
 							.Include(job => job.RemotePolicy)
 							.Include(job => job.Company)
@@ -39,17 +41,20 @@ namespace dotnetdevs.Services
 
 		public async Task<List<WorkType>> GetWorkTypes()
 		{
-			return await _dbContext.WorkTypes.ToListAsync();
+			using var context = _factory.CreateDbContext();
+			return await context.WorkTypes.ToListAsync();
 		}
 
 		public async Task<List<RemotePolicy>> GetRemotePolicies()
 		{
-			return await _dbContext.RemotePolicies.ToListAsync();
+			using var context = _factory.CreateDbContext();
+			return await context.RemotePolicies.ToListAsync();
 		}
 
 		public async Task<List<ExperienceLevel>> GetExperienceLevels()
 		{
-			return await _dbContext.ExperienceLevels.ToListAsync();
+			using var context = _factory.CreateDbContext();
+			return await context.ExperienceLevels.ToListAsync();
 		}
 
 

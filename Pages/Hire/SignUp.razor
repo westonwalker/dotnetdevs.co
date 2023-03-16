@@ -1,0 +1,114 @@
+﻿@page "/hire/sign-up"
+@inject EmailService _email;
+<PageTitle>The best way to hire .NET developers</PageTitle>
+<HeadContent>
+	<meta name="description" content="Fill out the company form to get started on Dotnet Devs.">
+</HeadContent>
+<div class="relative flex flex-wrap justify-center items-center py-12 md:py-20">
+	<div class="flex-1">
+		<div class="sm:pb-20 lg:pb-28  px-4 sm:px-6 lg:px-8 max-w-2xl mx-auto">
+			<div class="relative">
+				<div class="relative">
+					<div class=" mx-auto overflow-hidden lg:flex">
+						<div class="flex-1 bg-white p-8 shadow-xl border">
+							@if (!formSubmitted)
+							{
+								<h2 class="mb-4 text-black text-3xl md:leading-tight leading-tight font-bold">
+									Thanks for your interest in Dotnet Devs!
+								</h2>
+								<p class="text-lg leading-loose lg:leading-loose text-gray-700 max-w-xl">
+									Please answer a few quick questions about your company. If we feel it's a good match, we'll send over details on pricing and next steps (it's easy!)
+								</p>
+								<h3 class="mt-12 text-black text-3xl md:leading-tight leading-tight font-bold">
+									Basic company data
+								</h3>
+								<EditForm Model="@company" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
+									<DataAnnotationsValidator />
+									<div class="w-full space-y-6">
+										<div class="mt-4">
+											<label asp-for="CompanyName" class="block text-base font-medium text-gray-700">Company name *</label>
+											<div class="mt-2">
+												<InputText id="CompanyName" @bind-Value="company.CompanyName" type="text" required class="block w-full py-2 px-3 text-gray-700 outline-none bg-white border-gray-300  hover:border-indigo-600 focus:border-indigo-600" />
+											</div>
+											<div class="mt-1 text-red-500 text-sm">
+												<ValidationMessage For="() => company.CompanyName" />
+											</div>
+										</div>
+										<div>
+											<label asp-for="PersonalName" class="block text-base font-medium text-gray-700">Your name and title *</label>
+											<div class="mt-2">
+												<InputText id="PersonalName" @bind-Value="company.PersonalName" type="text" required class="block w-full py-2 px-3 text-gray-700 outline-none bg-white border-gray-300  hover:border-indigo-600 focus:border-indigo-600" />
+											</div>
+											<div class="mt-1 text-red-500 text-sm">
+												<ValidationMessage For="() => company.PersonalName" />
+											</div>
+										</div>
+										<div>
+											<label asp-for="Email" class="block text-base font-medium text-gray-700">Your email *</label>
+											<div class="mt-2">
+												<InputText id="Email" @bind-Value="company.Email" type="text" required class="block w-full py-2 px-3 text-gray-700 outline-none bg-white border-gray-300  hover:border-indigo-600 focus:border-indigo-600" />
+											</div>
+											<div class="mt-1 text-red-500 text-sm">
+												<ValidationMessage For="() => company.Email" />
+											</div>
+										</div>
+										<div>
+											<label class="block text-base font-medium text-gray-700" for="Website">Company website *</label>
+											<div class="mt-1 flex ">
+												<span class="inline-flex items-center px-3 border border-r-0 border-gray-300 bg-gray-50 text-gray-500">
+													https://
+												</span>
+												<InputText id="Website" @bind-Value="company.Website" type="text" class="flex-1 block w-full py-2 px-3 text-gray-700 outline-none bg-white border-gray-300  hover:border-indigo-600 focus:border-indigo-600" />
+											</div>
+											<div class="mt-1 text-red-500 text-sm">
+												<ValidationMessage For="() => company.Website" />
+											</div>
+										</div>
+										<div>
+											<label asp-for="Bio" class="block text-base font-medium text-gray-700">About your company *</label>
+											<div class="mt-2">
+												<InputTextArea id="Bio" @bind-Value="company.Bio" rows="8" type="text" required class="block w-full py-2 px-3 outline-none text-gray-700 bg-white border-gray-300  hover:border-indigo-600 focus:border-indigo-600"></InputTextArea>
+											</div>
+											<div class="mt-1 text-red-500 text-sm">
+												<ValidationMessage For="() => company.Bio" />
+											</div>
+										</div>
+									</div>
+									<div class="w-full flex justify-start mt-6 pr-6 lg:pr-0">
+										<button type="submit" class="text-base rounded-full font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-2 px-12 w-auto max-w-sm md:w-auto">
+											Submit
+										</button>
+									</div>
+								</EditForm>
+							}
+							else
+							{
+								<h2 class="mb-4 text-black text-3xl md:leading-tight leading-tight font-bold">
+									Your application has been submitted for review!
+								</h2>
+								<p class="text-lg leading-loose lg:leading-loose text-gray-700 max-w-xl">
+									We will review your application and get back to you about using Dotnet Devs.
+								</p>
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+@code {
+	private CompanySignup company = new CompanySignup();
+	private bool formSubmitted = false;
+
+	private async Task HandleValidSubmit()
+	{
+		_email.SendSignupAdminAlert(company);
+		formSubmitted = true;
+	}
+
+	private void HandleInvalidSubmit()
+	{
+	}
+}

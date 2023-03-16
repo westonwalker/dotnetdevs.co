@@ -1,0 +1,366 @@
+﻿@page "/developers/{id:int}/edit"
+@attribute [Authorize]
+@inject DeveloperService developerService
+@inject SearchStatusService searchStatusService
+@inject ExperienceLevelService experienceLevelService
+@inject UserService userService
+@inject NavigationManager NavManager
+<PageTitle>Edit your .NET developer profile - DotnetDevs</PageTitle>
+@if (developer == null)
+{
+	<p>Loading...</p>
+}
+else
+{
+<div class="">
+	<div class="relative flex flex-wrap justify-center items-center py-12 md:py-20 max-w-6xl mx-auto sm:px-8">
+		<div class="flex-1">
+			<h1 class="mb-4 text-black text-3xl leading-tight font-bold pl-6">
+				Your developer profile
+			</h1>
+			<EditForm Model="@developer" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit">
+				<DataAnnotationsValidator />
+				<div class="text-red-500 text-sm flex justify-start">
+					<ValidationSummary />
+				</div>
+				<div class="bg-white border-y sm:border text-left">
+					<div class="flex flex-col md:flex-row md:justify-between p-6 md:gap-6">
+						<div class="w-full md:w-1/3 space-y-6 mb-6 md:mb-0">
+							<div class="">
+								<h2 class="text-lg font-semibold text-gray-900">Profile</h2>
+								<p class="text-base text-gray-500">
+									This information will be displayed publicly.
+								</p>
+							</div>
+						</div>
+						<div class="w-full md:w-2/3 space-y-6">
+							<div>
+								<label asp-for="FullName" class="block text-base font-medium text-gray-700">Name *</label>
+								<p class="text-sm text-gray-500">Your name will <i>not</i> be displayed on your public profile.</p>
+								<div class="mt-2">
+									<InputText type="text" @bind-Value="developer.FullName" required class="block w-full py-2 px-3 text-gray-700 outline-none bg-white border-gray-300  hover:border-indigo-600 focus:border-indigo-600" />
+								</div>
+								<div class="mt-1 text-red-500 text-sm">
+									<ValidationMessage For="() => developer.FullName" />
+								</div>
+							</div>
+							<div>
+								<label asp-for="Hero" class="block text-base font-medium text-gray-700">Profile Heading *</label>
+								<p class="text-sm text-gray-500">Describe yourself as a dev in a few words</p>
+								<div class="mt-2">
+									<InputText type="text" @bind-Value="developer.Hero" required class="block w-full py-2 px-3 text-gray-700 outline-none bg-white border-gray-300  hover:border-indigo-600 focus:border-indigo-600" />
+								</div>
+								<div class="mt-1 text-red-500 text-sm">
+									<ValidationMessage For="() => developer.Hero" />
+								</div>
+							</div>
+							<div>
+								<label asp-for="City" class="block text-base font-medium text-gray-700">City *</label>
+								<p class="text-sm text-gray-500">Providing your location makes it easier for companies hiring locally</p>
+								<div class="mt-2">
+									<InputText type="text" @bind-Value="developer.City" required class="block w-full py-2 px-3 text-gray-700 outline-none bg-white border-gray-300  hover:border-indigo-600 focus:border-indigo-600" />
+								</div>
+								<div class="mt-1 text-red-500 text-sm">
+									<ValidationMessage For="() => developer.City" />
+								</div>
+							</div>
+							<div>
+								<label asp-for="State" class="block text-base font-medium text-gray-700">State *</label>
+								<div class="mt-2">
+									<InputText type="text" @bind-Value="developer.State" required class="block w-full py-2 px-3 text-gray-700 outline-none bg-white border-gray-300  hover:border-indigo-600 focus:border-indigo-600" />
+								</div>
+								<div class="mt-1 text-red-500 text-sm">
+									<ValidationMessage For="() => developer.State" />
+								</div>
+							</div>
+							<div>
+								<label asp-for="Country" class="block text-base font-medium text-gray-700">Country *</label>
+								<div class="mt-2">
+									<InputText type="text" @bind-Value="developer.Country" required class="block w-full py-2 px-3 text-gray-700 outline-none bg-white border-gray-300  hover:border-indigo-600 focus:border-indigo-600" />
+								</div>
+								<div class="mt-1 text-red-500 text-sm">
+									<ValidationMessage For="() => developer.Country" />
+								</div>
+							</div>
+							<div>
+								<label class="block text-base font-medium text-gray-700" for="country">Avatar *</label>
+								<p class="text-sm text-gray-500">Add a picture of yourself. A square png or jpg image works best (250x250). Images must be under 1MB and square.</p>
+								<div class="mt-2 flex flex-col md:flex-row md:items-center items-start">
+									<div class="mr-4 mb-2 md:mb-0">
+										@if (!String.IsNullOrEmpty(developer.Avatar))
+										{
+											<img src="@developer.Avatar" class="rounded-full h-32 w-32" />
+										}
+										else
+										{
+											<img class="rounded-full h-32 w-32" src="@UIHelpers.GetAvatarPlaceholder()" />
+										}
+									</div>
+									<div class="flex-1">
+										<InputFile accept=".png, .jpg" OnChange="OnFileChange" id="avatar" />
+									</div>
+								</div>
+								<div class="mt-1 text-red-500 text-sm">
+									<ValidationMessage For="() => developer.Avatar" />
+									@if (!String.IsNullOrEmpty(avatarValidation))
+									{
+										<div class="validation-message">@avatarValidation</div>
+									}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="bg-white border-y sm:border text-left mt-12">
+					<div class="flex flex-col md:flex-row md:justify-between p-6 md:gap-6">
+						<div class="w-full md:w-1/3 space-y-6 mb-6 md:mb-0">
+							<div class="">
+								<h2 class="text-lg font-semibold text-gray-900">Bio *</h2>
+								<p class="text-base text-gray-500">
+									Share a few paragraphs on your past experiences and what makes you special. This is your chance to stand out amongst the crowd. Don't be shy!
+								</p>
+								<p class="text-base font-semibold text-gray-700 mt-4">
+									Example Topics:
+								</p>
+								<ul class="text-base text-gray-500 mt-2 list-disc list-inside">
+									<li>Your developer education and origins</li>
+									<li>Milestones and accomplishments</li>
+									<li>Skills that set you a part from other devs</li>
+									<li>What you are passionate about</li>
+									<li>Things you care about outside of work</li>
+								</ul>
+							</div>
+						</div>
+						<div class="w-full md:w-2/3 space-y-6">
+							<div>
+								<div class="">
+									<InputTextArea @bind-Value="developer.Bio" rows="16" type="text" required class="block w-full py-2 px-3 outline-none text-gray-700 bg-white border-gray-300  hover:border-indigo-600 focus:border-indigo-600"></InputTextArea>
+								</div>
+								<div class="mt-1 text-red-500 text-sm">
+									<ValidationMessage For="() => developer.Bio" />
+								</div>
+								<p class="mt-2 text-sm text-gray-500">Personally identifiable information will be removed.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="bg-white border-y sm:border text-left mt-12">
+					<div class="flex flex-col md:flex-row md:justify-between p-6 md:gap-6">
+						<div class="w-full md:w-1/3 space-y-6 mb-6 md:mb-0">
+							<div class="">
+								<h2 class="text-lg font-semibold text-gray-900">Work preferences</h2>
+								<p class="text-base text-gray-500">
+									What kind of work are you looking for?
+								</p>
+							</div>
+						</div>
+						<div class="w-full md:w-2/3 space-y-6">
+							<div>
+								<label class="block text-base font-medium text-gray-700" for="name">Search Status *</label>
+								<div class="mt-2 flex flex-col">
+									@if (searchStatuses != null)
+									{
+										<InputRadioGroup id="searchStatus" @bind-Value="developer.SearchStatusID">
+											@foreach (var status in searchStatuses)
+											{
+												<div class="mb-4">
+													<label>
+														<InputRadio Value="@status.ID" />
+														<span class="text-gray-700">@status.Name</span>
+													</label>
+													<p class="text-sm text-gray-500">@status.Description</p>
+												</div>
+											}
+										</InputRadioGroup>
+									}
+								</div>
+								<div class="mt-1 text-red-500 text-sm">
+									<ValidationMessage For="() => developer.SearchStatusID" />
+								</div>
+							</div>
+							<div>
+								<label class="block text-base font-medium text-gray-700" for="name">Experience Level *</label>
+								<p class="text-sm text-gray-500">Select the experience you feel you are at right now.</p>
+								<div class="mt-2 flex flex-col">
+									@if (experienceLevels != null)
+									{
+										<InputRadioGroup id="experienceLevel" @bind-Value="developer.ExperienceLevelID">
+											@foreach (var level in experienceLevels)
+											{
+												<div class="mb-4">
+													<label>
+														<InputRadio Value="@level.ID" />
+														<span class="text-gray-700">@level.Name</span>
+													</label>
+												</div>
+											}
+										</InputRadioGroup>
+									}
+								</div>
+								<div class="mt-1 text-red-500 text-sm">
+									<ValidationMessage For="() => developer.ExperienceLevelID" />
+								</div>
+							</div>
+							<div>
+								<label class="block text-base font-medium text-gray-700" for="startDate">Available to start on *</label>
+								<div class="mt-2 flex flex-col">
+									<InputDate @bind-Value="developer.StartDate" required class="block max-w-xs py-2 px-3 text-gray-700 outline-none bg-white border-gray-300  hover:border-indigo-600 focus:border-indigo-600" />
+								</div>
+								<div class="mt-1 text-red-500 text-sm">
+									<ValidationMessage For="() => developer.StartDate" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="bg-white border-y sm:border text-left mt-12">
+					<div class="flex flex-col md:flex-row md:justify-between p-6 md:gap-6">
+						<div class="w-full md:w-1/3 space-y-6 mb-6 md:mb-0">
+							<div class="">
+								<h2 class="text-lg font-semibold text-gray-900">Online presence</h2>
+								<p class="text-base text-gray-500">
+									Where can people learn more about you and your work?
+								</p>
+							</div>
+						</div>
+						<div class="w-full md:w-2/3 space-y-6">
+							<div>
+								<label class="block text-base font-medium text-gray-700" for="website">Website</label>
+								<div class="mt-1 flex ">
+									<span class="inline-flex items-center px-3 border border-r-0 border-gray-300 bg-gray-50 text-gray-500">
+										https://
+									</span>
+									<InputText type="text" @bind-Value="developer.Website" class="flex-1 block w-full py-2 px-3 text-gray-700 outline-none bg-white border-gray-300  hover:border-indigo-600 focus:border-indigo-600" />
+								</div>
+								<div class="mt-1 text-red-500 text-sm">
+									<ValidationMessage For="() => developer.Website" />
+								</div>
+							</div>
+							<div>
+								<label class="block text-base font-medium text-gray-700" for="github">Github</label>
+								<div class="mt-1 flex ">
+									<span class="inline-flex items-center px-3 border border-r-0 border-gray-300 bg-gray-50 text-gray-500">
+										https://
+									</span>
+									<InputText type="text" @bind-Value="developer.Github" class="flex-1 block w-full py-2 px-3 text-gray-700 outline-none bg-white border-gray-300  hover:border-indigo-600 focus:border-indigo-600" />
+								</div>
+								<div class="mt-1 text-red-500 text-sm">
+									<ValidationMessage For="() => developer.Github" />
+								</div>
+							</div>
+							<div>
+								<label class="block text-base font-medium text-gray-700" for="twitter">Twitter</label>
+								<div class="mt-1 flex ">
+									<span class="inline-flex items-center px-3 border border-r-0 border-gray-300 bg-gray-50 text-gray-500">
+										https://
+									</span>
+									<InputText type="text" @bind-Value="developer.Twitter" class="flex-1 block w-full py-2 px-3 text-gray-700 outline-none bg-white border-gray-300  hover:border-indigo-600 focus:border-indigo-600" />
+								</div>
+								<div class="mt-1 text-red-500 text-sm">
+									<ValidationMessage For="() => developer.Twitter" />
+								</div>
+							</div>
+							<div>
+								<label class="block text-base font-medium text-gray-700" for="linkedin">Linkedin</label>
+								<div class="mt-1 flex ">
+									<span class="inline-flex items-center px-3 border border-r-0 border-gray-300-md bg-gray-50 text-gray-500">
+										https://
+									</span>
+									<InputText type="text" @bind-Value="developer.Linkedin" class="flex-1 block w-full py-2 px-3 text-gray-700 outline-none bg-white border-gray-300  hover:border-indigo-600 focus:border-indigo-600" />
+								</div>
+								<div class="mt-1 text-red-500 text-sm">
+									<ValidationMessage For="() => developer.Linkedin" />
+								</div>
+							</div>
+							<div>
+								<label class="block text-base font-medium text-gray-700" for="stackOverflow">StackOverflow</label>
+								<div class="mt-1 flex ">
+									<span class="inline-flex items-center px-3 border border-r-0 border-gray-300 bg-gray-50 text-gray-500">
+										https://
+									</span>
+									<InputText type="text" @bind-Value="developer.StackOverflow" class="flex-1 block w-full py-2 px-3 text-gray-700 outline-none bg-white border-gray-300  hover:border-indigo-600 focus:border-indigo-600" />
+								</div>
+								<div class="mt-1 text-red-500 text-sm">
+									<ValidationMessage For="() => developer.StackOverflow" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="w-full flex justify-end mt-6 pr-6 lg:pr-0">
+					<button type="submit" class="ml-auto text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-2 px-12 w-auto max-w-sm md:w-auto">
+						Save
+					</button>
+				</div>
+			</EditForm>
+		</div>
+	</div>
+</div>
+}
+@code {
+	[Parameter]
+	public int ID { get; set; }
+	[CascadingParameter]
+	public MainLayout? Layout { get; set; }
+	private ApplicationUser? user => Layout.User;
+	private string avatarValidation = "";
+
+	private List<SearchStatus> searchStatuses = new List<SearchStatus>();
+	private List<ExperienceLevel> experienceLevels = new List<ExperienceLevel>();
+	private Developer? developer;
+
+	protected override async Task OnInitializedAsync()
+	{
+		ID = ID;
+		searchStatuses = await searchStatusService.GetAll();
+		experienceLevels = await experienceLevelService.GetAll();
+		developer = await developerService.Get(ID);
+
+		if (developer == null || user == null || developer.UserID != user.Id)
+		{
+			NavManager.NavigateTo($"/developers");
+		}
+	}
+
+	private async Task HandleValidSubmit()
+	{
+		developer.ExperienceLevel = await experienceLevelService.Get(developer.ExperienceLevelID);
+		developer.SearchStatus = await searchStatusService.Get(developer.SearchStatusID);
+		Developer newDeveloper = await developerService.Update(developer);
+		await InvokeAsync(() => StateHasChanged());
+		NavManager.NavigateTo($"/developers/{newDeveloper.ID}");
+	}
+
+	private void HandleInvalidSubmit()
+	{
+		Console.Write(developer.FullName);
+	}
+
+	private async Task OnFileChange(InputFileChangeEventArgs e)
+	{
+		try
+		{
+			var contentType = e.File.ContentType;
+			var isImageTypeValid = ImageKitService.ValidateImageType(e.File);
+			var isImageSizeValid = ImageKitService.ValidateImageSize(e.File);
+			if (!isImageTypeValid)
+			{
+				avatarValidation = "Only png and jpg images are allowed.";
+				developer.Avatar = null;
+				return;
+			}
+			if (!isImageSizeValid)
+			{
+				avatarValidation = "Images must be less than 1 MB.";
+				developer.Avatar = null;
+				return;
+			}
+			developer.Avatar = await ImageKitService.UploadImage(e.File);
+			avatarValidation = "";
+		}
+		catch (Exception exc)
+		{
+			avatarValidation = "There was a problem uploading your file. Please make sure to upload a image less than 1MB and a square resolution.";
+		}
+	}
+}

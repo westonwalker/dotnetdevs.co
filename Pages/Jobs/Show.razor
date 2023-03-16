@@ -1,0 +1,123 @@
+﻿@page "/jobs/{slug}"
+@inject JobService _jobService
+@inject NavigationManager NavManager
+@if (job != null)
+{
+	<PageTitle>@job.UnverifiedCompany.CompanyName is hiring a @job.Title"</PageTitle>
+	<HeadContent>
+		<meta name="description" content="@job.UnverifiedCompany.CompanyName posted a new @job.Title job opening. Apply now.">
+	</HeadContent>
+}
+<div class="mt-20 bg-white ">
+	<div class="mx-auto max-w-7xl px-4 sm:px-8">
+		@if (job == null)
+		{
+			<p><em>Loading...</em></p>
+		}
+		else
+		{
+			<div>
+				<div class="p-1 w-20 h-20 bg-white shadow -translate-y-2/3">
+					<div class="overflow-hidden w-full h-full w-full h-full">
+						<img src="@job.UnverifiedCompany.Avatar"
+						 alt="Logo PeopleStrata" class="object-contain w-full h-full" loading="lazy">
+					</div>
+				</div>
+				<div class="flex flex-col items-start lg:flex-row lg:items-center -mt-4">
+					<div class="mt-4 lg:mt-0">
+						<h1 class="text-black text-4xl leading-tight md:text-5xl md:leading-tight font-bold">
+							@job.Title
+						</h1>
+						<div class="flex flex-row space-x-4 items-center mt-2">
+							<p class="text-lg flex items-center font-medium text-gray-600 inline-flex items-center">
+								@job.UnverifiedCompany.CompanyName
+							</p>
+							<a href="@job.UnverifiedCompany.website" target="_blank" class="inline-flex items-center rounded-md text-sm">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 fill-gray-400 mr-2">
+									<path fill-rule="evenodd" d="M19.902 4.098a3.75 3.75 0 00-5.304 0l-4.5 4.5a3.75 3.75 0 001.035 6.037.75.75 0 01-.646 1.353 5.25 5.25 0 01-1.449-8.45l4.5-4.5a5.25 5.25 0 117.424 7.424l-1.757 1.757a.75.75 0 11-1.06-1.06l1.757-1.757a3.75 3.75 0 000-5.304zm-7.389 4.267a.75.75 0 011-.353 5.25 5.25 0 011.449 8.45l-4.5 4.5a5.25 5.25 0 11-7.424-7.424l1.757-1.757a.75.75 0 111.06 1.06l-1.757 1.757a3.75 3.75 0 105.304 5.304l4.5-4.5a3.75 3.75 0 00-1.035-6.037.75.75 0 01-.354-1z" clip-rule="evenodd" />
+								</svg>
+								Website
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="container">
+				<div class="grid lg:grid-cols-7 gap-12 pt-8">
+					<div class="lg:order-1 order-2 lg:col-span-5 lg:mt-0 pb-12 blog job">
+						<div class="font-display font-bold text-3xl">Job description </div>
+						@((MarkupString)@MarkdownHelper.Parse(job.Description))
+
+					</div>
+					<div class="space-y-5 lg:order-1 lg:col-span-2">
+						<div class="border-2 border-indigo-600">
+							<div class="flex flex-wrap flex-row items-start space-y-3 p-6">
+								<div class="w-full mt-3 xl:mt-0">
+									<h5 class="font-medium text-black mb-1">Remote policy</h5>
+									<p class="text-gray-600 text-base inline-flex items-center">
+										<span>@job.RemotePolicy.Name</span>
+									</p>
+								</div>
+								<div class="w-full">
+									<h5 class="font-medium text-black mb-1">Work type</h5>
+									<p class="text-gray-600 text-base inline-flex items-center">
+										<span>@job.WorkType.Name</span>
+									</p>
+								</div>
+								<div class="w-full">
+									<h5 class="font-medium text-black mb-1">Experience level</h5>
+									<p class="text-gray-600 text-base inline-flex items-center">
+										<span>@job.ExperienceLevel.Name</span>
+									</p>
+								</div>
+								<div class="w-full">
+									<h5 class="font-medium text-black mb-1">Salary</h5>
+									<p class="text-gray-600 text-base inline-flex items-center">
+										@if (job.SalaryStart != null && job.SalaryEnd != null)
+										{
+											<span>USD @job.SalaryStart-@job.SalaryEnd/yr</span>
+										}
+										else
+										{
+											<span>N/A</span>
+										}
+									</p>
+								</div>
+								<div class="w-full">
+									<h5 class="font-medium text-black mb-1">Date posted</h5>
+									<p class="text-gray-600 text-base inline-flex items-center">
+										<span>@job.CreatedDate.ToString("MM/dd/yyyy")</span>
+									</p>
+								</div>
+							</div>
+							<div class="flex items-center">
+								<a href="@job.ApplyLink" target="_blank" class="text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 leading-loose relative flex items-center justify-center py-1 px-4 mx-auto w-full">
+									<span class="mr-2">Apply now</span>
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+										<path d="M12.232 4.232a2.5 2.5 0 013.536 3.536l-1.225 1.224a.75.75 0 001.061 1.06l1.224-1.224a4 4 0 00-5.656-5.656l-3 3a4 4 0 00.225 5.865.75.75 0 00.977-1.138 2.5 2.5 0 01-.142-3.667l3-3z" />
+										<path d="M11.603 7.963a.75.75 0 00-.977 1.138 2.5 2.5 0 01.142 3.667l-3 3a2.5 2.5 0 01-3.536-3.536l1.225-1.224a.75.75 0 00-1.061-1.06l-1.224 1.224a4 4 0 105.656 5.656l3-3a4 4 0 00-.225-5.865z" />
+									</svg>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+</div>
+@code {
+	[Parameter]
+	public string Slug { get; set; }
+	private Job job { get; set; }
+
+	protected override async Task OnInitializedAsync()
+	{
+		Slug = Slug;
+		job = await _jobService.GetBySlug(Slug);
+		if (job == null)
+		{
+			NavManager.NavigateTo($"/jobs");
+		}
+	}
+}
